@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify - Web Player</title>
+    <title>Spotify - Web Player (Full Premium Interface)</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- GLOBAL TARZLAR & RENKLER --- */
+        /* --- CORE SPOTIFY STYLES --- */
         * {
             margin: 0;
             padding: 0;
@@ -16,6 +16,21 @@
             font-family: 'Montserrat', sans-serif;
             -webkit-user-select: none;
             user-select: none;
+        }
+
+        /* Özelleştirilmiş Şık Kaydırma Çubukları (Scrollbars) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
         }
 
         body {
@@ -27,10 +42,10 @@
             overflow: hidden;
         }
 
-        /* --- ANA DÜZEN (GRID YAPISI) --- */
+        /* --- ANA DÜZEN (3 SÜTUN GRİD) --- */
         .main-container {
             display: grid;
-            grid-template-columns: 300px 1fr 360px;
+            grid-template-columns: 320px 1fr 360px;
             flex: 1;
             padding: 8px;
             gap: 8px;
@@ -46,10 +61,10 @@
             overflow: hidden;
         }
 
-        /* --- 1. SOL PANEL: KİTAPLIK (YOUR LIBRARY) --- */
+        /* --- 1. SOL PANEL: KİTAPLIK --- */
         .sidebar {
-            padding: 16px;
-            gap: 12px;
+            padding: 20px 16px;
+            gap: 16px;
         }
 
         .library-header {
@@ -61,21 +76,23 @@
             font-size: 14px;
         }
 
-        .library-header div i {
-            margin-right: 8px;
+        .library-header div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
         }
 
         .library-tabs {
             display: flex;
             gap: 8px;
-            margin-bottom: 4px;
         }
 
         .tab-btn {
             background-color: #232323;
             color: #fff;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
@@ -94,15 +111,14 @@
             color: #b3b3b3;
             font-size: 13px;
             cursor: pointer;
-            padding: 4px 0;
         }
 
         .file-upload-btn {
             background-color: #ffffff;
             color: #000;
             border: none;
-            padding: 10px;
-            border-radius: 20px;
+            padding: 12px;
+            border-radius: 24px;
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
@@ -140,15 +156,15 @@
         }
 
         .playlist-img-box {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             background-color: #282828;
             border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #b3b3b3;
-            font-size: 18px;
+            font-size: 20px;
             background-size: cover;
             background-position: center;
         }
@@ -165,7 +181,7 @@
             color: #b3b3b3;
         }
 
-        /* --- 2. ORTA PANEL: ÇALMA LİSTESİ ALANI --- */
+        /* --- 2. ORTA PANEL: ANA İÇERİK ALANI --- */
         .main-content {
             background: linear-gradient(to bottom, #242424 0%, #121212 40%);
             overflow-y: auto;
@@ -176,20 +192,19 @@
             display: flex;
             align-items: flex-end;
             gap: 24px;
-            padding: 24px;
-            padding-top: 40px;
+            padding: 32px 24px 24px 24px;
         }
 
         .big-cover {
-            width: 192px;
-            height: 192px;
+            width: 232px;
+            height: 232px;
             background-color: #282828;
-            box-shadow: 0 4px 60px rgba(0,0,0,0.6);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #7f7f7f;
-            font-size: 64px;
+            font-size: 80px;
             background-size: cover;
             background-position: center;
             border-radius: 4px;
@@ -200,13 +215,15 @@
             text-transform: uppercase;
             font-weight: 700;
             margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
 
         .header-details h1 {
             font-size: 72px;
             font-weight: 900;
             margin-bottom: 12px;
-            letter-spacing: -2px;
+            letter-spacing: -3px;
+            line-height: 1;
         }
 
         .meta-row {
@@ -215,6 +232,7 @@
             gap: 6px;
             font-size: 13px;
             font-weight: 600;
+            margin-top: 8px;
         }
 
         .meta-user-img {
@@ -222,6 +240,8 @@
             height: 24px;
             border-radius: 50%;
             background-color: #535353;
+            background-image: url('https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg');
+            background-size: cover;
         }
 
         .meta-row .dot {
@@ -263,7 +283,7 @@
             background: none;
             border: none;
             color: #b3b3b3;
-            font-size: 20px;
+            font-size: 22px;
             cursor: pointer;
         }
 
@@ -274,7 +294,7 @@
         .sub-actions {
             display: flex;
             gap: 8px;
-            padding: 0 24px 16px 24px;
+            padding: 0 24px 20px 24px;
         }
 
         .pill-btn {
@@ -283,7 +303,7 @@
             border: none;
             padding: 6px 16px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
         }
@@ -292,17 +312,16 @@
             background-color: rgba(255,255,255,0.2);
         }
 
+        /* Şarkı Listesi Tablosu */
         .track-table {
             width: 100%;
             border-collapse: collapse;
-            padding: 0 24px;
-            display: table;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .track-table th, .track-table td {
             text-align: left;
-            padding: 10px 24px;
+            padding: 12px 24px;
             font-size: 13px;
             color: #b3b3b3;
             vertical-align: middle;
@@ -360,9 +379,9 @@
             align-items: center;
             background-color: #2a2a2a;
             border-radius: 4px;
-            padding: 10px 14px;
-            width: 320px;
-            margin-top: 12px;
+            padding: 12px 14px;
+            width: 340px;
+            margin-top: 14px;
         }
 
         .search-box-container input {
@@ -378,20 +397,11 @@
             color: #b3b3b3;
         }
 
-        /* --- 3. SAĞ PANEL: GELİŞMİŞ DETAYLAR (NOW PLAYING VIEW) --- */
+        /* --- 3. SAĞ PANEL: DETAYLI GÖRÜNÜM (NOW PLAYING VIEW) --- */
         .right-panel {
             padding: 16px;
             gap: 16px;
-            overflow-y: auto;
-        }
-
-        /* Webkit scrollbar gizleme/güzelleştirme */
-        .right-panel::-webkit-scrollbar {
-            width: 6px;
-        }
-        .right-panel::-webkit-scrollbar-thumb {
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 3px;
+            overflow-y: auto; /* Kendi özel kaydırma düğmesi aktif */
         }
 
         .right-panel-header {
@@ -407,7 +417,7 @@
             aspect-ratio: 1;
             background-color: #282828;
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             background-size: cover;
             background-position: center;
             display: flex;
@@ -425,7 +435,7 @@
         }
 
         .track-details-info h2 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
@@ -436,7 +446,7 @@
             margin-top: 4px;
         }
 
-        /* MODÜLER KART STİLİ (Spotify Sağ Sütun Düzeni) */
+        /* MODÜLER SPOTIFY KARTLARI */
         .spotify-card {
             background-color: #181818;
             border-radius: 8px;
@@ -451,7 +461,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .card-top-row h3 {
@@ -473,12 +483,12 @@
             text-decoration: underline;
         }
 
-        /* Sanatçı Kartı Özel Yapısı */
+        /* Sanatçı Kartı Yapısı */
         .artist-card {
             padding: 0;
         }
         .artist-card-banner {
-            height: 160px;
+            height: 180px;
             background-color: #404040;
             background-size: cover;
             background-position: center;
@@ -496,7 +506,7 @@
             padding: 16px;
         }
         .artist-card-body h4 {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 4px;
         }
@@ -528,9 +538,9 @@
             line-height: 1.5;
         }
 
-        /* Credits (Emeği Geçenler) Bölümü */
+        /* Credits (Emeği Geçenler) */
         .credit-item {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -549,18 +559,18 @@
             margin-top: 2px;
         }
 
-        /* On Tour (Turne) Bölümü */
+        /* On Tour (Turne) */
         .tour-item {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             align-items: center;
-            margin-top: 8px;
+            margin-top: 10px;
         }
         .date-badge {
             background-color: #282828;
             border-radius: 6px;
-            min-width: 48px;
-            height: 48px;
+            min-width: 52px;
+            height: 52px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -574,7 +584,7 @@
             font-weight: 600;
         }
         .date-badge .day {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             color: #fff;
         }
@@ -589,36 +599,36 @@
             margin-top: 2px;
         }
 
-        /* Next In Queue (Sırada Bekleyen) Bölümü */
+        /* Next In Queue (Sırada Bekleyen) */
         .queue-item {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-top: 8px;
             background-color: rgba(255,255,255,0.03);
-            padding: 8px;
+            padding: 10px;
             border-radius: 6px;
         }
         .queue-cover {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             background-color: #282828;
             border-radius: 4px;
             background-size: cover;
             background-position: center;
         }
         .queue-info h5 {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             color: #fff;
         }
         .queue-info p {
-            font-size: 11px;
+            font-size: 12px;
             color: #b3b3b3;
             margin-top: 2px;
         }
 
-        /* --- 4. ALT PANEL: MEDYA OYNATICI (PLAYER BAR) --- */
+        /* --- 4. ALT PANEL: PLAYER BAR --- */
         .player-bar {
             height: 90px;
             background-color: #000000;
@@ -670,7 +680,7 @@
         }
 
         .control-buttons .icon-btn {
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .control-buttons .play-pause-toggle {
@@ -683,6 +693,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border: none;
+            cursor: pointer;
         }
 
         .progress-container {
@@ -718,7 +730,7 @@
         .volume-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             justify-content: flex-end;
             width: 30%;
             color: #b3b3b3;
@@ -925,8 +937,8 @@
                 <div class="queue-item">
                     <div class="queue-cover" id="queue-next-cover"></div>
                     <div class="queue-info">
-                        <h5 id="queue-next-title">Marlboro Nights</h5>
-                        <p id="queue-next-artist">Lonely God</p>
+                        <h5 id="queue-next-title">Sırada şarkı yok</h5>
+                        <p id="queue-next-artist">Müzik ekleyin</p>
                     </div>
                 </div>
             </div>
@@ -976,7 +988,7 @@
     <audio id="audio-player"></audio>
 
     <script>
-        // Örnek Çalma Listesi Veritabanı
+        // Görselleri ve Yapıyı İstediğin Profil ve Karakterlere Göre Ayarladığım Dinamik Depo
         let playlists = [
             { id: 1, name: "~ T^T ~", visibility: "Public Playlist", count: 0, color: "#242424", img: "https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg", tracks: [] },
             { id: 2, name: "~Slam Dunkk~", visibility: "Private Playlist", count: 1, color: "#7a1c1c", img: "https://i.pinimg.com/564x/0c/33/cd/0c33cd84639b7d853b01859942a781b2.jpg", tracks: [] },
@@ -1046,13 +1058,14 @@
             tbody.innerHTML = "";
 
             if(selectedPlaylist.tracks.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px; color:#7f7f7f;">Bu listede henüz şarkı yok. Dosya ekleyin.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px; color:#7f7f7f;">Bu listede henüz şarkı yok. Yukarıdaki "Add MP3 Files" butonundan müzik yükleyin.</td></tr>`;
                 return;
             }
 
             selectedPlaylist.tracks.forEach((track, index) => {
                 const row = document.createElement('tr');
                 row.className = "track-row";
+                row.style.cursor = "pointer";
                 row.onclick = () => playTrack(index);
 
                 row.innerHTML = `
@@ -1109,7 +1122,6 @@
                 document.getElementById('artist-banner').style.backgroundImage = `url('${selectedPlaylist.img}')`;
             }
 
-            // Sağ Panel Dinamik Güncelleme
             document.getElementById('right-track-name').innerText = track.name;
             document.getElementById('right-track-artist').innerText = "Yerel Sanatçı";
             document.getElementById('artist-card-name').innerText = "Yerel Sanatçı";
@@ -1119,7 +1131,6 @@
             updateNextInQueue();
         }
 
-        // Sırada Bekleyen Şarkıyı Dinamik Güncelleyen Fonksiyon
         function updateNextInQueue() {
             const nextTrack = selectedPlaylist.tracks[currentTrackIndex + 1];
             const queueCover = document.getElementById('queue-next-cover');
