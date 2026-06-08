@@ -6,10 +6,10 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Spotify">
+    <meta name="apple-mobile-web-app-title" content="Spotify Mobile">
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png">
 
-    <title>Spotify Premium Mobile</title>
+    <title>Spotify Premium Mobile (Full Custom)</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -43,12 +43,13 @@
             overflow: hidden;
         }
 
+        /* Dynamic Island ve Çentik Bölgesi Koruması */
         .safe-top {
-            padding-top: env(safe-area-inset-top, 20px);
+            padding-top: env(safe-area-inset-top, 24px);
             background-color: transparent;
         }
 
-        /* Ana İçerik Alanı */
+        /* Ana İçerik Kaydırma Alanı */
         .app-view {
             flex: 1;
             overflow-y: auto;
@@ -60,12 +61,13 @@
             display: block;
         }
 
-        /* Üst Profil Barı */
+        /* Üst Bar Tasarımı (İlk Fotoğraftaki Alan) */
         .mobile-header-actions {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 12px 16px;
+            z-index: 10;
         }
 
         .user-avatar {
@@ -74,11 +76,12 @@
             border-radius: 50%;
             background-image: url('https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg');
             background-size: cover;
-            border: 2px solid transparent;
-            transition: transform 0.2s;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .user-avatar:active {
-            transform: scale(0.92);
+            transform: scale(0.9);
         }
 
         .scroller-pills {
@@ -103,12 +106,14 @@
             color: #000;
         }
 
-        /* 🆕 İKİNCİ FOTOĞRAFTAKİ SOL PROFIL PANELİ (DRAWER) */
+        /* 🆕 İKİNCİ FOTOĞRAFTAKİ SOL PROFİL MENÜSÜ (DRAWER/SIDEBAR) */
         .profile-drawer-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 250;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 300;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -121,16 +126,16 @@
         .profile-drawer {
             position: fixed;
             top: 0; left: 0; bottom: 0;
-            width: 80%;
-            max-width: 320px;
+            width: 78%;
+            max-width: 300px;
             background-color: #121212;
-            z-index: 260;
+            z-index: 310;
             transform: translateX(-100%);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
-            padding: calc(env(safe-area-inset-top, 20px) + 16px) 20px env(safe-area-inset-bottom, 20px) 20px;
-            box-shadow: 5px 0 25px rgba(0,0,0,0.8);
+            padding: calc(env(safe-area-inset-top, 24px) + 20px) 20px calc(env(safe-area-inset-bottom, 20px) + 16px) 20px;
+            box-shadow: 8px 0 30px rgba(0,0,0,0.9);
         }
         .profile-drawer.open {
             transform: translateX(0);
@@ -140,68 +145,70 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding-bottom: 20px;
+            padding-bottom: 24px;
             border-bottom: 1px solid #282828;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         .drawer-avatar {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             background-image: url('https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg');
             background-size: cover;
         }
-        .drawer-user-info h3 { font-size: 16px; font-weight: 700; color: #fff; }
-        .drawer-user-info p { font-size: 12px; color: var(--text-subdued); margin-top: 2px; }
+        .drawer-user-info h3 { font-size: 17px; font-weight: 700; color: #fff; }
+        .drawer-user-info p { font-size: 12px; color: var(--text-subdued); margin-top: 3px; text-decoration: underline; cursor: pointer; }
 
         .drawer-menu-list {
             display: flex;
             flex-direction: column;
-            gap: 22px;
+            gap: 24px;
         }
         .drawer-menu-item {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 18px;
             color: #fff;
             font-size: 15px;
             font-weight: 600;
             text-decoration: none;
+            cursor: pointer;
         }
         .drawer-menu-item i {
-            font-size: 18px;
+            font-size: 20px;
             color: var(--text-subdued);
-            width: 24px;
+            width: 26px;
             text-align: center;
         }
         .drawer-close-btn {
             margin-top: auto;
-            background-color: #232323;
+            background-color: #282828;
             color: #fff;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 25px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
+            cursor: pointer;
         }
 
-        /* Çalma Listesi Görünümü */
+        /* Çalma Listesi Üst Banner Yapısı */
         .playlist-banner {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 0;
+            padding: 16px 0;
             text-align: center;
         }
 
         .main-playlist-cover {
-            width: 160px;
-            height: 160px;
+            width: 155px;
+            height: 155px;
             border-radius: 8px;
             background-color: #282828;
             background-size: cover;
             background-position: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            box-shadow: 0 8px 26px rgba(0,0,0,0.7);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -210,7 +217,7 @@
             margin-bottom: 16px;
         }
 
-        .playlist-details h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+        .playlist-details h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.5px; }
         .playlist-details p { font-size: 12px; color: var(--text-subdued); margin-bottom: 12px; }
 
         .list-action-row {
@@ -222,8 +229,8 @@
         }
 
         .circle-play-btn {
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background-color: var(--spotify-green);
             color: #000;
@@ -232,28 +239,71 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
 
-        /* Şarkı Satırı */
+        /* 🆕 GELİŞMİŞ MP3 YÜKLEME KUTUSU (GÖRÜNÜR SABİT PANEL) */
+        .offline-upload-card {
+            background: linear-gradient(135deg, #181818 0%, #0d1a12 100%);
+            border: 1px dashed rgba(29, 185, 84, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .upload-card-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .upload-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: rgba(29, 185, 84, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--spotify-green);
+            font-size: 20px;
+        }
+        .upload-text-box h4 { font-size: 14px; font-weight: 700; color: #fff; }
+        .upload-text-box p { font-size: 11px; color: var(--text-subdued); margin-top: 2px; }
+        .upload-action-btn {
+            background-color: var(--spotify-green);
+            color: #000;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Şarkı Satırı Listesi */
         .song-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 11px 0;
+            border-radius: 6px;
+            transition: background-color 0.1s;
         }
-        .song-row:active { background-color: rgba(255,255,255,0.05); border-radius: 4px; }
+        .song-row:active { background-color: rgba(255,255,255,0.06); }
 
         .song-left {
             display: flex;
             align-items: center;
             gap: 12px;
-            max-width: 80%;
+            max-width: 82%;
         }
 
         .song-album-art {
-            width: 44px;
-            height: 44px;
+            width: 45px;
+            height: 45px;
             background-color: #282828;
             border-radius: 4px;
             background-size: cover;
@@ -267,13 +317,13 @@
 
         .song-text-info { overflow: hidden; }
         .song-text-info h4 { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .song-text-info p { font-size: 12px; color: var(--text-subdued); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+        .song-text-info p { font-size: 12px; color: var(--text-subdued); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 3px; }
         
         .song-row.active-playing .song-text-info h4 { color: var(--spotify-green); }
 
-        .song-right { color: var(--text-subdued); font-size: 14px; }
+        .song-right { color: var(--text-subdued); font-size: 14px; padding-right: 4px; }
 
-        /* Arama Kutusu */
+        /* Arama Bölmesi */
         .search-container-box {
             background-color: #fff;
             border-radius: 6px;
@@ -283,11 +333,11 @@
             gap: 10px;
             margin: 16px 0;
         }
-        .search-container-box input { border: none; outline: none; width: 100%; font-size: 14px; color: #000; font-weight: 500; }
+        .search-container-box input { border: none; outline: none; width: 100%; font-size: 14px; color: #000; font-weight: 600; }
         .search-container-box i { color: #535353; font-size: 16px; }
 
-        /* Klasör Grid Tasarımları */
-        .section-header { font-size: 18px; font-weight: 700; margin: 20px 0 12px 0; }
+        /* Klasör Izgaraları */
+        .section-header { font-size: 17px; font-weight: 700; margin: 22px 0 12px 0; letter-spacing: -0.3px; }
         .folder-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         
         .folder-card {
@@ -299,50 +349,50 @@
         .folder-card-art { width: 100%; aspect-ratio: 1; background-color: #282828; border-radius: 6px; margin-bottom: 8px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: #444; font-size: 32px; }
         .folder-card h5 { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .folder-card p { font-size: 11px; color: var(--text-subdued); margin-top: 2px; }
-        .card-add-shortcut { background-color: var(--spotify-green); color: #000; border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-top: 8px; width: 100%; }
+        .card-add-shortcut { background-color: var(--spotify-green); color: #000; border: none; padding: 5px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-top: 8px; width: 100%; }
 
-        /* Mini Oynatıcı (Mini Player) */
+        /* Yarı Şeffaf Akıllı Mini Oynatıcı */
         .floating-mini-player {
             position: fixed;
-            bottom: 68px;
+            bottom: 72px;
             left: 8px;
             right: 8px;
-            height: 54px;
-            background-color: rgba(23, 23, 23, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            height: 56px;
+            background-color: rgba(20, 20, 20, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.7);
             z-index: 99;
             display: none;
         }
 
-        .mini-info-block { display: flex; align-items: center; gap: 10px; width: 70%; }
-        .mini-art-box { width: 38px; height: 38px; border-radius: 4px; background-size: cover; background-color: #282828; }
+        .mini-info-block { display: flex; align-items: center; gap: 10px; width: 75%; }
+        .mini-art-box { width: 38px; height: 38px; border-radius: 4px; background-size: cover; background-color: #282828; flex-shrink: 0; }
         .mini-titles-box { overflow: hidden; }
         .mini-titles-box h5 { font-size: 13px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .mini-titles-box p { font-size: 11px; color: var(--text-subdued); }
+        .mini-titles-box p { font-size: 11px; color: var(--text-subdued); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .mini-controls-block { display: flex; align-items: center; gap: 18px; font-size: 20px; color: #fff; }
+        .mini-controls-block { display: flex; align-items: center; gap: 20px; font-size: 20px; color: #fff; padding-right: 4px; }
 
-        .mini-timeline-bg { position: absolute; bottom: 0; left: 12px; right: 12px; height: 2px; background-color: rgba(255,255,255,0.15); }
+        .mini-timeline-bg { position: absolute; bottom: 0; left: 12px; right: 12px; height: 2px; background-color: rgba(255,255,255,0.12); }
         .mini-timeline-fill { width: 0%; height: 100%; background-color: #fff; border-radius: 1px; }
 
-        /* Tam Ekran Oynatıcı (Full Player) */
+        /* Birebir Orijinal Tam Ekran Büyük Oynatıcı */
         .full-screen-player {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #0c0f12;
             z-index: 200;
             transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
             display: flex;
             flex-direction: column;
-            padding: env(safe-area-inset-top, 40px) 24px env(safe-area-inset-bottom, 24px) 24px;
+            padding: calc(env(safe-area-inset-top, 40px) + 10px) 24px calc(env(safe-area-inset-bottom, 24px) + 10px) 24px;
         }
         .full-screen-player.open { transform: translateY(0); }
 
@@ -351,61 +401,61 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background-size: cover;
             background-position: center;
-            filter: blur(50px) brightness(0.4);
+            filter: blur(45px) brightness(0.35);
             z-index: -1;
-            opacity: 0.6;
+            opacity: 0.7;
         }
 
-        .player-top-row { display: flex; justify-content: space-between; align-items: center; color: #fff; margin-bottom: 24px; }
-        .player-top-row h5 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-subdued); }
+        .player-top-row { display: flex; justify-content: space-between; align-items: center; color: #fff; margin-bottom: 28px; }
+        .player-top-row h5 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-subdued); font-weight: 700; }
 
         .player-giant-cover-container {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
         .player-giant-cover {
             width: 100%;
             aspect-ratio: 1;
-            max-width: 320px;
+            max-width: 315px;
             background-color: #282828;
             border-radius: 8px;
             background-size: cover;
             background-position: center;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+            box-shadow: 0 16px 45px rgba(0,0,0,0.75);
         }
 
-        .player-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .player-meta-left h2 { font-size: 22px; font-weight: 800; color: #fff; }
-        .player-meta-left p { font-size: 15px; color: var(--text-subdued); margin-top: 4px; }
+        .player-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .player-meta-left h2 { font-size: 21px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+        .player-meta-left p { font-size: 15px; color: var(--text-subdued); margin-top: 5px; }
         .player-meta-right { font-size: 22px; color: var(--spotify-green); }
 
-        /* Zaman Barı */
-        .scrubber-container { margin-bottom: 24px; }
-        .scrubber-bar-bg { width: 100%; height: 4px; background-color: rgba(255,255,255,0.2); border-radius: 2px; position: relative; margin-bottom: 8px; }
+        /* İlerleme Zaman Çubuğu */
+        .scrubber-container { margin-bottom: 28px; }
+        .scrubber-bar-bg { width: 100%; height: 4px; background-color: rgba(255,255,255,0.22); border-radius: 2px; position: relative; margin-bottom: 10px; cursor: pointer; }
         .scrubber-bar-fill { width: 0%; height: 100%; background-color: #fff; border-radius: 2px; }
-        .scrubber-time-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-subdued); }
+        .scrubber-time-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-subdued); font-weight: 500; }
 
-        /* Kontrol Butonları */
-        .giant-controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding: 0 10px; }
-        .giant-btn { background: none; border: none; color: #fff; font-size: 24px; }
+        /* Büyük Oynatıcı Kontrolleri */
+        .giant-controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 0 6px; }
+        .giant-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
         .giant-btn.secondary { color: var(--text-subdued); }
-        .giant-btn.play-trigger { width: 64px; height: 64px; border-radius: 50%; background-color: #fff; color: #000; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+        .giant-btn.play-trigger { width: 62px; height: 62px; border-radius: 50%; background-color: #fff; color: #000; font-size: 24px; display: flex; align-items: center; justify-content: center; }
 
-        /* Alt Navigasyon Barı */
+        /* Orijinal iOS Alt Barı */
         .ios-bottom-nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
             height: 64px;
             background: linear-gradient(to top, #000000 85%, rgba(0,0,0,0) 0%);
-            border-top: 1px solid rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(255,255,255,0.02);
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 100;
-            padding-bottom: env(safe-area-inset-bottom, 10px);
+            padding-bottom: env(safe-area-inset-bottom, 12px);
         }
 
         .nav-tab-button {
@@ -417,10 +467,11 @@
             font-weight: 600;
             background: none;
             border: none;
-            gap: 4px;
-            width: 70px;
+            gap: 5px;
+            width: 75px;
+            cursor: pointer;
         }
-        .nav-tab-button i { font-size: 20px; }
+        .nav-tab-button i { font-size: 21px; }
         .nav-tab-button.active { color: #fff; }
 
         #mp3-file-picker { display: none; }
@@ -445,19 +496,19 @@
             <div class="drawer-avatar"></div>
             <div class="drawer-user-info">
                 <h3>Premium Kullanıcı</h3>
-                <p onclick="alert('Profili Görüntüle tıklandı')">Profili görüntüle</p>
+                <p onclick="toggleProfileDrawer(false); alert('Profil detay sayfasına yönlendiriliyorsunuz...');">Profili görüntüle</p>
             </div>
         </div>
         <div class="drawer-menu-list">
-            <a href="#" class="drawer-menu-item" onclick="alert('Yenilikler penceresi')">
+            <div class="drawer-menu-item" onclick="toggleProfileDrawer(false); alert('Yenilikler listesi boş.');">
                 <i class="fa-regular fa-bell"></i> Yenilikler
-            </a>
-            <a href="#" class="drawer-menu-item" onclick="alert('Son dinlenen geçmişi')">
+            </div>
+            <div class="drawer-menu-item" onclick="toggleProfileDrawer(false); changeMobileTab('view-search-tab', document.querySelectorAll('.nav-tab-button')[1]);">
                 <i class="fa-regular fa-clock"></i> Son dinlenenler
-            </a>
-            <a href="#" class="drawer-menu-item" onclick="alert('Ayarlar Menüsü Açıldı')">
+            </div>
+            <div class="drawer-menu-item" onclick="toggleProfileDrawer(false); alert('Ayarlar ve Gizlilik Konsolu');">
                 <i class="fa-solid fa-gear"></i> Ayarlar ve gizlilik
-            </a>
+            </div>
         </div>
         <button class="drawer-close-btn" onclick="toggleProfileDrawer(false)">Kapat</button>
     </div>
@@ -472,15 +523,28 @@
             <div class="playlist-details">
                 <p id="ui-playlist-type">Kişisel Çalma Listesi</p>
                 <h1 id="ui-playlist-title">Benim Listem</h1>
-                <p style="color:#fff; font-weight:600;">Premium Kullanıcı <span style="color:var(--text-subdued); font-weight:400;" id="ui-song-count">• 0 şarkı</span></p>
+                <p style="color:#fff; font-weight:600;">Premium Üye <span style="color:var(--text-subdued); font-weight:400;" id="ui-song-count">• 0 şarkı</span></p>
             </div>
             <div class="list-action-row">
-                <div style="display: flex; gap: 20px; align-items: center; color: var(--text-subdued); font-size: 20px;">
+                <div style="display: flex; gap: 22px; align-items: center; color: var(--text-subdued); font-size: 21px;">
                     <i class="fa-regular fa-heart"></i>
                     <i class="fa-solid fa-arrow-down-to-line" onclick="document.getElementById('mp3-file-picker').click()" style="color: var(--spotify-green);"></i>
                 </div>
                 <button class="circle-play-btn" id="header-play-trigger"><i class="fa-solid fa-play"></i></button>
             </div>
+        </div>
+
+        <div class="offline-upload-card" onclick="document.getElementById('mp3-file-picker').click()">
+            <div class="upload-card-left">
+                <div class="upload-icon-box">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <div class="upload-text-box">
+                    <h4>Cihazından MP3 Yükle</h4>
+                    <p>Çevrimdışı/internetsiz dinlemek için şarkı seç</p>
+                </div>
+            </div>
+            <button class="upload-action-btn">Dosya Seç</button>
         </div>
 
         <div class="track-list" id="ui-track-list-wrapper"></div>
@@ -493,13 +557,13 @@
             <input type="text" placeholder="Ne dinlemek istiyorsun?">
         </div>
 
-        <div class="section-header">1. Dinlediğin Listeler</div>
+        <div class="section-header">1. Mevcut Çalma Listelerin</div>
         <div class="folder-grid" id="grid-user-playlists"></div>
 
-        <div class="section-header">2. Senin İçin Öneriler</div>
+        <div class="section-header">2. Keşfet / Senin İçin Öneriler</div>
         <div class="folder-grid" id="grid-recommendations"></div>
 
-        <div class="section-header">3. Yüklenen MP3 Dosyaları</div>
+        <div class="section-header">3. Yüklediğin Yerel Dosyalar</div>
         <div class="folder-grid" id="grid-uploaded-pool"></div>
 
         <div class="section-header">4. En Son Dinlenenler</div>
@@ -510,6 +574,7 @@
         <h2 style="font-size: 24px; font-weight: 800; margin-top: 16px; margin-bottom: 16px;">Kitaplığın</h2>
         <div class="folder-grid" id="ui-library-playlists-list"></div>
     </div>
+
 
     <div class="floating-mini-player" id="ui-mini-player" onclick="openFullPlayer()">
         <div class="mini-info-block">
@@ -526,6 +591,7 @@
             <div class="mini-timeline-fill" id="mini-progress-fill"></div>
         </div>
     </div>
+
 
     <div class="full-screen-player" id="ui-full-player">
         <div class="player-blur-bg" id="player-blur-target"></div>
@@ -569,6 +635,7 @@
         </div>
     </div>
 
+
     <div class="ios-bottom-nav">
         <button class="nav-tab-button active" onclick="changeMobileTab('view-home-tab', this)">
             <i class="fa-solid fa-house"></i>
@@ -587,6 +654,7 @@
     <audio id="audio-engine"></audio>
 
     <script>
+        // Bellekteki Çalma Listesi Yapıları
         let playlists = [
             { id: 1, name: "Benim Listem", visibility: "Kamuya Açık Liste", color: "#1c352d", img: "https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg", tracks: [] },
             { id: 2, name: "Slam Dunk Hits", visibility: "Gizli Liste", color: "#5c1e1e", img: "https://i.pinimg.com/564x/0c/33/cd/0c33cd84639b7d853b01859942a781b2.jpg", tracks: [] }
@@ -611,7 +679,7 @@
             refreshExplorerGrids();
         }
 
-        // 🆕 PROFIL VE AYARLAR CEKMECESI TETIKLEYICISI
+        // 🆕 PROFIL SIDEBAR ÇEKMECESİNİ AÇIP KAPATAN FONKSİYON
         function toggleProfileDrawer(open) {
             const overlay = document.getElementById('ui-drawer-overlay');
             const drawer = document.getElementById('ui-profile-drawer');
@@ -656,7 +724,7 @@
             container.innerHTML = "";
 
             if(selectedPlaylist.tracks.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-subdued); text-align:center; padding:40px 10px; font-size:13px;">Bu listede şarkı yok. Şarkı yüklemek için yukarıdaki indirme simgesine dokun veya Ara kısmından önerileri ekle.</p>`;
+                container.innerHTML = `<p style="color:var(--text-subdued); text-align:center; padding:35px 10px; font-size:12px;">Listeniz şu an boş. Şarkı eklemek için yukarıdaki yeşil "Cihazından MP3 Yükle" kartına basarak telefonunuzdan MP3 seçin veya Ara sekmesindeki önerileri ekleyin.</p>`;
                 return;
             }
 
@@ -697,7 +765,7 @@
                 document.getElementById('ui-mini-player').style.display = 'flex';
                 syncAllPlayerInterfaces();
             }).catch(() => {
-                console.log("iOS tetikleme bekleniyor.");
+                console.log("Kullanıcı etkileşimi bekleniyor.");
             });
 
             renderTrackRows();
@@ -724,6 +792,7 @@
             document.getElementById('player-artist-target').innerText = track.artist;
             document.getElementById('player-giant-cover-target').style.backgroundImage = `url('${art}')`;
             document.getElementById('player-blur-target').style.backgroundImage = `url('${art}')`;
+            document.getElementById('player-top-playlist-name').innerText = `${selectedPlaylist.name} listesinden`;
 
             let playIconClass = audioEngine.paused ? "fa-solid fa-play" : "fa-solid fa-pause";
             document.getElementById('mini-play-btn').className = playIconClass;
@@ -744,11 +813,12 @@
         function openFullPlayer() { document.getElementById('ui-full-player').classList.add('open'); }
         function closeFullPlayer() { document.getElementById('ui-full-player').classList.remove('open'); }
 
+        // MP3 Cihaz Dosyası Okuma Yakalayıcısı
         filePicker.onchange = function(e) {
             const files = e.target.files;
             for(let file of files) {
                 let trackUrl = URL.createObjectURL(file);
-                let added = { name: file.name.replace(".mp3", ""), artist: "Yerel Şarkı", url: trackUrl };
+                let added = { name: file.name.replace(".mp3", ""), artist: "Yerel Çevrimdışı Dosya", url: trackUrl };
                 selectedPlaylist.tracks.push(added);
                 uploadedMp3Pool.push(added);
             }
