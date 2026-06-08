@@ -6,22 +6,19 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Spotify Premium">
-    
+    <meta name="apple-mobile-web-app-title" content="Spotify">
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png">
 
-    <title>Spotify - Web Player (Full Premium Interface)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Spotify Mobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- CORE SPOTIFY STYLES --- */
         :root {
             --spotify-green: #1db954;
-            --spotify-green-hover: #1ed760;
             --bg-base: #000000;
             --bg-surface: #121212;
-            --bg-surface-elevated: #242424;
+            --bg-card: #181818;
             --text-base: #ffffff;
             --text-subdued: #b3b3b3;
         }
@@ -33,11 +30,9 @@
             font-family: 'Montserrat', sans-serif;
             -webkit-user-select: none;
             user-select: none;
-            /* Mobil cihazlarda tıklama parlama efektini kaldırır */
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* Telefon çentik alanı (Safe Area) için üst boşluk uyumu */
         body {
             background-color: var(--bg-base);
             color: var(--text-base);
@@ -45,888 +40,493 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding-top: env(safe-area-inset-top); 
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+        /* Sayfa İçerik Alanları */
+        .app-view {
+            flex: 1;
+            overflow-y: auto;
+            display: none;
+            padding: 16px;
+            padding-bottom: 160px; /* Alt barların altında kalmaması için */
         }
 
-        /* --- 1. EN ÜST BAR --- */
-        .top-header {
-            height: 64px;
+        .app-view.active {
+            display: block;
+        }
+
+        /* Üst Profil ve Filtre Satırı (Görsellerdeki gibi) */
+        .mobile-top-bar {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
+            gap: 12px;
+            padding: 12px 16px;
             background-color: var(--bg-base);
-            flex-shrink: 0;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-left .dots-btn {
-            color: var(--text-subdued);
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .nav-arrows {
-            display: flex;
-            gap: 8px;
-        }
-
-        .arrow-btn {
+        .profile-avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: var(--text-subdued);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .header-center {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .home-icon-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background-color: #1f1f1f;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .search-wrapper {
-            position: relative;
-            flex: 1;
-        }
-
-        .search-wrapper i.fa-magnifying-glass {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-subdued);
-            font-size: 14px;
-        }
-
-        .search-wrapper i.fa-folder {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-subdued);
-            font-size: 16px;
-            cursor: pointer;
-            z-index: 10;
-        }
-        .search-wrapper i.fa-folder:hover, .search-wrapper i.fa-folder.active { color: var(--spotify-green); }
-
-        .top-search-input {
-            width: 100%;
-            height: 44px;
-            background-color: #1f1f1f;
-            border: none;
-            border-radius: 22px;
-            padding: 0 40px;
-            color: #fff;
-            font-size: 13px;
-            font-weight: 500;
-            outline: none;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .header-right-icons {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-subdued);
-            font-size: 15px;
-        }
-
-        .top-profile-box {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #535353;
             background-image: url('https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg');
             background-size: cover;
         }
 
-        /* --- ANA DÜZEN RESPONSIVE GRİD --- */
-        .main-container {
-            display: grid;
-            /* Mobilde yan panelleri gizlemek veya alt alta almak için esnek grid */
-            grid-template-columns: 1fr;
-            flex: 1;
-            padding: 0 8px 8px 8px;
+        .filter-scroller {
+            display: flex;
             gap: 8px;
-            overflow: hidden;
+            overflow-x: auto;
         }
+        .filter-scroller::-webkit-scrollbar { display: none; }
 
-        /* Masaüstü bilgisayarlar için 3 sütunlu yapı, mobilde ise tek sütun (Orta İçerik) kalacak */
-        @media (min-width: 992px) {
-            .main-container {
-                grid-template-columns: 280px 1fr 320px;
-            }
-            .sidebar, .right-panel { display: flex !important; }
-        }
-
-        /* Mobilde yan sütunları varsayılan olarak gizliyoruz, sadece ana içerik görünecek */
-        .sidebar, .right-panel {
-            display: none;
-        }
-
-        .panel {
-            background-color: var(--bg-surface);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* --- SOL PANEL (Sadece Büyük Ekranlarda) --- */
-        .sidebar {
-            padding: 16px;
-            gap: 16px;
-        }
-
-        .library-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-subdued);
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .library-tabs { display: flex; gap: 8px; }
-        .search-row { display: flex; justify-content: space-between; color: var(--text-subdued); font-size: 13px; }
-
-        .file-upload-btn {
-            background-color: #ffffff;
-            color: #000;
-            border: none;
-            padding: 10px;
+        .filter-pill {
+            background-color: #2a2a2a;
+            color: #fff;
+            padding: 8px 16px;
             border-radius: 20px;
-            font-weight: 700;
             font-size: 12px;
-            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            border: none;
+        }
+        .filter-pill.active {
+            background-color: var(--spotify-green);
+            color: #000;
+        }
+
+        /* Şarkı Listesi Tasarımı */
+        .track-list {
+            margin-top: 16px;
+        }
+
+        .track-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-radius: 8px;
         }
+        .track-item:active { background-color: rgba(255,255,255,0.05); }
 
-        .playlist-list {
-            overflow-y: auto;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .playlist-item {
+        .track-left {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 8px;
-            border-radius: 6px;
-            cursor: pointer;
+            max-width: 80%;
         }
-        .playlist-item.active { background-color: #1a1a1a; }
 
-        .playlist-img-box {
-            width: 44px;
-            height: 44px;
+        .track-cover {
+            width: 48px;
+            height: 48px;
             background-color: #282828;
             border-radius: 4px;
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-subdued);
-            background-size: cover;
-            background-position: center;
-        }
-
-        .playlist-info h4 { font-size: 13px; font-weight: 500; color: #fff; }
-        .playlist-info p { font-size: 11px; color: var(--text-subdued); }
-
-        /* --- ORTA PANEL --- */
-        .main-content {
-            background: linear-gradient(to bottom, #242424 0%, #121212 40%);
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .playlist-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 20px 16px;
-        }
-
-        .big-cover {
-            width: 120px;
-            height: 120px;
-            background-color: #282828;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #7f7f7f;
-            font-size: 40px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 4px;
             flex-shrink: 0;
         }
 
-        @media (min-width: 768px) {
-            .playlist-header { align-items: flex-end; gap: 24px; padding: 32px 24px; }
-            .big-cover { width: 180px; height: 180px; font-size: 60px; }
+        .track-meta h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .track-item.playing .track-meta h4 {
+            color: var(--spotify-green);
         }
 
-        .header-details h2 { font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
-        .header-details h1 { font-size: 28px; font-weight: 900; margin-bottom: 6px; line-height: 1.1; }
-        @media (min-width: 768px) { .header-details h1 { font-size: 48px; } }
+        .track-meta p {
+            font-size: 12px;
+            color: var(--text-subdued);
+            margin-top: 2px;
+        }
 
-        .meta-row { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
-        .meta-user-img { width: 20px; height: 20px; border-radius: 50%; background-image: url('https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg'); background-size: cover; }
+        .track-right {
+            color: var(--text-subdued);
+            font-size: 14px;
+            padding-right: 4px;
+        }
 
-        .action-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px; }
-        .action-bar-left { display: flex; align-items: center; gap: 20px; }
-
-        .play-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background-color: var(--spotify-green);
-            color: #000;
-            border: none;
-            font-size: 18px;
+        /* 🆕 TELEFON İÇİN YÜZEN MİNİ OYNATICI (MINI PLAYER) */
+        .mini-player {
+            position: fixed;
+            bottom: 64px; /* Alt barın hemen üstünde durması için */
+            left: 8px;
+            right: 8px;
+            height: 56px;
+            background-color: #222326;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            justify-content: space-between;
+            padding: 0 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            z-index: 99;
+            display: none; /* Şarkı çalana kadar gizli */
         }
 
-        .icon-btn { background: none; border: none; color: var(--text-subdued); font-size: 18px; cursor: pointer; }
-        .action-bar-right { display: flex; align-items: center; color: var(--text-subdued); font-size: 13px; }
+        .mini-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 70%;
+        }
+        .mini-cover {
+            width: 38px;
+            height: 38px;
+            border-radius: 4px;
+            background-size: cover;
+            background-color: #121212;
+        }
+        .mini-details h5 { font-size: 12px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mini-details p { font-size: 11px; color: var(--text-subdued); }
 
-        .sub-actions { display: flex; gap: 8px; padding: 0 16px 12px 16px; }
-        .pill-btn { background-color: rgba(255,255,255,0.1); border: none; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .mini-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 20px;
+            color: #fff;
+        }
 
-        /* Şarkı Tablosu Mobil Tasarımı */
-        .track-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
-        .track-table th, .track-table td { text-align: left; padding: 10px 16px; font-size: 12px; color: var(--text-subdued); }
-        .track-table th { border-bottom: 1px solid rgba(255,255,255,0.05); text-transform: uppercase; font-size: 10px; }
-        .track-row:active { background-color: rgba(255,255,255,0.1); }
+        /* Mini Player Altındaki İlerleme Çizgisi */
+        .mini-progress-bg {
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background-color: rgba(255,255,255,0.2);
+        }
+        .mini-progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #fff;
+        }
 
-        .track-title-col { display: flex; align-items: center; gap: 10px; }
-        .track-cover { width: 36px; height: 36px; background-color: #282828; border-radius: 4px; flex-shrink: 0; }
-        .track-name-box h3 { font-size: 13px; font-weight: 500; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+        /* 🆕 MOBİL ALT NAVİGASYON BARI (Ekran Görüntülerindeki Gibi) */
+        .mobile-nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: linear-gradient(to top, rgba(0,0,0,1) 80%, rgba(0,0,0,0.8) 0%);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            z-index: 100;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
 
-        .search-section { border-top: 1px solid rgba(255,255,255,0.05); padding: 16px; }
-        .search-box-container { display: flex; justify-content: space-between; align-items: center; background-color: #2a2a2a; border-radius: 4px; padding: 10px; width: 100%; max-width: 300px; margin-top: 10px; }
-        .search-box-container input { background: none; border: none; color: #fff; font-size: 12px; width: 100%; outline: none; }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-subdued);
+            font-size: 11px;
+            font-weight: 500;
+            text-decoration: none;
+            gap: 4px;
+            background: none;
+            border: none;
+            width: 60px;
+        }
+        .nav-item i { font-size: 20px; }
+        .nav-item.active { color: #fff; }
 
-        /* --- 4 BÖLMELİ YENİ KLASÖR SEKME ALANI --- */
-        .folder-explorer-view { display: none; padding: 20px 16px; }
-        .folder-explorer-view h2 { font-size: 20px; font-weight: 800; margin-bottom: 16px; }
-        .explorer-section { margin-bottom: 24px; }
-        .explorer-section h3 { font-size: 13px; font-weight: 700; color: var(--text-subdued); margin-bottom: 10px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px; }
+        /* Klasör ve Arama Görünümü */
+        .search-box-holder {
+            background-color: #fff;
+            border-radius: 4px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .search-box-holder input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            color: #000;
+        }
+        .search-box-holder i { color: #7f7f7f; }
 
-        /* Grid Kart Yapısı Mobilde Yan yana 2 adet sığacak şekilde */
-        .grid-layout {
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 16px 0;
+        }
+
+        .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
         }
-        @media (min-width: 576px) { .grid-layout { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 768px) { .grid-layout { grid-template-columns: repeat(4, 1fr); } }
 
-        .spotify-explorer-card { background-color: #161616; padding: 10px; border-radius: 6px; cursor: pointer; }
-        .card-media { width: 100%; aspect-ratio: 1; background-color: #282828; border-radius: 4px; margin-bottom: 8px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #555; }
-        .spotify-explorer-card h4 { font-size: 12px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .spotify-explorer-card p { font-size: 10px; color: var(--text-subdued); }
-        .add-to-list-btn { background-color: var(--spotify-green); color: #000; border: none; padding: 6px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-top: 6px; width: 100%; }
-
-        /* --- SAĞ PANEL (Sadece Büyük Ekranlarda) --- */
-        .right-panel { padding: 16px; gap: 16px; overflow-y: auto; }
-        .right-panel-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; }
-        .right-big-cover { width: 100%; aspect-ratio: 1; background-color: #282828; border-radius: 8px; background-size: cover; display: flex; align-items: center; justify-content: center; color: #535353; font-size: 40px; }
-        .track-details-info h2 { font-size: 18px; font-weight: 700; }
-        .spotify-card { background-color: #181818; border-radius: 8px; padding: 12px; margin-top: 10px; }
-        .card-top-row { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
-        .artist-card-banner { height: 140px; background-color: #404040; background-size: cover; padding: 12px; }
-        .artist-listeners { font-size: 11px; color: var(--text-subdued); display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .follow-btn { background: none; border: 1px solid #878787; color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; }
-        .artist-bio { font-size: 11px; color: var(--text-subdued); line-height: 1.4; }
-        .queue-item { display: flex; align-items: center; gap: 10px; margin-top: 6px; background-color: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; }
-        .queue-cover { width: 36px; height: 36px; background-color: #282828; border-radius: 4px; background-size: cover; }
-
-        /* --- ALT PANEL: PLAYER BAR (Mobilde Alt Bar Düzeni) --- */
-        .player-bar {
-            height: 84px;
-            background-color: #000000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            flex-shrink: 0;
-            padding-bottom: env(safe-area-inset-bottom); /* Alt çentik boşluğu */
+        .grid-card {
+            background-color: var(--bg-card);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .card-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: var(--spotify-green);
         }
 
-        .current-track { display: flex; align-items: center; gap: 10px; width: 45%; }
-        .current-track-img { width: 44px; height: 44px; background-color: #282828; border-radius: 4px; background-size: cover; flex-shrink: 0; }
-        .current-track-text h4 { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px; }
-        .current-track-text p { font-size: 10px; color: var(--text-subdued); }
-
-        .player-controls { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 50%; }
-        .control-buttons { display: flex; align-items: center; gap: 14px; }
-        
-        .control-buttons .play-pause-toggle {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: #fff;
-            color: #000;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-        }
-
-        .progress-container { display: flex; align-items: center; gap: 6px; width: 100%; font-size: 10px; color: var(--text-subdued); }
-        .progress-bar-bg { flex: 1; height: 3px; background-color: #4d4d4d; border-radius: 2px; position: relative; }
-        .progress-bar-fill { width: 0%; height: 100%; background-color: #fff; border-radius: 2px; position: absolute; }
-
-        /* Mobilde ses çubuğu alanını gizleyip basitleştiriyoruz */
-        .volume-controls { display: none; }
-        @media (min-width: 768px) {
-            .volume-controls { display: flex; align-items: center; gap: 12px; justify-content: flex-end; width: 25%; color: var(--text-subdued); font-size: 13px; }
-            .volume-bar-bg { width: 80px; height: 4px; background-color: #4d4d4d; border-radius: 2px; }
-            .volume-bar-fill { width: 70%; height: 100%; background-color: #fff; border-radius: 2px; }
-            .current-track { width: 30%; }
-            .player-controls { width: 40%; }
-        }
-
-        #mp3-input { display: none; }
-
-        /* Mobilde Müzik Ekleme Kolaylığı İçin Üst Bara Görünür Buton Ekliyoruz */
-        .mobile-upload-shortcut {
-            background-color: rgba(255,255,255,0.1);
-            color: #fff;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-        @media (min-width: 992px) { .mobile-upload-shortcut { display: none; } }
+        #mp3-loader { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="top-header">
-        <div class="header-left">
-            <button class="mobile-upload-shortcut" onclick="document.getElementById('mp3-input').click()"><i class="fa-solid fa-plus"></i></button>
-            <div class="nav-arrows" style="display: none;">
-                <button class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></button>
-            </div>
-        </div>
-
-        <div class="header-center">
-            <button class="home-icon-btn" onclick="showStandardView()"><i class="fa-solid fa-house"></i></button>
-            <div class="search-wrapper">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" class="top-search-input" placeholder="Şarkı ara...">
-                <i class="fa-solid fa-folder" id="folder-icon" onclick="toggleFolderExplorer()"></i>
-            </div>
-        </div>
-
-        <div class="header-right">
-            <div class="top-profile-box"></div>
+    <div class="mobile-top-bar">
+        <div class="profile-avatar"></div>
+        <div class="filter-scroller">
+            <button class="filter-pill active">Tümü</button>
+            <button class="filter-pill">Müzik</button>
+            <button class="filter-pill">Podcast'ler</button>
         </div>
     </div>
 
-    <div class="main-container">
+    <input type="file" id="mp3-loader" multiple accept="audio/mp3">
+
+    <div id="view-home" class="app-view active">
+        <h2 class="section-title">Kitaplığımdaki Şarkılar</h2>
         
-        <div class="panel sidebar">
-            <div class="library-header">
-                <div><i class="fa-solid fa-layer-group"></i> Kitaplığın</div>
-                <i class="fa-solid fa-plus"></i>
-            </div>
-            <div class="library-tabs">
-                <button class="pill-btn">Çalma Listeleri</button>
-            </div>
-            <button class="file-upload-btn" onclick="document.getElementById('mp3-input').click()">
-                <i class="fa-solid fa-plus"></i> MP3 Dosyası Ekle
+        <div style="margin-bottom: 16px;">
+            <button class="filter-pill" onclick="document.getElementById('mp3-loader').click()" style="background-color: #2a2a2a; width: 100%; padding: 12px;">
+                <i class="fa-solid fa-plus" style="color: var(--spotify-green);"></i> Cihazdan MP3 Yükle
             </button>
-            <div class="playlist-list" id="playlists-container"></div>
         </div>
 
-        <div class="panel main-content" id="main-content-panel">
-            
-            <input type="file" id="mp3-input" multiple accept="audio/mp3">
-
-            <div id="standard-playlist-view">
-                <div class="playlist-header">
-                    <div class="big-cover" id="header-cover">
-                        <i class="fa-solid fa-music"></i>
-                    </div>
-                    <div class="header-details">
-                        <h2 id="header-visibility">Kişisel Çalma Listesi</h2>
-                        <h1 id="header-title">Benim Listem</h1>
-                        <div class="meta-row">
-                            <div class="meta-user-img"></div>
-                            <span>Premium Kullanıcı</span>
-                            <span class="dot">•</span>
-                            <span id="header-song-count" class="count-text">0 şarkı</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-bar">
-                    <div class="action-bar-left">
-                        <button class="play-btn" id="big-play-btn"><i class="fa-solid fa-play"></i></button>
-                        <button class="icon-btn"><i class="fa-solid fa-shuffle"></i></button>
-                        <button class="icon-btn" onclick="document.getElementById('mp3-input').click()"><i class="fa-solid fa-circle-plus" style="color:var(--spotify-green)"></i></button>
-                    </div>
-                </div>
-
-                <table class="track-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 10%;">#</th>
-                            <th style="width: 75%;">Başlık</th>
-                            <th style="width: 15%; text-align: right;"><i class="fa-regular fa-clock"></i></th>
-                        </tr>
-                    </thead>
-                    <tbody id="track-list-body"></tbody>
-                </table>
+        <div class="track-list" id="mobile-track-list">
             </div>
+    </div>
 
-            <div id="folder-explorer-view" class="folder-explorer-view">
-                <h2>Klasör Gözatıcısı</h2>
-
-                <div class="explorer-section">
-                    <h3>1. Dinlediğin Listeler</h3>
-                    <div class="grid-layout" id="explorer-playlists-grid"></div>
-                </div>
-
-                <div class="explorer-section">
-                    <h3>2. Senin İçin Öneriler</h3>
-                    <div class="grid-layout" id="explorer-recommendations-grid"></div>
-                </div>
-
-                <div class="explorer-section">
-                    <h3>3. Yüklenen MP3 Dosyaları</h3>
-                    <div class="grid-layout" id="explorer-mp3-grid"></div>
-                </div>
-
-                <div class="explorer-section">
-                    <h3>4. En Son Dinlenenler</h3>
-                    <div class="grid-layout" id="explorer-recent-grid"></div>
-                </div>
-            </div>
+    <div id="view-search" class="app-view">
+        <h2 class="section-title">Ara</h2>
+        <div class="search-box-holder">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Ne dinlemek istiyorsun?">
         </div>
 
-        <div class="panel right-panel">
-            <div class="right-panel-header">
-                <span id="right-panel-title">Şarkı Detayları</span>
+        <h3 style="font-size: 16px; margin-bottom: 12px;">Hepsine göz at</h3>
+        <div class="grid-container">
+            <div class="grid-card">
+                <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h5>Senin İçin</h5>
             </div>
-            <div class="right-big-cover" id="right-panel-cover">
-                <i class="fa-solid fa-compact-disc"></i>
-            </div>
-            <div class="track-details-info">
-                <h2 id="right-track-name">Şarkı Seçilmedi</h2>
-                <p id="right-track-artist">Müzik yükleyin</p>
-            </div>
-            <div class="spotify-card">
-                <div class="artist-card-banner" id="artist-banner"></div>
-                <h4 id="artist-card-name">Yerel Sanatçı</h4>
-                <p class="artist-bio" id="artist-bio">Cihazınızdan yüklediğiniz yerel dosya.</p>
-            </div>
-            <div class="spotify-card">
-                <div class="card-top-row"><h3>Sıradaki Şarkı</h3></div>
-                <div class="queue-item">
-                    <div class="queue-cover" id="queue-next-cover"></div>
-                    <div>
-                        <h5 id="queue-next-title">Sırada şarkı yok</h5>
-                        <p id="queue-next-artist" style="font-size:11px; color:var(--text-subdued);">Müzik ekleyin</p>
-                    </div>
-                </div>
+            <div class="grid-card">
+                <div class="card-icon"><i class="fa-solid fa-music"></i></div>
+                <h5>Yeni Çıkanlar</h5>
             </div>
         </div>
     </div>
 
-    <div class="player-bar">
-        <div class="current-track">
-            <div class="current-track-img" id="player-track-img"></div>
-            <div class="current-track-text">
-                <h4 id="player-track-name">Müzik yükleyin</h4>
-                <p id="player-track-artist">Şarkı seçin</p>
+    <div id="view-library" class="app-view">
+        <h2 class="section-title">Kitaplığın</h2>
+        
+        <div class="grid-container" id="library-explorer">
+            </div>
+    </div>
+
+    <div class="mini-player" id="global-mini-player">
+        <div class="mini-left" onclick="alert('Tam ekran oynatıcı çok yakında eklenecek!')">
+            <div class="mini-cover" id="mini-player-cover"></div>
+            <div class="mini-details">
+                <h5 id="mini-player-title">Şarkı adı</h5>
+                <p id="mini-player-artist">Sanatçı</p>
             </div>
         </div>
-
-        <div class="player-controls">
-            <div class="control-buttons">
-                <button class="icon-btn" id="prev-btn"><i class="fa-solid fa-backward-step"></i></button>
-                <button class="play-pause-toggle" id="play-btn"><i class="fa-solid fa-play"></i></button>
-                <button class="icon-btn" id="next-btn"><i class="fa-solid fa-forward-step"></i></button>
-            </div>
-            <div class="progress-container">
-                <span id="current-time">0:00</span>
-                <div class="progress-bar-bg" id="progress-bar-click">
-                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
-                </div>
-                <span id="total-time">0:00</span>
-            </div>
+        <div class="mini-right">
+            <i class="fa-solid fa-play" id="mini-play-trigger" onclick="togglePlayState()"></i>
+            <i class="fa-solid fa-forward-step" onclick="playNextTrack()"></i>
         </div>
-
-        <div class="volume-controls">
-            <div class="volume-bar-bg" id="volume-bar-click">
-                <div class="volume-bar-fill"></div>
-            </div>
+        <div class="mini-progress-bg">
+            <div class="mini-progress-fill" id="mini-progress-fill"></div>
         </div>
     </div>
 
-    <audio id="audio-player"></audio>
+    <div class="mobile-nav-bar">
+        <button class="nav-item active" onclick="switchMobileTab('view-home', this)">
+            <i class="fa-solid fa-house"></i>
+            <span>Giriş</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('view-search', this)">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Ara</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('view-library', this)">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Kitaplığın</span>
+        </button>
+    </div>
+
+    <audio id="mobile-core-audio"></audio>
 
     <script>
-        let playlists = [
-            { id: 1, name: "Benim Listem", visibility: "Kamuya Açık Liste", color: "#242424", img: "https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg", tracks: [] },
-            { id: 2, name: "Slam Dunk Hits", visibility: "Gizli Liste", color: "#7a1c1c", img: "https://i.pinimg.com/564x/0c/33/cd/0c33cd84639b7d853b01859942a781b2.jpg", tracks: [] }
-        ];
-
-        let staticRecommendations = [
+        let tracksDatabase = [
             { name: "After Hours", artist: "The Weeknd", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
             { name: "Blinding Lights", artist: "The Weeknd", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { name: "Starboy", artist: "The Weeknd", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-            { name: "Sweater Weather", artist: "The Neighbourhood", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
+            { name: "Starboy", artist: "The Weeknd", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
         ];
 
-        let allUploadedMp3s = [];
-        let recentlyPlayed = [];
-        let selectedPlaylist = playlists[0];
-        let currentTrackIndex = 0;
-        let isExplorerViewActive = false;
+        let activeTrackIdx = 0;
+        const coreAudio = document.getElementById('mobile-core-audio');
+        const mp3Loader = document.getElementById('mp3-loader');
 
-        const audioPlayer = document.getElementById('audio-player');
-        const mp3Input = document.getElementById('mp3-input');
-        
-        function init() {
-            renderPlaylists();
-            selectPlaylist(playlists[0].id);
-            buildExplorerData();
+        function initMobileApp() {
+            renderMobileTracks();
+            buildLibraryGrid();
         }
 
-        function renderPlaylists() {
-            const container = document.getElementById('playlists-container');
-            if(!container) return;
-            container.innerHTML = "";
-            playlists.forEach(pl => {
-                const item = document.createElement('div');
-                item.className = `playlist-item ${pl.id === selectedPlaylist.id ? 'active' : ''}`;
-                item.onclick = () => { showStandardView(); selectPlaylist(pl.id); };
-                let imgStyle = pl.img ? `background-image: url('${pl.img}')` : '';
-                item.innerHTML = `
-                    <div class="playlist-img-box" style="${imgStyle}">${!pl.img ? '<i class="fa-solid fa-music"></i>' : ''}</div>
-                    <div class="playlist-info"><h4>${pl.name}</h4><p>${pl.tracks.length} Şarkı</p></div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function selectPlaylist(id) {
-            selectedPlaylist = playlists.find(p => p.id === id);
-            document.getElementById('header-title').innerText = selectedPlaylist.name;
-            document.getElementById('header-visibility').innerText = selectedPlaylist.visibility;
-            document.getElementById('header-song-count').innerText = `${selectedPlaylist.tracks.length} şarkı`;
-            document.getElementById('main-content-panel').style.background = `linear-gradient(to bottom, ${selectedPlaylist.color} 0%, #121212 60%)`;
+        // Sayfa Değiştirme Fonksiyonu
+        function switchMobileTab(viewId, element) {
+            document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             
-            let coverBox = document.getElementById('header-cover');
-            if(selectedPlaylist.img) {
-                coverBox.style.backgroundImage = `url('${selectedPlaylist.img}')`;
-                coverBox.innerHTML = "";
-            } else {
-                coverBox.style.backgroundImage = "none";
-                coverBox.innerHTML = '<i class="fa-solid fa-music"></i>';
-            }
-            renderTracks();
+            document.getElementById(viewId).classList.add('active');
+            element.classList.add('active');
         }
 
-        function renderTracks() {
-            const tbody = document.getElementById('track-list-body');
-            tbody.innerHTML = "";
+        // Şarkıları Listeleme
+        function renderMobileTracks() {
+            const listEl = document.getElementById('mobile-track-list');
+            listEl.innerHTML = "";
 
-            if(selectedPlaylist.tracks.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 40px; color:#7f7f7f;">Henüz şarkı yok. Dosya ekleyin veya klasör ikonundan önerileri yükleyin.</td></tr>`;
+            if(tracksDatabase.length === 0) {
+                listEl.innerHTML = `<p style="color:var(--text-subdued); text-align:center; padding:20px;">Listeniz boş, üstteki butondan MP3 ekleyin.</p>`;
                 return;
             }
 
-            selectedPlaylist.tracks.forEach((track, index) => {
-                const row = document.createElement('tr');
-                row.className = "track-row";
-                row.onclick = () => playTrack(index);
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>
-                        <div class="track-title-col">
-                            <div class="track-name-box">
-                                <h3>${track.name}</h3>
-                                <p style="font-size:11px; color:#b3b3b3;">${track.artist || 'Yerel Şarkı'}</p>
-                            </div>
+            tracksDatabase.forEach((track, i) => {
+                const item = document.createElement('div');
+                item.className = `track-item ${i === activeTrackIdx && !coreAudio.paused ? 'playing' : ''}`;
+                item.onclick = () => triggerMobilePlay(i);
+                
+                item.innerHTML = `
+                    <div class="track-left">
+                        <div class="track-cover"><i class="fa-solid fa-music"></i></div>
+                        <div class="track-meta">
+                            <h4>${track.name}</h4>
+                            <p>${track.artist}</p>
                         </div>
-                    </td>
-                    <td style="text-align: right;" id="duration-${index}">3:45</td>
+                    </div>
+                    <div class="track-right">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </div>
                 `;
-                tbody.appendChild(row);
+                listEl.appendChild(item);
             });
         }
 
-        mp3Input.onchange = function(e) {
+        // Şarkı Çalma İşlemi
+        function triggerMobilePlay(idx) {
+            activeTrackIdx = idx;
+            const target = tracksDatabase[idx];
+
+            coreAudio.src = target.url;
+            coreAudio.play().then(() => {
+                document.getElementById('global-mini-player').style.display = 'flex';
+                updateMiniPlayerUI();
+            }).catch(() => {
+                alert("iOS oynatma izni için lütfen ekrana bir kez tıklayın.");
+            });
+
+            renderMobileTracks();
+        }
+
+        function updateMiniPlayerUI() {
+            const current = tracksDatabase[activeTrackIdx];
+            document.getElementById('mini-player-title').innerText = current.name;
+            document.getElementById('mini-player-artist').innerText = current.artist;
+            
+            const triggerIcon = document.getElementById('mini-play-trigger');
+            if(coreAudio.paused) {
+                triggerIcon.className = "fa-solid fa-play";
+            } else {
+                triggerIcon.className = "fa-solid fa-pause";
+            }
+        }
+
+        function togglePlayState() {
+            if(coreAudio.paused) {
+                coreAudio.play();
+            } else {
+                coreAudio.pause();
+            }
+            updateMiniPlayerUI();
+            renderMobileTracks();
+        }
+
+        function playNextTrack() {
+            if(activeTrackIdx < tracksDatabase.length - 1) {
+                triggerMobilePlay(activeTrackIdx + 1);
+            } else {
+                triggerMobilePlay(0); // Başa sar
+            }
+        }
+
+        // Zaman Çubuğu Güncellemesi
+        coreAudio.ontimeupdate = function() {
+            if(isNaN(coreAudio.duration)) return;
+            const pct = (coreAudio.currentTime / coreAudio.duration) * 100;
+            document.getElementById('mini-progress-fill').style.width = pct + "%";
+        };
+
+        coreAudio.onended = function() {
+            playNextTrack();
+        };
+
+        // MP3 Yükleme Entegrasyonu
+        mp3Loader.onchange = function(e) {
             const files = e.target.files;
             for(let file of files) {
-                const trackUrl = URL.createObjectURL(file);
-                const newTrack = { name: file.name.replace(".mp3", ""), artist: "Yerel Şarkı", url: trackUrl };
-                selectedPlaylist.tracks.push(newTrack);
-                allUploadedMp3s.push(newTrack);
+                const objectUrl = URL.createObjectURL(file);
+                tracksDatabase.push({
+                    name: file.name.replace(".mp3", ""),
+                    artist: "Yerel Ses Dosyası",
+                    url: objectUrl
+                });
             }
-            selectPlaylist(selectedPlaylist.id);
-            renderPlaylists();
-            buildExplorerData();
+            renderMobileTracks();
         };
 
-        function playTrack(index, isFromExplorer = false, trackObject = null) {
-            let track;
-            if(isFromExplorer && trackObject) {
-                track = trackObject;
-                addToRecent(track);
-            } else {
-                currentTrackIndex = index;
-                track = selectedPlaylist.tracks[index];
-                addToRecent(track);
-            }
+        // Kitaplık Görünümü İçin Örnek Klasörler
+        function buildLibraryGrid() {
+            const libGrid = document.getElementById('library-explorer');
+            const sections = [
+                { title: "Yüklenen MP3'ler", icon: "fa-file-audio" },
+                { title: "Senin İçin Önerilenler", icon: "fa-heart" },
+                { title: "Son Dinlenenler", icon: "fa-clock-rotate-left" },
+                { title: "Beğenilen Şarkılar", icon: "fa-bookmark" }
+            ];
             
-            audioPlayer.src = track.url;
-            audioPlayer.play().catch(() => {
-                alert("Müziği oynatabilmek için lütfen ekrana bir kez dokunun (iOS güvenlik kuralıdır).");
-            });
-            
-            document.getElementById('play-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
-            document.getElementById('big-play-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
-            document.getElementById('player-track-name').innerText = track.name;
-            document.getElementById('player-track-artist').innerText = track.artist;
-            
-            let artImg = selectedPlaylist.img || "https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg";
-            document.getElementById('player-track-img').style.backgroundImage = `url('${artImg}')`;
-            document.getElementById('right-panel-cover').style.backgroundImage = `url('${artImg}')`;
-            document.getElementById('artist-banner').style.backgroundImage = `url('${artImg}')`;
-            document.getElementById('right-track-name').innerText = track.name;
-            document.getElementById('right-track-artist').innerText = track.artist;
-
-            buildExplorerData();
-        }
-
-        function addToRecent(track) {
-            recentlyPlayed = recentlyPlayed.filter(t => t.name !== track.name);
-            recentlyPlayed.unshift(track);
-            if(recentlyPlayed.length > 4) recentlyPlayed.pop();
-        }
-
-        function buildExplorerData() {
-            // 1. Playlists
-            const plGrid = document.getElementById('explorer-playlists-grid');
-            plGrid.innerHTML = "";
-            playlists.forEach(p => {
-                let img = p.img || 'https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg';
-                plGrid.innerHTML += `
-                    <div class="spotify-explorer-card" onclick="showStandardView(); selectPlaylist(${p.id});">
-                        <div class="card-media" style="background-image:url('${img}')"></div>
-                        <h4>${p.name}</h4>
-                        <p>${p.tracks.length} Şarkı</p>
+            libGrid.innerHTML = "";
+            sections.forEach(sec => {
+                libGrid.innerHTML += `
+                    <div class="grid-card" onclick="switchMobileTab('view-home', document.querySelectorAll('.nav-item')[0])">
+                        <div class="card-icon"><i class="fa-solid ${sec.icon}"></i></div>
+                        <h5>${sec.title}</h5>
                     </div>
                 `;
             });
-
-            // 2. Öneriler
-            const recGrid = document.getElementById('explorer-recommendations-grid');
-            recGrid.innerHTML = "";
-            staticRecommendations.forEach((r, idx) => {
-                recGrid.innerHTML += `
-                    <div class="spotify-explorer-card">
-                        <div class="card-media" onclick="playExplorerTrack(${idx}, 'rec')"><i class="fa-solid fa-play" style="color:#fff; font-size:16px;"></i></div>
-                        <h4>${r.name}</h4>
-                        <p>${r.artist}</p>
-                        <button class="add-to-list-btn" onclick="addRecommendedToPlaylist(${idx})">+ Ekle</button>
-                    </div>
-                `;
-            });
-
-            // 3. MP3 Havuzu
-            const mp3Grid = document.getElementById('explorer-mp3-grid');
-            mp3Grid.innerHTML = "";
-            if(allUploadedMp3s.length === 0) {
-                mp3Grid.innerHTML = `<p style="color:var(--text-subdued); font-size:11px; grid-column: 1/-1; padding:10px 0;">Henüz MP3 yüklenmedi.</p>`;
-            } else {
-                allUploadedMp3s.forEach((m, idx) => {
-                    mp3Grid.innerHTML += `
-                        <div class="spotify-explorer-card" onclick="playExplorerTrack(${idx}, 'mp3')">
-                            <div class="card-media"><i class="fa-solid fa-file-audio" style="color:var(--spotify-green)"></i></div>
-                            <h4>${m.name}</h4>
-                            <p>Yerel Dosya</p>
-                        </div>
-                    `;
-                });
-            }
-
-            // 4. Son Dinlenenler
-            const recentGrid = document.getElementById('explorer-recent-grid');
-            recentGrid.innerHTML = "";
-            if(recentlyPlayed.length === 0) {
-                recentGrid.innerHTML = `<p style="color:var(--text-subdued); font-size:11px; grid-column: 1/-1; padding:10px 0;">Henüz geçmiş yok.</p>`;
-            } else {
-                recentlyPlayed.forEach((r, idx) => {
-                    recentGrid.innerHTML += `
-                        <div class="spotify-explorer-card" onclick="playExplorerTrack(${idx}, 'recent')">
-                            <div class="card-media"><i class="fa-solid fa-headphones" style="color:#fff"></i></div>
-                            <h4>${r.name}</h4>
-                            <p>${r.artist}</p>
-                        </div>
-                    `;
-                });
-            }
         }
 
-        function playExplorerTrack(idx, type) {
-            let targetTrack;
-            if(type === 'rec') targetTrack = staticRecommendations[idx];
-            if(type === 'mp3') targetTrack = allUploadedMp3s[idx];
-            if(type === 'recent') targetTrack = recentlyPlayed[idx];
-            if(targetTrack) playTrack(0, true, targetTrack);
-        }
-
-        function addRecommendedToPlaylist(idx) {
-            const track = staticRecommendations[idx];
-            selectedPlaylist.tracks.push(track);
-            selectPlaylist(selectedPlaylist.id);
-            buildExplorerData();
-        }
-
-        function toggleFolderExplorer() {
-            isExplorerViewActive = !isExplorerViewActive;
-            const folderIcon = document.getElementById('folder-icon');
-            if(isExplorerViewActive) {
-                document.getElementById('standard-playlist-view').style.display = 'none';
-                document.getElementById('folder-explorer-view').style.display = 'block';
-                document.getElementById('main-content-panel').style.background = 'linear-gradient(to bottom, #0f2b1d 0%, #121212 60%)';
-                folderIcon.classList.add('active');
-                buildExplorerData();
-            } else {
-                showStandardView();
-            }
-        }
-
-        function showStandardView() {
-            isExplorerViewActive = false;
-            document.getElementById('standard-playlist-view').style.display = 'block';
-            document.getElementById('folder-explorer-view').style.display = 'none';
-            document.getElementById('folder-icon').classList.remove('active');
-            if(selectedPlaylist) {
-                document.getElementById('main-content-panel').style.background = `linear-gradient(to bottom, ${selectedPlaylist.color} 0%, #121212 60%)`;
-            }
-        }
-
-        document.getElementById('play-btn').onclick = togglePlay;
-        document.getElementById('big-play-btn').onclick = togglePlay;
-
-        function togglePlay() {
-            if(selectedPlaylist.tracks.length === 0 && !audioPlayer.src) return;
-            if(audioPlayer.paused) {
-                audioPlayer.play();
-                document.getElementById('play-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
-                document.getElementById('big-play-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
-            } else {
-                audioPlayer.pause();
-                document.getElementById('play-btn').innerHTML = '<i class="fa-solid fa-play"></i>';
-                document.getElementById('big-play-btn').innerHTML = '<i class="fa-solid fa-play"></i>';
-            }
-        }
-
-        document.getElementById('next-btn').onclick = () => {
-            if(currentTrackIndex < selectedPlaylist.tracks.length - 1) playTrack(currentTrackIndex + 1);
-        };
-
-        document.getElementById('prev-btn').onclick = () => {
-            if(currentTrackIndex > 0) playTrack(currentTrackIndex - 1);
-        };
-
-        audioPlayer.ontimeupdate = function() {
-            if(isNaN(audioPlayer.duration)) return;
-            const current = audioPlayer.currentTime;
-            const total = audioPlayer.duration;
-            const pct = (current / total) * 100;
-            document.getElementById('progress-bar-fill').style.width = pct + "%";
-            document.getElementById('current-time').innerText = formatTime(current);
-            document.getElementById('total-time').innerText = formatTime(total);
-        };
-
-        function formatTime(secs) {
-            let min = Math.floor(secs / 60);
-            let sec = Math.floor(secs % 60);
-            return min + ":" + (sec < 10 ? "0" + sec : sec);
-        }
-
-        document.getElementById('progress-bar-click').onclick = function(e) {
-            if(isNaN(audioPlayer.duration)) return;
-            const rect = this.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            audioPlayer.currentTime = (clickX / rect.width) * audioPlayer.duration;
-        };
-
-        window.onload = init;
+        window.onload = initMobileApp;
     </script>
 </body>
 </html>
