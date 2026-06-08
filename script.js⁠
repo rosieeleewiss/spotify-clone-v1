@@ -1,21 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Close Tips Card functionality
-    const closeTipsBtn = document.getElementById('closeTips');
+    // Smooth dismiss for tips card
+    const closeTips = document.getElementById('closeTips');
     const tipsCard = document.getElementById('tipsCard');
 
-    if (closeTipsBtn && tipsCard) {
-        closeTipsBtn.addEventListener('click', () => {
-            // Smoothly fade out and remove the card
-            tipsCard.style.transition = "opacity 0.3s ease";
+    if (closeTips && tipsCard) {
+        closeTips.addEventListener('click', (e) => {
+            e.stopPropagation();
+            tipsCard.style.transition = "all 0.25s ease-out";
             tipsCard.style.opacity = "0";
+            tipsCard.style.transform = "scale(0.95)";
             setTimeout(() => {
                 tipsCard.style.display = "none";
-            }, 300);
+            }, 250);
         });
     }
 
-    // 2. Play/Pause toggle functionality for the Mini Player
+    // Interactive Audio State Toggle
     const playBtn = document.getElementById('playBtn');
     let isPlaying = false;
 
@@ -25,36 +26,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const icon = playBtn.querySelector('i');
             
             if (isPlaying) {
-                // Change to pause icon
-                icon.classList.remove('fa-play');
-                icon.classList.add('fa-pause');
+                icon.className = 'fa-solid fa-pause';
             } else {
-                // Change back to play icon
-                icon.classList.remove('fa-pause');
-                icon.classList.add('fa-play');
+                icon.className = 'fa-solid fa-play';
             }
         });
     }
 
-    // 3. Import Button mock functionality
+    // Native Browser File Pick Simulator
     const importBtn = document.getElementById('importBtn');
-    
     if (importBtn) {
         importBtn.addEventListener('click', () => {
-            // Since this is HTML/JS, we can trigger a mock file input to simulate importing MP3s
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = 'audio/mp3, audio/wav';
-            fileInput.multiple = true; // Allow selecting multiple songs
+            const picker = document.createElement('input');
+            picker.type = 'file';
+            picker.accept = 'audio/*';
+            picker.multiple = true;
             
-            fileInput.onchange = (e) => {
-                const files = e.target.files;
-                if(files.length > 0) {
-                    alert(`Successfully imported ${files.length} song(s) for offline listening!`);
+            picker.onchange = (e) => {
+                const totalFiles = e.target.files.length;
+                if (totalFiles > 0) {
+                    alert(`${totalFiles} müzik başarıyla yerel kitaplığa aktarıldı!`);
                 }
             };
-            
-            fileInput.click(); // Open the system file browser
+            picker.click();
         });
     }
 });
