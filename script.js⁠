@@ -1,0 +1,60 @@
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Close Tips Card functionality
+    const closeTipsBtn = document.getElementById('closeTips');
+    const tipsCard = document.getElementById('tipsCard');
+
+    if (closeTipsBtn && tipsCard) {
+        closeTipsBtn.addEventListener('click', () => {
+            // Smoothly fade out and remove the card
+            tipsCard.style.transition = "opacity 0.3s ease";
+            tipsCard.style.opacity = "0";
+            setTimeout(() => {
+                tipsCard.style.display = "none";
+            }, 300);
+        });
+    }
+
+    // 2. Play/Pause toggle functionality for the Mini Player
+    const playBtn = document.getElementById('playBtn');
+    let isPlaying = false;
+
+    if (playBtn) {
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            const icon = playBtn.querySelector('i');
+            
+            if (isPlaying) {
+                // Change to pause icon
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+            } else {
+                // Change back to play icon
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+            }
+        });
+    }
+
+    // 3. Import Button mock functionality
+    const importBtn = document.getElementById('importBtn');
+    
+    if (importBtn) {
+        importBtn.addEventListener('click', () => {
+            // Since this is HTML/JS, we can trigger a mock file input to simulate importing MP3s
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'audio/mp3, audio/wav';
+            fileInput.multiple = true; // Allow selecting multiple songs
+            
+            fileInput.onchange = (e) => {
+                const files = e.target.files;
+                if(files.length > 0) {
+                    alert(`Successfully imported ${files.length} song(s) for offline listening!`);
+                }
+            };
+            
+            fileInput.click(); // Open the system file browser
+        });
+    }
+});
