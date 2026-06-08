@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify - Web Player</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- GLOBAL SIFIRLAMALAR & SPOTIFY RENKLERİ --- */
+        /* --- GLOBAL TARZLAR & RENKLER --- */
         * {
             margin: 0;
             padding: 0;
@@ -27,10 +27,10 @@
             overflow: hidden;
         }
 
-        /* --- ANA DÜZEN (GRID) --- */
+        /* --- ANA DÜZEN (GRID YAPISI) --- */
         .main-container {
             display: grid;
-            grid-template-columns: 280px 1fr 340px;
+            grid-template-columns: 300px 1fr 360px;
             flex: 1;
             padding: 8px;
             gap: 8px;
@@ -38,7 +38,6 @@
             overflow: hidden;
         }
 
-        /* --- ORTAK PANEL STİLİ --- */
         .panel {
             background-color: #121212;
             border-radius: 8px;
@@ -50,7 +49,7 @@
         /* --- 1. SOL PANEL: KİTAPLIK (YOUR LIBRARY) --- */
         .sidebar {
             padding: 16px;
-            gap: 16px;
+            gap: 12px;
         }
 
         .library-header {
@@ -69,7 +68,7 @@
         .library-tabs {
             display: flex;
             gap: 8px;
-            margin-top: 8px;
+            margin-bottom: 4px;
         }
 
         .tab-btn {
@@ -94,8 +93,8 @@
             align-items: center;
             color: #b3b3b3;
             font-size: 13px;
-            margin-top: 8px;
             cursor: pointer;
+            padding: 4px 0;
         }
 
         .file-upload-btn {
@@ -123,8 +122,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 4px;
         }
 
         .playlist-item {
@@ -150,7 +148,7 @@
             align-items: center;
             justify-content: center;
             color: #b3b3b3;
-            font-size: 20px;
+            font-size: 18px;
             background-size: cover;
             background-position: center;
         }
@@ -159,7 +157,7 @@
             font-size: 14px;
             font-weight: 500;
             color: #fff;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .playlist-info p {
@@ -174,7 +172,6 @@
             position: relative;
         }
 
-        /* Playlist Üst Alan Bilgisi */
         .playlist-header {
             display: flex;
             align-items: flex-end;
@@ -187,7 +184,7 @@
             width: 192px;
             height: 192px;
             background-color: #282828;
-            box-shadow: 0 4px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 60px rgba(0,0,0,0.6);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -195,6 +192,7 @@
             font-size: 64px;
             background-size: cover;
             background-position: center;
+            border-radius: 4px;
         }
 
         .header-details h2 {
@@ -234,7 +232,6 @@
             font-weight: 400;
         }
 
-        /* Eylem Butonları Barı */
         .action-bar {
             display: flex;
             align-items: center;
@@ -274,7 +271,6 @@
             color: #fff;
         }
 
-        /* İkinci Sıra Detay Butonları */
         .sub-actions {
             display: flex;
             gap: 8px;
@@ -296,7 +292,6 @@
             background-color: rgba(255,255,255,0.2);
         }
 
-        /* Şarkı Listesi Tablosu */
         .track-table {
             width: 100%;
             border-collapse: collapse;
@@ -307,7 +302,7 @@
 
         .track-table th, .track-table td {
             text-align: left;
-            padding: 8px 24px;
+            padding: 10px 24px;
             font-size: 13px;
             color: #b3b3b3;
             vertical-align: middle;
@@ -323,7 +318,6 @@
 
         .track-row:hover {
             background-color: rgba(255,255,255,0.08);
-            border-radius: 4px;
         }
 
         .track-row:hover td {
@@ -349,7 +343,6 @@
             color: #fff;
         }
 
-        /* Dinamik Arama Alanı (Let's find something) */
         .search-section {
             border-top: 1px solid rgba(255,255,255,0.1);
             padding: 24px;
@@ -381,19 +374,24 @@
             outline: none;
         }
 
-        .search-box-container input::placeholder {
-            color: #757575;
-        }
-
         .search-box-container i {
             color: #b3b3b3;
         }
 
-        /* --- 3. SAĞ PANEL: ŞARKI DETAYLARI (NOW PLAYING VIEW) --- */
+        /* --- 3. SAĞ PANEL: GELİŞMİŞ DETAYLAR (NOW PLAYING VIEW) --- */
         .right-panel {
             padding: 16px;
             gap: 16px;
             overflow-y: auto;
+        }
+
+        /* Webkit scrollbar gizleme/güzelleştirme */
+        .right-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        .right-panel::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 3px;
         }
 
         .right-panel-header {
@@ -423,29 +421,62 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
         .track-details-info h2 {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .track-details-info p {
-            font-size: 13px;
+            font-size: 14px;
             color: #b3b3b3;
             margin-top: 4px;
         }
 
-        /* "About the Artist" Sanatçı Kartı */
-        .artist-card {
-            background-color: #1e1e1e;
+        /* MODÜLER KART STİLİ (Spotify Sağ Sütun Düzeni) */
+        .spotify-card {
+            background-color: #181818;
             border-radius: 8px;
             overflow: hidden;
             margin-top: 12px;
-            position: relative;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
         }
 
+        .card-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-top-row h3 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .show-all-btn {
+            font-size: 12px;
+            color: #b3b3b3;
+            font-weight: 700;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .show-all-btn:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Sanatçı Kartı Özel Yapısı */
+        .artist-card {
+            padding: 0;
+        }
         .artist-card-banner {
             height: 160px;
             background-color: #404040;
@@ -454,26 +485,21 @@
             padding: 16px;
             display: flex;
             flex-direction: column;
-            justify-content:间px;
-            position: relative;
+            justify-content: space-between;
         }
-
         .artist-card-banner h3 {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
-
         .artist-card-body {
             padding: 16px;
         }
-
         .artist-card-body h4 {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             margin-bottom: 4px;
         }
-
         .artist-listeners {
             font-size: 13px;
             color: #b3b3b3;
@@ -482,27 +508,114 @@
             align-items: center;
             margin-bottom: 12px;
         }
-
         .follow-btn {
             background: none;
             border: 1px solid #878787;
             color: #fff;
-            padding: 5px 16px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
         }
-
         .follow-btn:hover {
             border-color: #fff;
             transform: scale(1.03);
         }
-
         .artist-bio {
-            font-size: 12px;
+            font-size: 13px;
             color: #b3b3b3;
             line-height: 1.5;
+        }
+
+        /* Credits (Emeği Geçenler) Bölümü */
+        .credit-item {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .credit-item:last-child {
+            margin-bottom: 0;
+        }
+        .credit-info h5 {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+        .credit-info p {
+            font-size: 12px;
+            color: #b3b3b3;
+            margin-top: 2px;
+        }
+
+        /* On Tour (Turne) Bölümü */
+        .tour-item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .date-badge {
+            background-color: #282828;
+            border-radius: 6px;
+            min-width: 48px;
+            height: 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+        }
+        .date-badge .month {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #b3b3b3;
+            font-weight: 600;
+        }
+        .date-badge .day {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .tour-info h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .tour-info p {
+            font-size: 12px;
+            color: #b3b3b3;
+            margin-top: 2px;
+        }
+
+        /* Next In Queue (Sırada Bekleyen) Bölümü */
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            background-color: rgba(255,255,255,0.03);
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .queue-cover {
+            width: 40px;
+            height: 40px;
+            background-color: #282828;
+            border-radius: 4px;
+            background-size: cover;
+            background-position: center;
+        }
+        .queue-info h5 {
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff;
+        }
+        .queue-info p {
+            font-size: 11px;
+            color: #b3b3b3;
+            margin-top: 2px;
         }
 
         /* --- 4. ALT PANEL: MEDYA OYNATICI (PLAYER BAR) --- */
@@ -515,7 +628,6 @@
             padding: 0 16px;
         }
 
-        /* Sol: Çalan Şarkı Bilgisi */
         .current-track {
             display: flex;
             align-items: center;
@@ -543,7 +655,6 @@
             margin-top: 2px;
         }
 
-        /* Orta: Kontroller & İlerleme Çubuğu */
         .player-controls {
             display: flex;
             flex-direction: column;
@@ -604,7 +715,6 @@
             background-color: #1db954;
         }
 
-        /* Sağ: Ses & Diğer Ayarlar */
         .volume-controls {
             display: flex;
             align-items: center;
@@ -636,7 +746,6 @@
             border-radius: 2px;
         }
 
-        /* Gizli Input */
         #mp3-input {
             display: none;
         }
@@ -672,7 +781,6 @@
         </div>
 
         <div class="panel main-content" id="main-content-panel">
-            
             <div class="playlist-header">
                 <div class="big-cover" id="header-cover">
                     <i class="fa-solid fa-music"></i>
@@ -736,25 +844,93 @@
 
             <div class="track-details-info">
                 <div>
-                    <h2 id="right-track-name">No Track Selected</h2>
-                    <p id="right-track-artist">Local Audio File</p>
+                    <h2 id="right-track-name">Notion</h2>
+                    <p id="right-track-artist">The Rare Occasions</p>
                 </div>
-                <i class="fa-solid fa-circle-check" style="color: #1db954; font-size: 20px;"></i>
+                <i class="fa-solid fa-circle-check" style="color: #1db954; font-size: 22px;"></i>
             </div>
 
-            <div class="artist-card">
+            <div class="spotify-card artist-card">
                 <div class="artist-card-banner" id="artist-banner">
                     <h3>About the artist</h3>
                 </div>
                 <div class="artist-card-body">
-                    <h4 id="artist-card-name">Yerel Müzisyen</h4>
+                    <h4 id="artist-card-name">The Rare Occasions</h4>
                     <div class="artist-listeners">
-                        <span>8,818,389 monthly listeners</span>
+                        <span>11,403,262 monthly listeners</span>
                         <button class="follow-btn">Follow</button>
                     </div>
-                    <p class="artist-bio">Cihazınızdan oynatılan yerel medya dosyası. Tamamen bağımsız ve size özel listelenmiştir.</p>
+                    <p class="artist-bio">The Rare Occasions are an LA-based, New England-bred indie rock band known for their garage rock style and catchy riffs.</p>
                 </div>
             </div>
+
+            <div class="spotify-card">
+                <div class="card-top-row">
+                    <h3>Credits</h3>
+                    <button class="show-all-btn">Show all</button>
+                </div>
+                <div class="credit-item">
+                    <div class="credit-info">
+                        <h5 id="credit-artist">The Rare Occasions</h5>
+                        <p>Main Artist</p>
+                    </div>
+                    <button class="follow-btn" style="padding: 4px 12px;">Follow</button>
+                </div>
+                <div class="credit-item">
+                    <div class="credit-info">
+                        <h5>Brian McLaughlin</h5>
+                        <p>Orchestral Arranger • Writer</p>
+                    </div>
+                </div>
+                <div class="credit-item">
+                    <div class="credit-info">
+                        <h5>Jeremy Cohen</h5>
+                        <p>Writer</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spotify-card">
+                <div class="card-top-row">
+                    <h3>On tour</h3>
+                    <button class="show-all-btn">Show all</button>
+                </div>
+                <div class="tour-item">
+                    <div class="date-badge">
+                        <span class="month">Jun</span>
+                        <span class="day">16</span>
+                    </div>
+                    <div class="tour-info">
+                        <h5>Seattle</h5>
+                        <p>The Rare Occasions, Plash, Gi...<br>Tue 6:30 PM • The Vera...</p>
+                    </div>
+                </div>
+                <div class="tour-item" style="margin-top: 14px;">
+                    <div class="date-badge">
+                        <span class="month">Jun</span>
+                        <span class="day">17</span>
+                    </div>
+                    <div class="tour-info">
+                        <h5>Portland</h5>
+                        <p>The Rare Occasions<br>Wed 7:00 PM • High Limit...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spotify-card">
+                <div class="card-top-row">
+                    <h3>Next in queue</h3>
+                    <button class="show-all-btn">Open queue</button>
+                </div>
+                <div class="queue-item">
+                    <div class="queue-cover" id="queue-next-cover"></div>
+                    <div class="queue-info">
+                        <h5 id="queue-next-title">Marlboro Nights</h5>
+                        <p id="queue-next-artist">Lonely God</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -763,8 +939,8 @@
         <div class="current-track">
             <div class="current-track-img" id="player-track-img"></div>
             <div class="current-track-text">
-                <h4 id="player-track-name">Şarkı seçilmedi</h4>
-                <p id="player-track-artist">Listeden bir şarkıya tıklayın</p>
+                <h4 id="player-track-name">Müzik yükleyin</h4>
+                <p id="player-track-artist">Listeden şarkı seçin</p>
             </div>
         </div>
 
@@ -800,7 +976,7 @@
     <audio id="audio-player"></audio>
 
     <script>
-        // Örnek Çalma Listeleri Deposu (Görsellerini İlham Aldığın Fotoğraflardaki Gibi Ayarlayabilirsin)
+        // Örnek Çalma Listesi Veritabanı
         let playlists = [
             { id: 1, name: "~ T^T ~", visibility: "Public Playlist", count: 0, color: "#242424", img: "https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg", tracks: [] },
             { id: 2, name: "~Slam Dunkk~", visibility: "Private Playlist", count: 1, color: "#7a1c1c", img: "https://i.pinimg.com/564x/0c/33/cd/0c33cd84639b7d853b01859942a781b2.jpg", tracks: [] },
@@ -813,7 +989,6 @@
         const audioPlayer = document.getElementById('audio-player');
         const mp3Input = document.getElementById('mp3-input');
         
-        // İlk Kurulum & Listeleri Render Etme
         function init() {
             renderPlaylists();
             selectPlaylist(playlists[0].id);
@@ -845,12 +1020,10 @@
         function selectPlaylist(id) {
             selectedPlaylist = playlists.find(p => p.id === id);
             
-            // Aktif Liste Efekti Güncelleme
             document.querySelectorAll('.playlist-item').forEach((el, index) => {
                 el.classList.toggle('active', playlists[index].id === id);
             });
 
-            // Orta Alanı Güncelleme
             document.getElementById('header-title').innerText = selectedPlaylist.name;
             document.getElementById('header-visibility').innerText = selectedPlaylist.visibility;
             document.getElementById('header-song-count').innerText = `${selectedPlaylist.tracks.length} şarkı`;
@@ -868,20 +1041,18 @@
             renderTracks();
         }
 
-        // Seçili Listeye Ait Şarkıları Tabloya Basma
         function renderTracks() {
             const tbody = document.getElementById('track-list-body');
             tbody.innerHTML = "";
 
             if(selectedPlaylist.tracks.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px; color:#7f7f7f;">Bu listede henüz şarkı yok. Dosya ekleyerek başlayın.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px; color:#7f7f7f;">Bu listede henüz şarkı yok. Dosya ekleyin.</td></tr>`;
                 return;
             }
 
             selectedPlaylist.tracks.forEach((track, index) => {
                 const row = document.createElement('tr');
                 row.className = "track-row";
-                row.style.cursor = "pointer";
                 row.onclick = () => playTrack(index);
 
                 row.innerHTML = `
@@ -893,18 +1064,17 @@
                             </div>
                             <div class="track-name-box">
                                 <h3>${track.name}</h3>
-                                <p style="font-size:12px; color:#b3b3b3;">Local Artist</p>
+                                <p style="font-size:12px; color:#b3b3b3;">Yerel Sanatçı</p>
                             </div>
                         </div>
                     </td>
-                    <td>${selectedPlaylist.name} Album</td>
-                    <td style="text-align: right;">3:45</td>
+                    <td>${selectedPlaylist.name} Albümü</td>
+                    <td style="text-align: right;">3:44</td>
                 `;
                 tbody.appendChild(row);
             });
         }
 
-        // MP3 Dosyası Seçildiğinde Çalışacak Tetikleyici
         mp3Input.onchange = function(e) {
             const files = e.target.files;
             for(let file of files) {
@@ -914,13 +1084,12 @@
                     url: trackUrl
                 });
             }
-            // Sayım Bilgilerini Yenile
             document.getElementById('header-song-count').innerText = `${selectedPlaylist.tracks.length} şarkı`;
             renderPlaylists();
             renderTracks();
+            updateNextInQueue();
         };
 
-        // Şarkı Oynatma Fonksiyonu (Sağ Paneli Dinamik Günceller)
         function playTrack(index) {
             currentTrackIndex = index;
             const track = selectedPlaylist.tracks[index];
@@ -928,11 +1097,10 @@
             audioPlayer.src = track.url;
             audioPlayer.play();
             
-            // Durum Güncellemeleri (Alt Bar)
             document.getElementById('play-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
             document.getElementById('big-play-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
             document.getElementById('player-track-name').innerText = track.name;
-            document.getElementById('player-track-artist').innerText = "Local Artist";
+            document.getElementById('player-track-artist').innerText = "Yerel Sanatçı";
             
             if(selectedPlaylist.img) {
                 document.getElementById('player-track-img').style.backgroundImage = `url('${selectedPlaylist.img}')`;
@@ -941,14 +1109,36 @@
                 document.getElementById('artist-banner').style.backgroundImage = `url('${selectedPlaylist.img}')`;
             }
 
-            // Sağ Panel Güncelleme (İstediğin Detaylar)
+            // Sağ Panel Dinamik Güncelleme
             document.getElementById('right-track-name').innerText = track.name;
-            document.getElementById('right-track-artist').innerText = "Local Artist";
-            document.getElementById('artist-card-name').innerText = "Local Artist";
+            document.getElementById('right-track-artist').innerText = "Yerel Sanatçı";
+            document.getElementById('artist-card-name').innerText = "Yerel Sanatçı";
+            document.getElementById('credit-artist').innerText = "Yerel Sanatçı";
             document.getElementById('right-panel-title').innerText = `${selectedPlaylist.name} Detayları`;
+            
+            updateNextInQueue();
         }
 
-        // Oynat / Durdur Buton Tetikleyicileri
+        // Sırada Bekleyen Şarkıyı Dinamik Güncelleyen Fonksiyon
+        function updateNextInQueue() {
+            const nextTrack = selectedPlaylist.tracks[currentTrackIndex + 1];
+            const queueCover = document.getElementById('queue-next-cover');
+            
+            if(nextTrack) {
+                document.getElementById('queue-next-title').innerText = nextTrack.name;
+                document.getElementById('queue-next-artist').innerText = "Yerel Sanatçı";
+                if(selectedPlaylist.img) {
+                    queueCover.style.backgroundImage = `url('${selectedPlaylist.img}')`;
+                } else {
+                    queueCover.style.backgroundImage = "none";
+                }
+            } else {
+                document.getElementById('queue-next-title').innerText = "Sırada şarkı yok";
+                document.getElementById('queue-next-artist').innerText = "Müzik ekleyin";
+                queueCover.style.backgroundImage = "none";
+            }
+        }
+
         document.getElementById('play-btn').onclick = togglePlay;
         document.getElementById('big-play-btn').onclick = togglePlay;
 
@@ -965,7 +1155,6 @@
             }
         }
 
-        // İleri - Geri Buton Fonksiyonları
         document.getElementById('next-btn').onclick = () => {
             if(currentTrackIndex < selectedPlaylist.tracks.length - 1) {
                 playTrack(currentTrackIndex + 1);
@@ -978,18 +1167,12 @@
             }
         };
 
-        // Zaman / İlerleme Çubuğu Güncelleme Fonksiyonları
         audioPlayer.ontimeupdate = function() {
             if(isNaN(audioPlayer.duration)) return;
-            
             const current = audioPlayer.currentTime;
             const total = audioPlayer.duration;
-            
-            // Barı İlerletme
             const pct = (current / total) * 100;
             document.getElementById('progress-bar-fill').style.width = pct + "%";
-            
-            // Dakika saniye formatlama
             document.getElementById('current-time').innerText = formatTime(current);
             document.getElementById('total-time').innerText = formatTime(total);
         };
@@ -1001,7 +1184,6 @@
             return min + ":" + sec;
         }
 
-        // Zaman Barına Tıklayarak Şarkıyı İleri/Geri Sarma
         document.getElementById('progress-bar-click').onclick = function(e) {
             const rect = this.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
@@ -1010,7 +1192,6 @@
             audioPlayer.currentTime = pct * audioPlayer.duration;
         };
 
-        // Sayfa Başlangıcı Kurulumu
         window.onload = init;
     </script>
 </body>
