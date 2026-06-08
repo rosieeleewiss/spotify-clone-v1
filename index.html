@@ -43,13 +43,12 @@
             overflow: hidden;
         }
 
-        /* iOS Üst Çentik Alanı için Esnek Alan */
         .safe-top {
             padding-top: env(safe-area-inset-top, 20px);
             background-color: transparent;
         }
 
-        /* Ana İçerik Kaydırma Alanı */
+        /* Ana İçerik Alanı */
         .app-view {
             flex: 1;
             overflow-y: auto;
@@ -61,11 +60,11 @@
             display: block;
         }
 
-        /* Üst Profil Kısmı ve Seçenek Hapları */
+        /* Üst Profil Barı */
         .mobile-header-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 12px 16px;
         }
 
@@ -75,6 +74,11 @@
             border-radius: 50%;
             background-image: url('https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg');
             background-size: cover;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+        .user-avatar:active {
+            transform: scale(0.92);
         }
 
         .scroller-pills {
@@ -99,7 +103,89 @@
             color: #000;
         }
 
-        /* Liste Başı (Playlist Detayı) */
+        /* 🆕 İKİNCİ FOTOĞRAFTAKİ SOL PROFIL PANELİ (DRAWER) */
+        .profile-drawer-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 250;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .profile-drawer-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .profile-drawer {
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            width: 80%;
+            max-width: 320px;
+            background-color: #121212;
+            z-index: 260;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: calc(env(safe-area-inset-top, 20px) + 16px) 20px env(safe-area-inset-bottom, 20px) 20px;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.8);
+        }
+        .profile-drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #282828;
+            margin-bottom: 20px;
+        }
+        .drawer-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-image: url('https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg');
+            background-size: cover;
+        }
+        .drawer-user-info h3 { font-size: 16px; font-weight: 700; color: #fff; }
+        .drawer-user-info p { font-size: 12px; color: var(--text-subdued); margin-top: 2px; }
+
+        .drawer-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .drawer-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .drawer-menu-item i {
+            font-size: 18px;
+            color: var(--text-subdued);
+            width: 24px;
+            text-align: center;
+        }
+        .drawer-close-btn {
+            margin-top: auto;
+            background-color: #232323;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Çalma Listesi Görünümü */
         .playlist-banner {
             display: flex;
             flex-direction: column;
@@ -215,7 +301,7 @@
         .folder-card p { font-size: 11px; color: var(--text-subdued); margin-top: 2px; }
         .card-add-shortcut { background-color: var(--spotify-green); color: #000; border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-top: 8px; width: 100%; }
 
-        /* 🆕 SİLİK VE Yarı Şeffaf MİNİ OYNATICI (MINI PLAYER) */
+        /* Mini Oynatıcı (Mini Player) */
         .floating-mini-player {
             position: fixed;
             bottom: 68px;
@@ -246,13 +332,10 @@
         .mini-timeline-bg { position: absolute; bottom: 0; left: 12px; right: 12px; height: 2px; background-color: rgba(255,255,255,0.15); }
         .mini-timeline-fill { width: 0%; height: 100%; background-color: #fff; border-radius: 1px; }
 
-        /* 🆕 FOTOĞRAFDAKİ BİREBİR TAM EKRAN OYNATICI (FULL SCREEN PLAYER) */
+        /* Tam Ekran Oynatıcı (Full Player) */
         .full-screen-player {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-color: #0c0f12;
             z-index: 200;
             transform: translateY(100%);
@@ -263,7 +346,6 @@
         }
         .full-screen-player.open { transform: translateY(0); }
 
-        /* Bulanık arka plan kaplaması (Fotoğraftaki derinlik hissi için) */
         .player-blur-bg {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -300,19 +382,19 @@
         .player-meta-left p { font-size: 15px; color: var(--text-subdued); margin-top: 4px; }
         .player-meta-right { font-size: 22px; color: var(--spotify-green); }
 
-        /* Gelişmiş Zaman Barı */
+        /* Zaman Barı */
         .scrubber-container { margin-bottom: 24px; }
         .scrubber-bar-bg { width: 100%; height: 4px; background-color: rgba(255,255,255,0.2); border-radius: 2px; position: relative; margin-bottom: 8px; }
         .scrubber-bar-fill { width: 0%; height: 100%; background-color: #fff; border-radius: 2px; }
         .scrubber-time-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-subdued); }
 
-        /* Dev Kontrol Butonları */
+        /* Kontrol Butonları */
         .giant-controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding: 0 10px; }
         .giant-btn { background: none; border: none; color: #fff; font-size: 24px; }
         .giant-btn.secondary { color: var(--text-subdued); }
         .giant-btn.play-trigger { width: 64px; height: 64px; border-radius: 50%; background-color: #fff; color: #000; font-size: 24px; display: flex; align-items: center; justify-content: center; }
 
-        /* 🆕 GERÇEK SPOTIFY BOTTOM NAVIGATION BAR */
+        /* Alt Navigasyon Barı */
         .ios-bottom-nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -349,12 +431,35 @@
     <div class="safe-top"></div>
 
     <div class="mobile-header-actions" id="global-top-bar">
-        <div class="user-avatar"></div>
+        <div class="user-avatar" onclick="toggleProfileDrawer(true)"></div>
         <div class="scroller-pills">
             <button class="pill active">Tümü</button>
             <button class="pill">Müzik</button>
             <button class="pill">Podcast'ler</button>
         </div>
+    </div>
+
+    <div class="profile-drawer-overlay" id="ui-drawer-overlay" onclick="toggleProfileDrawer(false)"></div>
+    <div class="profile-drawer" id="ui-profile-drawer">
+        <div class="drawer-header">
+            <div class="drawer-avatar"></div>
+            <div class="drawer-user-info">
+                <h3>Premium Kullanıcı</h3>
+                <p onclick="alert('Profili Görüntüle tıklandı')">Profili görüntüle</p>
+            </div>
+        </div>
+        <div class="drawer-menu-list">
+            <a href="#" class="drawer-menu-item" onclick="alert('Yenilikler penceresi')">
+                <i class="fa-regular fa-bell"></i> Yenilikler
+            </a>
+            <a href="#" class="drawer-menu-item" onclick="alert('Son dinlenen geçmişi')">
+                <i class="fa-regular fa-clock"></i> Son dinlenenler
+            </a>
+            <a href="#" class="drawer-menu-item" onclick="alert('Ayarlar Menüsü Açıldı')">
+                <i class="fa-solid fa-gear"></i> Ayarlar ve gizlilik
+            </a>
+        </div>
+        <button class="drawer-close-btn" onclick="toggleProfileDrawer(false)">Kapat</button>
     </div>
 
     <input type="file" id="mp3-file-picker" multiple accept="audio/mp3">
@@ -378,8 +483,7 @@
             </div>
         </div>
 
-        <div class="track-list" id="ui-track-list-wrapper">
-            </div>
+        <div class="track-list" id="ui-track-list-wrapper"></div>
     </div>
 
     <div id="view-search-tab" class="app-view">
@@ -407,7 +511,6 @@
         <div class="folder-grid" id="ui-library-playlists-list"></div>
     </div>
 
-
     <div class="floating-mini-player" id="ui-mini-player" onclick="openFullPlayer()">
         <div class="mini-info-block">
             <div class="mini-art-box" id="mini-cover-target"></div>
@@ -424,13 +527,12 @@
         </div>
     </div>
 
-
     <div class="full-screen-player" id="ui-full-player">
         <div class="player-blur-bg" id="player-blur-target"></div>
         
         <div class="player-top-row">
             <i class="fa-solid fa-chevron-down" style="font-size: 20px;" onclick="closeFullPlayer()"></i>
-            <h5 id="player-top-playlist-name">Benim Listem çalma listesinden</h5>
+            <h5 id="player-top-playlist-name">Çalma Listesinden</h5>
             <i class="fa-solid fa-ellipsis" style="font-size: 20px;"></i>
         </div>
 
@@ -467,7 +569,6 @@
         </div>
     </div>
 
-
     <div class="ios-bottom-nav">
         <button class="nav-tab-button active" onclick="changeMobileTab('view-home-tab', this)">
             <i class="fa-solid fa-house"></i>
@@ -486,7 +587,6 @@
     <audio id="audio-engine"></audio>
 
     <script>
-        // MASAÜSTÜ KODUNDAKİ TÜM HAFIZA VE LİSTE YAPISI KORUNDU
         let playlists = [
             { id: 1, name: "Benim Listem", visibility: "Kamuya Açık Liste", color: "#1c352d", img: "https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg", tracks: [] },
             { id: 2, name: "Slam Dunk Hits", visibility: "Gizli Liste", color: "#5c1e1e", img: "https://i.pinimg.com/564x/0c/33/cd/0c33cd84639b7d853b01859942a781b2.jpg", tracks: [] }
@@ -495,8 +595,7 @@
         let recommendationsData = [
             { name: "After Hours", artist: "The Weeknd", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
             { name: "Blinding Lights", artist: "The Weeknd", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { name: "Starboy", artist: "The Weeknd", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-            { name: "Sweater Weather", artist: "The Neighbourhood", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
+            { name: "Starboy", artist: "The Weeknd", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
         ];
 
         let uploadedMp3Pool = [];
@@ -512,6 +611,19 @@
             refreshExplorerGrids();
         }
 
+        // 🆕 PROFIL VE AYARLAR CEKMECESI TETIKLEYICISI
+        function toggleProfileDrawer(open) {
+            const overlay = document.getElementById('ui-drawer-overlay');
+            const drawer = document.getElementById('ui-profile-drawer');
+            if(open) {
+                overlay.classList.add('open');
+                drawer.classList.add('open');
+            } else {
+                overlay.classList.remove('open');
+                drawer.classList.remove('open');
+            }
+        }
+
         function changeMobileTab(tabId, btnElement) {
             document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-tab-button').forEach(b => b.classList.remove('active'));
@@ -519,7 +631,6 @@
             document.getElementById(tabId).classList.add('active');
             btnElement.classList.add('active');
 
-            // Eğer üst barın gizlenmesi gerekirse kontrol edilebilir
             if(tabId === 'view-search-tab') {
                 document.getElementById('global-top-bar').style.display = 'none';
             } else {
@@ -545,7 +656,7 @@
             container.innerHTML = "";
 
             if(selectedPlaylist.tracks.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-subdued); text-align:center; padding:40px 10px; font-size:13px;">Bu listede şarkı yok. Şarkı yüklemek için yukarıdaki aşağı ok simgesine dokun veya Ara kısmından önerileri ekle.</p>`;
+                container.innerHTML = `<p style="color:var(--text-subdued); text-align:center; padding:40px 10px; font-size:13px;">Bu listede şarkı yok. Şarkı yüklemek için yukarıdaki indirme simgesine dokun veya Ara kısmından önerileri ekle.</p>`;
                 return;
             }
 
@@ -586,7 +697,7 @@
                 document.getElementById('ui-mini-player').style.display = 'flex';
                 syncAllPlayerInterfaces();
             }).catch(() => {
-                alert("Müziği oynatabilmek için lütfen ekrana bir kez dokunun (iOS güvenlik kuralıdır).");
+                console.log("iOS tetikleme bekleniyor.");
             });
 
             renderTrackRows();
@@ -605,17 +716,14 @@
 
             let art = selectedPlaylist.img || "https://i.pinimg.com/736x/88/54/60/885460a5e87a2df25fbe3d9697f26771.jpg";
 
-            // Mini Oynatıcı UI Güncelleme
             document.getElementById('mini-title-target').innerText = track.name;
             document.getElementById('mini-artist-target').innerText = track.artist;
             document.getElementById('mini-cover-target').style.backgroundImage = `url('${art}')`;
 
-            // Tam Ekran Oynatıcı UI Güncelleme
             document.getElementById('player-title-target').innerText = track.name;
             document.getElementById('player-artist-target').innerText = track.artist;
             document.getElementById('player-giant-cover-target').style.backgroundImage = `url('${art}')`;
             document.getElementById('player-blur-target').style.backgroundImage = `url('${art}')`;
-            document.getElementById('player-top-playlist-name').innerText = `${selectedPlaylist.name} listesinden`;
 
             let playIconClass = audioEngine.paused ? "fa-solid fa-play" : "fa-solid fa-pause";
             document.getElementById('mini-play-btn').className = playIconClass;
@@ -633,15 +741,9 @@
             renderTrackRows();
         }
 
-        function openFullPlayer() {
-            document.getElementById('ui-full-player').classList.add('open');
-        }
+        function openFullPlayer() { document.getElementById('ui-full-player').classList.add('open'); }
+        function closeFullPlayer() { document.getElementById('ui-full-player').classList.remove('open'); }
 
-        function closeFullPlayer() {
-            document.getElementById('ui-full-player').classList.remove('open');
-        }
-
-        // MP3 Cihaz Dosyası Okuma Tetikleyicisi
         filePicker.onchange = function(e) {
             const files = e.target.files;
             for(let file of files) {
@@ -654,9 +756,7 @@
             refreshExplorerGrids();
         };
 
-        // 4 BÖLMELİ GRID YAPISINI BESLEYEN FONKSİYONLAR
         function refreshExplorerGrids() {
-            // 1. Dinlediğin Listeler
             const pGrid = document.getElementById('grid-user-playlists');
             pGrid.innerHTML = "";
             playlists.forEach(p => {
@@ -669,11 +769,9 @@
                 `;
             });
 
-            // Üçüncü sekmedeki kitaplık listesini de doldur
             const lGrid = document.getElementById('ui-library-playlists-list');
             if(lGrid) lGrid.innerHTML = pGrid.innerHTML;
 
-            // 2. Öneriler
             const rGrid = document.getElementById('grid-recommendations');
             rGrid.innerHTML = "";
             recommendationsData.forEach((rec, idx) => {
@@ -687,7 +785,6 @@
                 `;
             });
 
-            // 3. MP3 Havuzu
             const uGrid = document.getElementById('grid-uploaded-pool');
             uGrid.innerHTML = "";
             if(uploadedMp3Pool.length === 0) {
@@ -704,11 +801,10 @@
                 });
             }
 
-            // 4. Geçmiş
             const hGrid = document.getElementById('grid-recent-history');
             hGrid.innerHTML = "";
             if(playbackHistory.length === 0) {
-                hGrid.innerHTML = `<p style="color:var(--text-subdued); font-size:11px; grid-column: 1/-1;">Geçmiş henüz temiz.</p>`;
+                hGrid.innerHTML = `<p style="color:var(--text-subdued); font-size:11px; grid-column: 1/-1;">Geçmiş temiz.</p>`;
             } else {
                 playbackHistory.forEach((h, idx) => {
                     hGrid.innerHTML += `
@@ -727,7 +823,6 @@
             if(poolType === 'rec') track = recommendationsData[idx];
             if(poolType === 'mp3') track = uploadedMp3Pool[idx];
             if(poolType === 'hist') track = playbackHistory[idx];
-            
             if(track) playMobileTrack(0, track);
         }
 
@@ -737,7 +832,6 @@
             refreshExplorerGrids();
         }
 
-        // İLERLEME VE SÜRE TAKİBİ
         audioEngine.ontimeupdate = function() {
             if(isNaN(audioEngine.duration)) return;
             const cur = audioEngine.currentTime;
@@ -746,7 +840,6 @@
 
             document.getElementById('mini-progress-fill').style.width = pct + "%";
             document.getElementById('player-progress-fill').style.width = pct + "%";
-            
             document.getElementById('player-time-current').innerText = formatSeconds(cur);
             document.getElementById('player-time-total').innerText = formatSeconds(dur);
         };
@@ -757,27 +850,19 @@
             return m + ":" + (s < 10 ? "0" + s : s);
         }
 
-        // Şarkı Bitince Sonrakine Geçme
         audioEngine.onended = function() {
-            if(currentTrackIndex < selectedPlaylist.tracks.length - 1) {
-                playMobileTrack(currentTrackIndex + 1);
-            } else {
-                playMobileTrack(0);
-            }
+            if(currentTrackIndex < selectedPlaylist.tracks.length - 1) playMobileTrack(currentTrackIndex + 1);
+            else playMobileTrack(0);
         };
 
-        // Tam Ekran Oynatıcıda Çubuğa Tıklayarak Sarma
         document.getElementById('player-scrubber-click').onclick = function(e) {
             if(isNaN(audioEngine.duration)) return;
             const rect = this.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            audioEngine.currentTime = (clickX / rect.width) * audioEngine.duration;
+            audioEngine.currentTime = ((e.clientX - rect.left) / rect.width) * audioEngine.duration;
         };
 
-        // Büyük Oyuncu Tetikleyicileri
         document.getElementById('player-play-trigger').onclick = togglePlayback;
         document.getElementById('header-play-trigger').onclick = togglePlayback;
-        
         document.getElementById('player-next-trigger').onclick = () => {
             if(currentTrackIndex < selectedPlaylist.tracks.length - 1) playMobileTrack(currentTrackIndex + 1);
         };
