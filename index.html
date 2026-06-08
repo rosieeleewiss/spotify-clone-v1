@@ -4,27 +4,351 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kitaplığın</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Zero out defaults and enforce Spotify's pitch-black system UI style */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Mobile App Container Layout */
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: #000000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Top Header Navigation */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 16px 12px 16px;
+            margin-top: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #242424;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .add-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Content Scroll Container */
+        .content {
+            padding: 8px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Import Button Styling */
+        .import-card {
+            width: 100%;
+            background-color: #191919;
+            border: none;
+            border-radius: 12px;
+            padding: 20px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .import-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .import-icon {
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        .import-text {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.4;
+            text-align: left;
+            color: #ffffff;
+            max-width: 240px;
+        }
+
+        .arrow-icon {
+            color: #a7a7a7;
+            font-size: 16px;
+        }
+
+        /* Playlist Helper / Tips Box Container */
+        .tips-card {
+            background-color: #191919;
+            border-radius: 12px;
+            padding: 20px 16px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .tips-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .tips-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #a7a7a7;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #a7a7a7;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .tips-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .tips-subtitle {
+            font-size: 13px;
+            color: #a7a7a7;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Fixed Footer Deck containing Player and Nav */
+        .bottom-section {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+            padding-bottom: 16px;
+        }
+
+        /* Dark Magenta Premium Mini-Player */
+        .mini-player {
+            background-color: #51071e; 
+            margin: 0 8px 12px 8px;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .player-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .album-art {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .song-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .song-artist {
+            font-size: 12px;
+            color: #b3b3b3;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .local-badge {
+            color: #1db954; /* Clean Spotify Green verified check */
+            font-size: 12px;
+        }
+
+        .player-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 0 8px;
+        }
+
+        .device-btn, .play-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Bottom Micro Timeline Track Indicator */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 8px;
+            right: 8px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-fill {
+            width: 8%; /* Accurate timeline track fill */
+            height: 100%;
+            background-color: #ffffff;
+        }
+
+        /* Bottom Navigation Bar Layout */
+        .bottom-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding-top: 4px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            color: #ffffff;
+        }
+
+        .nav-item span {
+            font-size: 11px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="status-bar-spacer"></div>
 
+    <div class="app-container">
         <header class="header">
             <div class="header-left">
-                <div class="profile-avatar">US</div>
+                <div class="profile-avatar">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" alt="Profile">
+                </div>
                 <h1>Kitaplığın</h1>
             </div>
-            <button class="icon-btn add-btn"><i class="fa-solid fa-plus"></i></button>
+            <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
         </header>
 
         <main class="content">
             <button class="import-card" id="importBtn">
-                <div class="import-icon">
-                    <i class="fa-solid fa-download"></i>
-                </div>
-                <div class="import-text-container">
+                <div class="import-left">
+                    <i class="fa-solid fa-download import-icon"></i>
                     <span class="import-text">Diğer uygulamalardaki müziklerini içe aktar</span>
                 </div>
                 <i class="fa-solid fa-chevron-right arrow-icon"></i>
@@ -45,19 +369,19 @@
             <div class="mini-player">
                 <div class="player-left">
                     <div class="album-art">
-                        <div class="fallback-art"><i class="fa-solid fa-music"></i></div>
+                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=150&auto=format&fit=crop" alt="Album Cover">
                     </div>
                     <div class="song-info">
                         <div class="song-title">Carita de Angel</div>
                         <div class="song-artist">
-                            <span class="local-badge"><i class="fa-solid fa-square-check"></i></span>
+                            <span class="local-badge"><i class="fa-solid fa-square-poll-horizontal"></i></span>
                             Maria Daniela Y Su Sonido Lasser
                         </div>
                     </div>
                 </div>
                 <div class="player-right">
-                    <button class="icon-btn device-btn"><i class="fa-solid fa-laptop-medical"></i></button>
-                    <button class="icon-btn play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
+                    <button class="device-btn"><i class="fa-solid fa-circle-nodes"></i></button>
+                    <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill"></div>
@@ -65,14 +389,51 @@
             </div>
 
             <nav class="bottom-nav">
-                <button class="nav-item active">
-                    <i class="fa-solid fa-lines-leaning nav-icon"></i>
+                <button class="nav-item">
+                    <i class="fa-solid fa-layer-group nav-icon"></i>
                     <span>Kitaplığın</span>
                 </button>
             </nav>
         </div>
     </div>
-    
-    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup responsive interface elements
+            const closeTips = document.getElementById('closeTips');
+            const tipsCard = document.getElementById('tipsCard');
+            const playBtn = document.getElementById('playBtn');
+            const importBtn = document.getElementById('importBtn');
+
+            if (closeTips && tipsCard) {
+                closeTips.addEventListener('click', () => {
+                    tipsCard.style.display = 'none';
+                });
+            }
+
+            if (playBtn) {
+                let playing = false;
+                playBtn.addEventListener('click', () => {
+                    playing = !playing;
+                    playBtn.innerHTML = playing ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+                });
+            }
+
+            if (importBtn) {
+                importBtn.addEventListener('click', () => {
+                    const selector = document.createElement('input');
+                    selector.type = 'file';
+                    selector.accept = 'audio/*';
+                    selector.multiple = true;
+                    selector.onchange = (e) => {
+                        if(e.target.files.length > 0) {
+                            alert(`${e.target.files.length} şarkı başarıyla çevrimdışı kullanım için hazırlandı!`);
+                        }
+                    };
+                    selector.click();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
