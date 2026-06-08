@@ -1,0 +1,266 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Mobile App Container Simulation */
+.app-container {
+    width: 100%;
+    max-width: 400px;
+    background-color: #121212;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 16px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.icon-btn:hover {
+    color: #ffffff;
+}
+
+.add-btn {
+    font-size: 24px;
+}
+
+/* Main Content */
+.content {
+    padding: 0 16px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Import Card */
+.import-card {
+    width: 100%;
+    background-color: #242424;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    cursor: pointer;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.import-icon {
+    font-size: 20px;
+    margin-right: 16px;
+}
+
+.import-text {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.arrow-icon {
+    color: #b3b3b3;
+}
+
+/* Tips Card */
+.tips-card {
+    background-color: #242424;
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+}
+
+.tips-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.tips-label {
+    font-size: 12px;
+    color: #b3b3b3;
+}
+
+.tips-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.tips-subtitle {
+    font-size: 13px;
+    color: #b3b3b3;
+    margin-bottom: 20px;
+}
+
+.action-btn {
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Bottom Section */
+.bottom-section {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #121212;
+}
+
+/* Mini Player */
+.mini-player {
+    background-color: #610b27; /* Dark magenta/burgundy */
+    margin: 0 8px 8px 8px;
+    border-radius: 6px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.player-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.album-art img {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.song-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.song-artist {
+    font-size: 12px;
+    color: #b3b3b3;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.local-badge {
+    color: #1ed760; /* Spotify green style for the badge */
+    font-size: 10px;
+}
+
+.player-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-right: 8px;
+}
+
+.player-right .icon-btn {
+    color: #ffffff;
+}
+
+/* Mini Player Progress Bar */
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.progress-fill {
+    width: 30%; /* Mock progress */
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 2px;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 20px 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.nav-icon {
+    font-size: 24px;
+}
+
+.nav-item span {
+    font-size: 10px;
+    font-weight: 500;
+}
