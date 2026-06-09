@@ -2,12 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let libraryTracksList = [];
     let focusedIndex = 0;
     
-    // Interaction tracking states flags variables
     let logicDragActive = false;
     let startingTouchPointX = 0;
     let interactiveLiveDisplacementDeltaX = 0;
 
-    // DOM Element Hooks links mapper components system definitions
+    // DOM Links setup mapping definitions
     const closeTips = document.getElementById('closeTips');
     const tipsCard = document.getElementById('tipsCard');
     const playBtn = document.getElementById('playBtn');
@@ -17,9 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioEngine = document.getElementById('audioEngine');
     const dropZoneViewport = document.getElementById('dropZoneViewport');
     const coverflowContainer = document.getElementById('coverflowContainer');
-    const emptyNotice = document.getElementById('emptyNotice');
     
-    const centerTrackTitleDisplay = document.getElementById('centerTrackTitleDisplay');
     const centerMainTitle = document.getElementById('centerMainTitle');
     const centerSubArtist = document.getElementById('centerSubArtist');
 
@@ -32,25 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
     }
 
-    // Bold colorful spectrum sets for case blocks backgrounds tones rendering profiles
-    const multiFacePaletteGradients = [
-        'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
-        'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
-        'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)',
-        'linear-gradient(135deg, #b31217 0%, #e52d27 100%)',
-        'linear-gradient(135deg, #00f260 0%, #0575e6 100%)',
-        'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
-    ];
-
-    // ADVANCED MATHEMATICAL GEOMETRIC 3D SPACE LAYOUT COMPONENT PROJECTION ENGINE
+    // HIGH FIDELITY 3D CORE ROTATING MATH TRANSFORMATIONS COMPUTATION ENGINE
     function computeGeometries3DTransforms() {
-        if (libraryTracksList.length === 0) {
-            emptyNotice.style.display = 'flex';
-            centerTrackTitleDisplay.style.display = 'none';
-            return;
-        }
-        emptyNotice.style.display = 'none';
-        centerTrackTitleDisplay.style.display = 'flex';
+        if (libraryTracksList.length === 0) return;
 
         const structuralBoxes = coverflowContainer.querySelectorAll('.album-3d-case');
         
@@ -64,27 +45,27 @@ document.addEventListener('DOMContentLoaded', () => {
             let spatialIndexLayer = 100 - Math.abs(structuralOffset);
 
             if (structuralOffset === 0) {
-                // Main Active Center Facing Element projection block coordinates matrix
+                // Focus Center card matrix mapping
                 translateX = 0;
                 rotateY = 0;
-                translateZ = 135; 
+                translateZ = 140; 
                 spatialIndexLayer = 700;
                 compositeOpacity = 1;
             } else if (structuralOffset < 0) {
-                // Left Profile Wing Stack element spatial matrix profile configurations setup
-                rotateY = 62; 
-                translateX = (structuralOffset * 48) - 75; 
-                translateZ = -30; 
-                compositeOpacity = Math.max(0.2, 1 + (structuralOffset * 0.28));
+                // Left Wing side cards configuration setup parameters
+                rotateY = 65; 
+                translateX = (structuralOffset * 55) - 85; 
+                translateZ = -20; 
+                compositeOpacity = Math.max(0.2, 1 + (structuralOffset * 0.3));
             } else if (structuralOffset > 0) {
-                // Right Profile Wing Stack element spatial matrix profile configurations setup
-                rotateY = -62;
-                translateX = (structuralOffset * 48) + 75;
-                translateZ = -30;
-                compositeOpacity = Math.max(0.2, 1 - (structuralOffset * 0.28));
+                // Right Wing side cards configuration setup parameters
+                rotateY = -65;
+                translateX = (structuralOffset * 55) + 85;
+                translateZ = -20;
+                compositeOpacity = Math.max(0.2, 1 - (structuralOffset * 0.3));
             }
 
-            if (Math.abs(structuralOffset) > 3) {
+            if (Math.abs(structuralOffset) > 2) {
                 compositeOpacity = 0;
             }
 
@@ -100,85 +81,89 @@ document.addEventListener('DOMContentLoaded', () => {
         focusedIndex = Math.max(0, Math.min(targetIndexKey, libraryTracksList.length - 1));
         computeGeometries3DTransforms();
 
-        const isolatedTrackPayload = libraryTracksList[focusedIndex];
+        const track = libraryTracksList[focusedIndex];
         
-        // Update 3D center layout string readouts
-        centerMainTitle.textContent = isolatedTrackPayload.title;
-        centerSubArtist.textContent = isolatedTrackPayload.artist;
+        // Render current selected track string metadata
+        centerMainTitle.textContent = track.title;
+        centerSubArtist.textContent = track.artist;
 
-        // Sync data attributes smoothly down into the static audio system tray module
-        playerTitle.textContent = isolatedTrackPayload.title;
-        playerArtist.textContent = isolatedTrackPayload.artist;
-        playerAlbumArtContainer.style.background = isolatedTrackPayload.chassisBackdropTone;
-        playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
+        playerTitle.textContent = track.title;
+        playerArtist.textContent = track.artist;
+        playerAlbumArtContainer.innerHTML = `<img src="${track.coverImageURL}" style="width:100%; height:100%; object-fit:cover;">`;
 
-        // Load source elements securely
-        audioEngine.src = isolatedTrackPayload.blobResourceObjectLink;
-        audioEngine.play().catch(() => { });
+        if (track.blobResourceObjectLink) {
+            audioEngine.src = track.blobResourceObjectLink;
+            audioEngine.play().catch(() => {});
+        }
     }
 
-    function pushSelectedInputAudioFilesToSystem(fileCollectionArray) {
-        let triggeringInitialBootCycle = (libraryTracksList.length === 0);
+    // BUILDS MULTI-FACED RECTANGULAR GEOMETRIC BOX NODE WITH SIDE TEXT
+    function appendTrackTo3DCarousel(title, artist, coverURL, blobLink = null) {
+        const systemTrackDataNode = {
+            title: title,
+            artist: artist,
+            coverImageURL: coverURL,
+            blobResourceObjectLink: blobLink
+        };
 
+        libraryTracksList.push(systemTrackDataNode);
+
+        const multiFaceBoxHullNode = document.createElement('div');
+        multiFaceBoxHullNode.className = 'album-3d-case';
+        
+        multiFaceBoxHullNode.innerHTML = `
+            <div class="case-face face-left">
+                <div class="spine-text-vertical">${title}</div>
+            </div>
+            <div class="case-face face-top"></div>
+            <div class="case-face face-front">
+                <img src="${coverURL}">
+            </div>
+            <div class="case-face face-right">
+                <div class="spine-text-vertical">${title}</div>
+            </div>
+        `;
+
+        const localIndexScopeReferenceKey = libraryTracksList.length - 1;
+        multiFaceBoxHullNode.addEventListener('click', () => {
+            triggerFocusedTrackReorientation(localIndexScopeReferenceKey);
+        });
+
+        coverflowContainer.appendChild(multiFaceBoxHullNode);
+    }
+
+    function processIncomingAudioFiles(fileCollectionArray) {
         for (let i = 0; i < fileCollectionArray.length; i++) {
-            const runningTrackFile = fileCollectionArray[i];
-            if (!runningTrackFile.type.startsWith('audio/')) continue;
+            const file = fileCollectionArray[i];
+            if (!file.type.startsWith('audio/')) continue;
 
-            let rawCleanedNameString = runningTrackFile.name.replace(/\.[^/.]+$/, "");
-            let mappedTitleField = rawCleanedNameString;
-            let mappedArtistField = "Yerel Parça";
+            let rawName = file.name.replace(/\.[^/.]+$/, "");
+            let mappedTitle = rawName;
+            let mappedArtist = "Yerel Parça";
 
-            if (rawCleanedNameString.includes(" - ")) {
-                const splitStringTokens = rawCleanedNameString.split(" - ");
-                mappedArtistField = splitStringTokens[0].trim();
-                mappedTitleField = splitStringTokens[1].trim();
+            if (rawName.includes(" - ")) {
+                const parts = rawName.split(" - ");
+                mappedArtist = parts[0].trim();
+                mappedTitle = parts[1].trim();
             }
 
-            const backdropGradientIndex = libraryTracksList.length % multiFacePaletteGradients.length;
-            const computedBackdropToneValue = multiFacePaletteGradients[backdropGradientIndex];
+            // Beautiful placeholder color dynamic gradient generator fallback if artwork tags aren't indexed
+            const placeholderArtworkGradientUrl = `https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=200&auto=format&fit=crop`;
             
-            const systemTrackDataNode = {
-                title: mappedTitleField,
-                artist: mappedArtistField,
-                blobResourceObjectLink: URL.createObjectURL(runningTrackFile),
-                chassisBackdropTone: computedBackdropToneValue
-            };
-
-            libraryTracksList.push(systemTrackDataNode);
-
-            // HIGH FIDELITY MULTI-FACE 3D CUBE CASE FABRICATOR NODES GENERATION
-            const multiFaceBoxHullNode = document.createElement('div');
-            multiFaceBoxHullNode.className = 'album-3d-case';
-            
-            multiFaceBoxHullNode.innerHTML = `
-                <div class="case-face face-left">
-                    <div class="spine-text-vertical">${mappedTitleField}</div>
-                </div>
-                <div class="case-face face-top"></div>
-                <div class="case-face face-front" style="background: ${computedBackdropToneValue}">
-                    <i class="fa-solid fa-record-vinyl"></i>
-                </div>
-                <div class="case-face face-right">
-                    <div class="spine-text-vertical">${mappedTitleField}</div>
-                </div>
-            `;
-
-            const localIndexScopeReferenceKey = libraryTracksList.length - 1;
-            multiFaceBoxHullNode.addEventListener('click', () => {
-                if (focusedIndex !== localIndexScopeReferenceKey) {
-                    triggerFocusedTrackReorientation(localIndexScopeReferenceKey);
-                }
-            });
-
-            coverflowContainer.appendChild(multiFaceBoxHullNode);
+            appendTrackTo3DCarousel(mappedTitle, mappedArtist, placeholderArtworkGradientUrl, URL.createObjectURL(file));
         }
-
-        if (triggeringInitialBootCycle && libraryTracksList.length > 0) {
-            triggerFocusedTrackReorientation(0);
-        } else {
-            computeGeometries3DTransforms();
-        }
+        
+        // Jump viewport focus tracking directly onto the newly parsed audio track item entry node index
+        triggerFocusedTrackReorientation(libraryTracksList.length - fileCollectionArray.length);
     }
+
+    // PRE-POPULATE PREMIUM STARTER MUSIC EXAMPLES DIRECTLY ON BOOT LOAD CYCLE
+    appendTrackTo3DCarousel("Carita de Angel", "Maria Daniela Y Su Sonido Lasser", "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=250&auto=format&fit=crop");
+    appendTrackTo3DCarousel("After Hours", "The Weeknd", "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=250&auto=format&fit=crop");
+    appendTrackTo3DCarousel("Future Nostalgia", "Dua Lipa", "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?q=80&w=250&auto=format&fit=crop");
+
+    // Initialize display state loop immediately
+    triggerFocusedTrackReorientation(0);
 
     // High Precision Touch Inertia Gesture Trackers
     dropZoneViewport.addEventListener('touchstart', (e) => {
@@ -192,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const touchLiveCurrentCoordinateX = e.touches[0].clientX;
         const dynamicMotionDeltaDisplacement = touchLiveCurrentCoordinateX - interactiveLiveDisplacementDeltaX;
         
-        if (Math.abs(dynamicMotionDeltaDisplacement) > 35) {
+        if (Math.abs(dynamicMotionDeltaDisplacement) > 40) {
             if (dynamicMotionDeltaDisplacement > 0 && focusedIndex > 0) {
                 triggerFocusedTrackReorientation(focusedIndex - 1);
                 logicDragActive = false; 
@@ -206,44 +191,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('touchend', () => logicDragActive = false);
 
-    // Drag and Drop desktop processing event handler registrations
-    ['dragenter', 'dragover'].forEach(name => {
-        dropZoneViewport.addEventListener(name, (e) => {
-            e.preventDefault(); e.stopPropagation();
-        }, false);
-    });
-
-    ['dragleave', 'drop'].forEach(name => {
-        dropZoneViewport.addEventListener(name, (e) => {
-            e.preventDefault(); e.stopPropagation();
-        }, false);
-    });
-
-    dropZoneViewport.addEventListener('drop', (e) => {
-        const dropDataPayloadPacket = e.dataTransfer;
-        if (dropDataPayloadPacket && dropDataPayloadPacket.files.length > 0) {
-            pushSelectedInputAudioFilesToSystem(dropDataPayloadPacket.files);
-        }
-    }, false);
-
+    // Import click triggers links bindings
     if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
     if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
     
     if (fileInput) {
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                pushSelectedInputAudioFilesToSystem(e.target.files);
-            }
+            if (e.target.files.length > 0) processIncomingAudioFiles(e.target.files);
         });
     }
 
-    // Media Control Action Triggers Listeners
+    // Media Control Action Listeners
     if (playBtn && audioEngine) {
         playBtn.addEventListener('click', () => {
-            if (libraryTracksList.length === 0) {
-                fileInput.click();
-                return;
-            }
+            if (!audioEngine.src) return;
             if (audioEngine.paused) {
                 audioEngine.play();
             } else {
@@ -251,27 +212,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        audioEngine.addEventListener('play', () => {
-            playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        });
-
-        audioEngine.addEventListener('pause', () => {
-            playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-        });
-
+        audioEngine.addEventListener('play', () => { playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; });
+        audioEngine.addEventListener('pause', () => { playBtn.innerHTML = '<i class="fa-solid fa-play"></i>'; });
         audioEngine.addEventListener('timeupdate', () => {
             if (audioEngine.duration) {
-                const dynamicTimelineProgressValueScore = (audioEngine.currentTime / audioEngine.duration) * 100;
-                progressFill.style.width = `${dynamicTimelineProgressValueScore}%`;
-            }
-        });
-
-        audioEngine.addEventListener('ended', () => {
-            if (focusedIndex < libraryTracksList.length - 1) {
-                triggerFocusedTrackReorientation(focusedIndex + 1);
-            } else {
-                playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                progressFill.style.width = '0%';
+                progressFill.style.width = `${(audioEngine.currentTime / audioEngine.duration) * 100}%`;
             }
         });
     }
