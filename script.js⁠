@@ -1,54 +1,280 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let libraryTracksList = [];
+    let focusedIndex = 0;
     
-    // Smooth dismiss for tips card
+    // Interaction tracking states flags variables
+    let logicDragActive = false;
+    let startingTouchPointX = 0;
+    let interactiveLiveDisplacementDeltaX = 0;
+
+    // DOM Element Hooks links mapper components system definitions
     const closeTips = document.getElementById('closeTips');
     const tipsCard = document.getElementById('tipsCard');
+    const playBtn = document.getElementById('playBtn');
+    const importBtn = document.getElementById('importBtn');
+    const addBtnPlus = document.getElementById('addBtnPlus');
+    const fileInput = document.getElementById('hiddenFileInput');
+    const audioEngine = document.getElementById('audioEngine');
+    const dropZoneViewport = document.getElementById('dropZoneViewport');
+    const coverflowContainer = document.getElementById('coverflowContainer');
+    const emptyNotice = document.getElementById('emptyNotice');
+    
+    const centerTrackTitleDisplay = document.getElementById('centerTrackTitleDisplay');
+    const centerMainTitle = document.getElementById('centerMainTitle');
+    const centerSubArtist = document.getElementById('centerSubArtist');
+
+    const playerTitle = document.getElementById('playerTitle');
+    const playerArtist = document.getElementById('playerArtist');
+    const progressFill = document.getElementById('progressFill');
+    const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
     if (closeTips && tipsCard) {
-        closeTips.addEventListener('click', (e) => {
-            e.stopPropagation();
-            tipsCard.style.transition = "all 0.25s ease-out";
-            tipsCard.style.opacity = "0";
-            tipsCard.style.transform = "scale(0.95)";
-            setTimeout(() => {
-                tipsCard.style.display = "none";
-            }, 250);
+        closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
+    }
+
+    // Bold colorful spectrum sets for case blocks backgrounds tones rendering profiles
+    const multiFacePaletteGradients = [
+        'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
+        'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
+        'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)',
+        'linear-gradient(135deg, #b31217 0%, #e52d27 100%)',
+        'linear-gradient(135deg, #00f260 0%, #0575e6 100%)',
+        'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
+    ];
+
+    // ADVANCED MATHEMATICAL GEOMETRIC 3D SPACE LAYOUT COMPONENT PROJECTION ENGINE
+    function computeGeometries3DTransforms() {
+        if (libraryTracksList.length === 0) {
+            emptyNotice.style.display = 'flex';
+            centerTrackTitleDisplay.style.display = 'none';
+            return;
+        }
+        emptyNotice.style.display = 'none';
+        centerTrackTitleDisplay.style.display = 'flex';
+
+        const structuralBoxes = coverflowContainer.querySelectorAll('.album-3d-case');
+        
+        structuralBoxes.forEach((boxHull, idx) => {
+            const structuralOffset = idx - focusedIndex;
+            
+            let translateX = 0;
+            let rotateY = 0;
+            let translateZ = 0;
+            let compositeOpacity = 1;
+            let spatialIndexLayer = 100 - Math.abs(structuralOffset);
+
+            if (structuralOffset === 0) {
+                // Main Active Center Facing Element projection block coordinates matrix
+                translateX = 0;
+                rotateY = 0;
+                translateZ = 135; 
+                spatialIndexLayer = 700;
+                compositeOpacity = 1;
+            } else if (structuralOffset < 0) {
+                // Left Profile Wing Stack element spatial matrix profile configurations setup
+                rotateY = 62; 
+                translateX = (structuralOffset * 48) - 75; 
+                translateZ = -30; 
+                compositeOpacity = Math.max(0.2, 1 + (structuralOffset * 0.28));
+            } else if (structuralOffset > 0) {
+                // Right Profile Wing Stack element spatial matrix profile configurations setup
+                rotateY = -62;
+                translateX = (structuralOffset * 48) + 75;
+                translateZ = -30;
+                compositeOpacity = Math.max(0.2, 1 - (structuralOffset * 0.28));
+            }
+
+            if (Math.abs(structuralOffset) > 3) {
+                compositeOpacity = 0;
+            }
+
+            boxHull.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+            boxHull.style.zIndex = spatialIndexLayer;
+            boxHull.style.opacity = compositeOpacity;
         });
     }
 
-    // Interactive Audio State Toggle
-    const playBtn = document.getElementById('playBtn');
-    let isPlaying = false;
+    function triggerFocusedTrackReorientation(targetIndexKey) {
+        if (libraryTracksList.length === 0) return;
+        
+        focusedIndex = Math.max(0, Math.min(targetIndexKey, libraryTracksList.length - 1));
+        computeGeometries3DTransforms();
 
-    if (playBtn) {
-        playBtn.addEventListener('click', () => {
-            isPlaying = !isPlaying;
-            const icon = playBtn.querySelector('i');
+        const isolatedTrackPayload = libraryTracksList[focusedIndex];
+        
+        // Update 3D center layout string readouts
+        centerMainTitle.textContent = isolatedTrackPayload.title;
+        centerSubArtist.textContent = isolatedTrackPayload.artist;
+
+        // Sync data attributes smoothly down into the static audio system tray module
+        playerTitle.textContent = isolatedTrackPayload.title;
+        playerArtist.textContent = isolatedTrackPayload.artist;
+        playerAlbumArtContainer.style.background = isolatedTrackPayload.chassisBackdropTone;
+        playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
+
+        // Load source elements securely
+        audioEngine.src = isolatedTrackPayload.blobResourceObjectLink;
+        audioEngine.play().catch(() => { });
+    }
+
+    function pushSelectedInputAudioFilesToSystem(fileCollectionArray) {
+        let triggeringInitialBootCycle = (libraryTracksList.length === 0);
+
+        for (let i = 0; i < fileCollectionArray.length; i++) {
+            const runningTrackFile = fileCollectionArray[i];
+            if (!runningTrackFile.type.startsWith('audio/')) continue;
+
+            let rawCleanedNameString = runningTrackFile.name.replace(/\.[^/.]+$/, "");
+            let mappedTitleField = rawCleanedNameString;
+            let mappedArtistField = "Yerel Parça";
+
+            if (rawCleanedNameString.includes(" - ")) {
+                const splitStringTokens = rawCleanedNameString.split(" - ");
+                mappedArtistField = splitStringTokens[0].trim();
+                mappedTitleField = splitStringTokens[1].trim();
+            }
+
+            const backdropGradientIndex = libraryTracksList.length % multiFacePaletteGradients.length;
+            const computedBackdropToneValue = multiFacePaletteGradients[backdropGradientIndex];
             
-            if (isPlaying) {
-                icon.className = 'fa-solid fa-pause';
-            } else {
-                icon.className = 'fa-solid fa-play';
+            const systemTrackDataNode = {
+                title: mappedTitleField,
+                artist: mappedArtistField,
+                blobResourceObjectLink: URL.createObjectURL(runningTrackFile),
+                chassisBackdropTone: computedBackdropToneValue
+            };
+
+            libraryTracksList.push(systemTrackDataNode);
+
+            // HIGH FIDELITY MULTI-FACE 3D CUBE CASE FABRICATOR NODES GENERATION
+            const multiFaceBoxHullNode = document.createElement('div');
+            multiFaceBoxHullNode.className = 'album-3d-case';
+            
+            multiFaceBoxHullNode.innerHTML = `
+                <div class="case-face face-left">
+                    <div class="spine-text-vertical">${mappedTitleField}</div>
+                </div>
+                <div class="case-face face-top"></div>
+                <div class="case-face face-front" style="background: ${computedBackdropToneValue}">
+                    <i class="fa-solid fa-record-vinyl"></i>
+                </div>
+                <div class="case-face face-right">
+                    <div class="spine-text-vertical">${mappedTitleField}</div>
+                </div>
+            `;
+
+            const localIndexScopeReferenceKey = libraryTracksList.length - 1;
+            multiFaceBoxHullNode.addEventListener('click', () => {
+                if (focusedIndex !== localIndexScopeReferenceKey) {
+                    triggerFocusedTrackReorientation(localIndexScopeReferenceKey);
+                }
+            });
+
+            coverflowContainer.appendChild(multiFaceBoxHullNode);
+        }
+
+        if (triggeringInitialBootCycle && libraryTracksList.length > 0) {
+            triggerFocusedTrackReorientation(0);
+        } else {
+            computeGeometries3DTransforms();
+        }
+    }
+
+    // High Precision Touch Inertia Gesture Trackers
+    dropZoneViewport.addEventListener('touchstart', (e) => {
+        logicDragActive = true;
+        startingTouchPointX = e.touches[0].clientX;
+        interactiveLiveDisplacementDeltaX = startingTouchPointX;
+    }, { passive: true });
+
+    dropZoneViewport.addEventListener('touchmove', (e) => {
+        if (!logicDragActive || libraryTracksList.length === 0) return;
+        const touchLiveCurrentCoordinateX = e.touches[0].clientX;
+        const dynamicMotionDeltaDisplacement = touchLiveCurrentCoordinateX - interactiveLiveDisplacementDeltaX;
+        
+        if (Math.abs(dynamicMotionDeltaDisplacement) > 35) {
+            if (dynamicMotionDeltaDisplacement > 0 && focusedIndex > 0) {
+                triggerFocusedTrackReorientation(focusedIndex - 1);
+                logicDragActive = false; 
+            } else if (dynamicMotionDeltaDisplacement < 0 && focusedIndex < libraryTracksList.length - 1) {
+                triggerFocusedTrackReorientation(focusedIndex + 1);
+                logicDragActive = false;
+            }
+            interactiveLiveDisplacementDeltaX = touchLiveCurrentCoordinateX;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => logicDragActive = false);
+
+    // Drag and Drop desktop processing event handler registrations
+    ['dragenter', 'dragover'].forEach(name => {
+        dropZoneViewport.addEventListener(name, (e) => {
+            e.preventDefault(); e.stopPropagation();
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(name => {
+        dropZoneViewport.addEventListener(name, (e) => {
+            e.preventDefault(); e.stopPropagation();
+        }, false);
+    });
+
+    dropZoneViewport.addEventListener('drop', (e) => {
+        const dropDataPayloadPacket = e.dataTransfer;
+        if (dropDataPayloadPacket && dropDataPayloadPacket.files.length > 0) {
+            pushSelectedInputAudioFilesToSystem(dropDataPayloadPacket.files);
+        }
+    }, false);
+
+    if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
+    if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
+    
+    if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                pushSelectedInputAudioFilesToSystem(e.target.files);
             }
         });
     }
 
-    // Native Browser File Pick Simulator
-    const importBtn = document.getElementById('importBtn');
-    if (importBtn) {
-        importBtn.addEventListener('click', () => {
-            const picker = document.createElement('input');
-            picker.type = 'file';
-            picker.accept = 'audio/*';
-            picker.multiple = true;
-            
-            picker.onchange = (e) => {
-                const totalFiles = e.target.files.length;
-                if (totalFiles > 0) {
-                    alert(`${totalFiles} müzik başarıyla yerel kitaplığa aktarıldı!`);
-                }
-            };
-            picker.click();
+    // Media Control Action Triggers Listeners
+    if (playBtn && audioEngine) {
+        playBtn.addEventListener('click', () => {
+            if (libraryTracksList.length === 0) {
+                fileInput.click();
+                return;
+            }
+            if (audioEngine.paused) {
+                audioEngine.play();
+            } else {
+                audioEngine.pause();
+            }
+        });
+
+        audioEngine.addEventListener('play', () => {
+            playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        });
+
+        audioEngine.addEventListener('pause', () => {
+            playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        });
+
+        audioEngine.addEventListener('timeupdate', () => {
+            if (audioEngine.duration) {
+                const dynamicTimelineProgressValueScore = (audioEngine.currentTime / audioEngine.duration) * 100;
+                progressFill.style.width = `${dynamicTimelineProgressValueScore}%`;
+            }
+        });
+
+        audioEngine.addEventListener('ended', () => {
+            if (focusedIndex < libraryTracksList.length - 1) {
+                triggerFocusedTrackReorientation(focusedIndex + 1);
+            } else {
+                playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                progressFill.style.width = '0%';
+            }
         });
     }
+
+    window.addEventListener('resize', computeGeometries3DTransforms);
 });
