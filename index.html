@@ -367,6 +367,55 @@
             cursor: pointer;
         }
 
+        /* -------------------------------------------------------------
+           DYNAMIC GENERATED PLAYLIST ITEM ELEMENT STYLING
+        ------------------------------------------------------------- */
+        .playlist-row-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 8px 0;
+            cursor: pointer;
+            width: 100%;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .playlist-art-square {
+            width: 64px;
+            height: 64px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #282828 0%, #121212 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #b3b3b3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .playlist-metadata {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .playlist-name-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .playlist-desc-subtext {
+            font-size: 13px;
+            color: #b3b3b3;
+            font-weight: 400;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Fixed Placement Control Tray Deck */
         .bottom-section {
             position: absolute;
@@ -377,6 +426,7 @@
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
+            z-index: 10;
         }
 
         /* Custom Burgundy Mini Player Deck */
@@ -523,7 +573,7 @@
         }
 
         /* -------------------------------------------------------------
-           SPOTIFY-STYLE BOTTOM SHEET COMPONENT (WITH GESTURE DRAG)
+           SPOTIFY-STYLE BOTTOM SHEET COMPONENT
         ------------------------------------------------------------- */
         .bottom-sheet-overlay {
             position: absolute;
@@ -553,14 +603,12 @@
             border-top-right-radius: 16px;
             padding: 0 16px 40px 16px;
             transform: translateY(100%);
-            /* Using a variable fallback for standard opening animations */
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
-        /* Disable transition styles instantly during direct raw finger dragging */
         .bottom-sheet.dragging {
             transition: none;
         }
@@ -569,7 +617,6 @@
             transform: translateY(0);
         }
 
-        /* Expanded Interactive Target Box Wrapper for Dragging Area */
         .drag-handle-container {
             width: 100%;
             padding: 14px 0;
@@ -577,7 +624,7 @@
             justify-content: center;
             align-items: center;
             cursor: grab;
-            touch-action: none; /* Prevents native browser scrolling during gestures */
+            touch-action: none;
         }
         
         .drag-handle-container:active {
@@ -638,6 +685,204 @@
             color: #a7a7a7;
             font-weight: 400;
         }
+
+        /* -------------------------------------------------------------
+           PLAYLIST CREATION CREATOR SCREEN MODAL (PHOTO 2)
+        ------------------------------------------------------------- */
+        .playlist-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #2a2a2a 0%, #121212 100%);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .playlist-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-heading {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .playlist-name-input {
+            width: 100%;
+            background: none;
+            border: none;
+            border-bottom: 2px solid #777;
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            padding-bottom: 12px;
+            margin-bottom: 40px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .playlist-name-input:focus {
+            border-bottom-color: #1db954;
+        }
+
+        .modal-action-row {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            background: none;
+            border: none;
+            color: #b3b3b3;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 24px;
+        }
+
+        .modal-btn.btn-primary {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .modal-btn:active {
+            opacity: 0.8;
+        }
+
+        /* -------------------------------------------------------------
+           PLAYLIST DYNAMIC TRACK DETAIL SCREEN PANEL (PHOTO 5)
+        ------------------------------------------------------------- */
+        .detail-panel-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #404040 0%, #121212 40%, #000000 100%);
+            z-index: 2500;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .detail-panel-view.active {
+            transform: translateX(0);
+        }
+
+        .detail-header-nav {
+            display: flex;
+            align-items: center;
+            padding: 45px 16px 12px 16px;
+        }
+
+        .back-panel-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .detail-scroll-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-hero-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
+        .detail-creator-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .mini-creator-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .creator-name-bold {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .detail-control-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .left-action-icons {
+            display: flex;
+            gap: 24px;
+            color: #b3b3b3;
+            font-size: 20px;
+        }
+
+        .left-action-icons i:pointer, .left-action-icons i:active {
+            color: #ffffff;
+        }
+
+        .giant-play-accent-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background-color: #1db954;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .track-list-vertical-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .empty-track-placeholder-state {
+            color: #b3b3b3;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 40px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -656,7 +901,7 @@
             <button class="add-btn" id="addBtnPlus"><i class="fa-solid fa-plus"></i></button>
         </header>
 
-        <main class="content">
+        <main class="content" id="mainContentScrollTrack">
             <button class="import-card" id="importBtn">
                 <div class="import-left">
                     <i class="fa-solid fa-arrow-down import-icon"></i>
@@ -686,8 +931,10 @@
                 </div>
                 <h2 class="tips-title">İlk çalma listeni oluştur</h2>
                 <p class="tips-subtitle">Çok kolay. Sana yardımcı olacağız</p>
-                <button class="action-btn">Çalma listesi oluştur</button>
+                <button class="action-btn" id="createPlaylistTriggerBtn">Çalma listesi oluştur</button>
             </div>
+            
+            <div id="playlistsTargetBox" style="display: flex; flex-direction: column; gap: 8px;"></div>
         </main>
 
         <div class="bottom-section">
@@ -727,7 +974,7 @@
                     <div class="bottom-sheet-drag-handle"></div>
                 </div>
                 
-                <button class="sheet-menu-item">
+                <button class="sheet-menu-item" id="sheetMenuCreatePlaylistBtn">
                     <div class="sheet-icon-wrapper">
                         <i class="fa-solid fa-music"></i>
                     </div>
@@ -769,6 +1016,42 @@
             </div>
         </div>
 
+        <div class="playlist-modal-overlay" id="playlistModalOverlay">
+            <div class="modal-heading">Çalma listene bir isim ver</div>
+            <input type="text" class="playlist-name-input" id="playlistNameInput" placeholder="Çalma listem" autocomplete="off">
+            <div class="modal-action-row">
+                <button class="modal-btn" id="modalCancelBtn">İptal</button>
+                <button class="modal-btn btn-primary" id="modalCreateBtn">Oluştur</button>
+            </div>
+        </div>
+
+        <div class="detail-panel-view" id="detailPanelView">
+            <header class="detail-header-nav">
+                <button class="back-panel-btn" id="detailBackBtn"><i class="fa-solid fa-chevron-left"></i></button>
+            </header>
+            <div class="detail-scroll-body">
+                <h2 class="detail-hero-title" id="detailHeroTitle">Playlist Name</h2>
+                
+                <div class="detail-creator-row">
+                    <img class="mini-creator-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" alt="User">
+                    <span class="creator-name-bold">User Profile</span>
+                </div>
+
+                <div class="detail-control-actions">
+                    <div class="left-action-icons">
+                        <i class="fa-solid fa-circle-arrow-down"></i>
+                        <i class="fa-solid fa-user-plus"></i>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </div>
+                    <button class="giant-play-accent-btn"><i class="fa-solid fa-play"></i></button>
+                </div>
+
+                <div class="track-list-vertical-wrapper" id="detailTracksListContainer">
+                    <div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok.</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -800,23 +1083,37 @@
             const progressFill = document.getElementById('progressFill');
             const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
-            // Bottom sheet DOM bindings
+            // Bottom sheet overlays DOM bindings
             const menuSheetOverlay = document.getElementById('menuSheetOverlay');
             const bottomSheet = document.getElementById('bottomSheet');
             const dragHandleContainer = document.getElementById('dragHandleContainer');
+
+            // NEW DOM Bindings for Playlist Lifecycle Feature Sets
+            const createPlaylistTriggerBtn = document.getElementById('createPlaylistTriggerBtn');
+            const sheetMenuCreatePlaylistBtn = document.getElementById('sheetMenuCreatePlaylistBtn');
+            const playlistModalOverlay = document.getElementById('playlistModalOverlay');
+            const playlistNameInput = document.getElementById('playlistNameInput');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalCreateBtn = document.getElementById('modalCreateBtn');
+            const playlistsTargetBox = document.getElementById('playlistsTargetBox');
+            
+            const detailPanelView = document.getElementById('detailPanelView');
+            const detailBackBtn = document.getElementById('detailBackBtn');
+            const detailHeroTitle = document.getElementById('detailHeroTitle');
+            const detailTracksListContainer = document.getElementById('detailTracksListContainer');
 
             if (closeTips && tipsCard) {
                 closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
             }
 
-            // --- BOTTOM SHEET GESTURE MANAGEMENT ENGINE ---
+            // --- BOTTOM SHEET GESTURE CONFIGURATION ENGINE ---
             let isDraggingSheet = false;
             let startY = 0;
             let currentY = 0;
 
             function closeSheetWithAnimation() {
                 bottomSheet.classList.remove('dragging');
-                bottomSheet.style.transform = ''; // Clear inline styles
+                bottomSheet.style.transform = '';
                 menuSheetOverlay.classList.remove('active');
             }
 
@@ -825,15 +1122,13 @@
                 bottomSheet.style.transform = 'translateY(0)';
             }
 
-            // Open Menu Button Event Trigger
             if (addBtnPlus && menuSheetOverlay) {
                 addBtnPlus.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    bottomSheet.style.transform = ''; // Clean inline drag rules
+                    bottomSheet.style.transform = '';
                     menuSheetOverlay.classList.add('active');
                 });
 
-                // Dismiss menu clicking onto dark background field area
                 menuSheetOverlay.addEventListener('click', (e) => {
                     if (e.target === menuSheetOverlay) {
                         closeSheetWithAnimation();
@@ -841,7 +1136,6 @@
                 });
             }
 
-            // Interactive Handle Pointer Touch Events listeners
             if (dragHandleContainer && bottomSheet) {
                 dragHandleContainer.addEventListener('touchstart', (e) => {
                     isDraggingSheet = true;
@@ -851,11 +1145,9 @@
 
                 window.addEventListener('touchmove', (e) => {
                     if (!isDraggingSheet) return;
-                    
                     currentY = e.touches[0].clientY;
                     let deltaY = currentY - startY;
 
-                    // Only allow dragging downward
                     if (deltaY > 0) {
                         bottomSheet.style.transform = `translateY(${deltaY}px)`;
                     } else {
@@ -866,9 +1158,7 @@
                 window.addEventListener('touchend', () => {
                     if (!isDraggingSheet) return;
                     isDraggingSheet = false;
-
                     let finalDeltaY = currentY - startY;
-                    // Dismiss threshold rule limit check (if dragged down > 100px)
                     if (finalDeltaY > 100) {
                         closeSheetWithAnimation();
                     } else {
@@ -877,8 +1167,92 @@
                 });
             }
 
+            // --- DYNAMIC PLAYLIST CONSTRUCTOR SYSTEM INTERFACES ---
+            function openPlaylistNamingModal() {
+                closeSheetWithAnimation();
+                playlistNameInput.value = '';
+                playlistModalOverlay.classList.add('active');
+                setTimeout(() => playlistNameInput.focus(), 150);
+            }
 
-            // --- ALBUM CAROUSEL CONTROLS ---
+            if (createPlaylistTriggerBtn) createPlaylistTriggerBtn.addEventListener('click', openPlaylistNamingModal);
+            if (sheetMenuCreatePlaylistBtn) sheetMenuCreatePlaylistBtn.addEventListener('click', openPlaylistNamingModal);
+
+            if (modalCancelBtn) {
+                modalCancelBtn.addEventListener('click', () => {
+                    playlistModalOverlay.classList.remove('active');
+                    playlistNameInput.blur();
+                });
+            }
+
+            if (modalCreateBtn) {
+                modalCreateBtn.addEventListener('click', () => {
+                    let chosenName = playlistNameInput.value.trim();
+                    if (!chosenName) chosenName = "Çalma Listem";
+
+                    // Hide tips onboarding framework once playlist setup completes
+                    if (tipsCard) tipsCard.style.display = 'none';
+
+                    // Build and Append New Row to Library Grid Area
+                    const playlistRowElement = document.createElement('div');
+                    playlistRowElement.className = 'playlist-row-item';
+                    playlistRowElement.innerHTML = `
+                        <div class="playlist-art-square">
+                            <i class="fa-solid fa-music"></i>
+                        </div>
+                        <div class="playlist-metadata">
+                            <div class="playlist-name-label">${chosenName}</div>
+                            <div class="playlist-desc-subtext">Çalma listesi • Profil İsmi</div>
+                        </div>
+                    `;
+
+                    // Handle full detailed overview open triggers
+                    playlistRowElement.addEventListener('click', () => {
+                        detailHeroTitle.textContent = chosenName;
+                        detailTracksListContainer.innerHTML = '';
+
+                        if (libraryTracksList.length === 0) {
+                            detailTracksListContainer.innerHTML = `<div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok. Şarkı yüklemek için yukarıdaki içe aktar düğmesini kullanın.</div>`;
+                        } else {
+                            // Populate list with loaded context elements
+                            libraryTracksList.forEach((track, index) => {
+                                const trElement = document.createElement('div');
+                                trElement.className = 'playlist-row-item';
+                                trElement.innerHTML = `
+                                    <div class="playlist-art-square" style="width:44px; height:44px; font-size:14px; background:${track.caseBackdropTone}">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                    <div class="playlist-metadata">
+                                        <div class="playlist-name-label" style="font-size:14px;">${track.title}</div>
+                                        <div class="playlist-desc-subtext" style="font-size:12px;">${track.artist}</div>
+                                    </div>
+                                `;
+                                trElement.addEventListener('click', (e) => {
+                                    e.stopPropagation();
+                                    triggerFocusedTrackReorientation(index);
+                                });
+                                detailTracksListContainer.appendChild(trElement);
+                            });
+                        }
+                        detailPanelView.classList.add('active');
+                    });
+
+                    playlistsTargetBox.appendChild(playlistRowElement);
+
+                    // Clear Modal Overlay Stack Views
+                    playlistModalOverlay.classList.remove('active');
+                    playlistNameInput.blur();
+                });
+            }
+
+            if (detailBackBtn) {
+                detailBackBtn.addEventListener('click', () => {
+                    detailPanelView.classList.remove('active');
+                });
+            }
+
+
+            // --- COverFLOW 3D ENGINE CONTROLLER ---
             const dynamicCaseGradients = [
                 'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
                 'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
@@ -1041,25 +1415,6 @@
             }, { passive: true });
 
             window.addEventListener('touchend', () => trackingMotionActive = false);
-
-            ['dragenter', 'dragover'].forEach(name => {
-                dropZoneViewport.addEventListener(name, (e) => {
-                    e.preventDefault(); e.stopPropagation();
-                }, false);
-            });
-
-            ['dragleave', 'drop'].forEach(name => {
-                dropZoneViewport.addEventListener(name, (e) => {
-                    e.preventDefault(); e.stopPropagation();
-                }, false);
-            });
-
-            dropZoneViewport.addEventListener('drop', (e) => {
-                const systemPacketPayload = e.dataTransfer;
-                if (systemPacketPayload && systemPacketPayload.files.length > 0) {
-                    processSelectedFilesInputPackets(systemPacketPayload.files);
-                }
-            }, false);
 
             if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
             
