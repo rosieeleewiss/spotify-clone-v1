@@ -89,18 +89,18 @@
             align-items: center;
         }
 
-        /* Main Workspace Content Area */
+        /* Main Workspace Panels Scroll Track */
         .content {
             padding: 8px 16px;
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
             overflow-y: auto;
             position: relative;
         }
 
-        /* Import Action Panel */
+        /* Import Action Trigger Panel */
         .import-card {
             width: 100%;
             background-color: #121212;
@@ -148,11 +148,11 @@
         }
 
         /* -------------------------------------------------------------
-           ONE-TO-ONE 100% ACCURATE 3D COVER FLOW VIEWPORT LAYER
+           PREMIUM 3D GEOMETRIC CASING CAROUSEL VIEWPORT
         ------------------------------------------------------------- */
         .library-3d-viewport {
             width: 100%;
-            height: 300px;
+            height: 320px;
             background: #000000;
             display: flex;
             align-items: center;
@@ -169,8 +169,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Establishes the exact 3D visual canvas perspective field */
-            perspective: 750px;
+            /* Creates a precise cinematic camera lens field of view */
+            perspective: 800px;
             transform-style: preserve-3d;
             cursor: grab;
         }
@@ -179,43 +179,101 @@
             cursor: grabbing;
         }
 
-        /* Absolute Physical Square Album Slits */
-        .album-spine-card {
+        /* THE 3D ALBUM CASE (Structural Assembly Core Element) */
+        .album-3d-case {
             position: absolute;
-            width: 165px;
-            height: 165px;
-            background-color: #181818;
-            border-radius: 2px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.9);
-            /* Smooth fluid mechanical ease transition curves */
-            transition: transform 0.45s cubic-bezier(0.25, 1, 0.3, 1), opacity 0.4s ease;
+            width: 160px;
+            height: 160px;
             transform-style: preserve-3d;
-            overflow: visible;
+            /* Fluid spring interpolations for rotation, depth tracking, and inertia adjustments */
+            transition: transform 0.5s cubic-bezier(0.18, 0.9, 0.32, 1.05), opacity 0.4s ease;
             user-select: none;
             
-            /* TRUE 3D FLOOR REFLECTION EFFECT */
-            -webkit-box-reflect: below 6px linear-gradient(transparent, transparent 50%, rgba(255, 255, 255, 0.20));
+            /* Ground floor reflection matching reference images */
+            -webkit-box-reflect: below 12px linear-gradient(transparent, transparent 40%, rgba(255, 255, 255, 0.15));
         }
 
-        .album-spine-art {
+        /* Universal Side Face Assembly Standards */
+        .case-face {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            position: relative;
+            background-color: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            backface-visibility: visible;
+        }
+
+        /* Front Album Surface Face */
+        .case-face.face-front {
+            transform: rotateY(0deg) translateZ(8px); /* Projected forward by half the depth value */
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 2;
         }
 
-        .album-spine-art i {
+        .case-face.face-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .case-face.face-front i {
             font-size: 50px;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.15);
         }
 
-        /* Dynamic Title Overlays displayed below the center track */
+        /* Left Edge / Physical Casing Spine Side */
+        .case-face.face-left {
+            width: 16px; /* Explicit structural thickness match */
+            left: -8px;
+            transform: rotateY(-90deg) translateZ(0);
+            background: linear-gradient(to right, #111111, #222222);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Right Edge / Physical Casing Spine Side */
+        .case-face.face-right {
+            width: 16px; /* Explicit structural thickness match */
+            left: auto;
+            right: -8px;
+            transform: rotateY(90deg) translateZ(0);
+            background: linear-gradient(to left, #111111, #222222);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* One-To-One Feature Representation:
+           Physical Vertical Typography writing configuration running along the spine edges
+        */
+        .spine-text-vertical {
+            font-size: 8px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            white-space: nowrap;
+            letter-spacing: 1px;
+            /* Rotates the horizontal text layout perfectly onto the thin edge orientation line */
+            transform: rotate(90deg);
+            width: 140px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Static Readouts Display Panel below the center elements */
         .center-track-title-display {
             position: absolute;
-            bottom: 12px;
+            bottom: 16px;
             width: 100%;
             text-align: center;
             pointer-events: none;
@@ -227,7 +285,7 @@
         }
 
         .center-main-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             color: #ffffff;
             white-space: nowrap;
@@ -322,7 +380,7 @@
             cursor: pointer;
         }
 
-        /* Fixed Placement Bottom Control Panel Area */
+        /* Fixed Placement Control Tray Deck */
         .bottom-section {
             position: absolute;
             bottom: 0;
@@ -428,7 +486,7 @@
             width: 20px;
         }
 
-        /* Audio Timeline Progress Components */
+        /* Mini Progress Bar Line Styles */
         .progress-bar {
             position: absolute;
             bottom: 0;
@@ -567,12 +625,12 @@
             let libraryTracksList = [];
             let focusedIndex = 0;
             
-            // Swipe gesture configuration states
-            let interactionActive = false;
-            let touchOriginX = 0;
-            let referenceDeltaX = 0;
+            // Motion tracking calculation references hooks
+            let trackingMotionActive = false;
+            let initialTouchX = 0;
+            let slidingReferenceDeltaX = 0;
 
-            // DOM Hooks references mapping
+            // DOM UI component definitions links maps
             const closeTips = document.getElementById('closeTips');
             const tipsCard = document.getElementById('tipsCard');
             const playBtn = document.getElementById('playBtn');
@@ -597,8 +655,8 @@
                 closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
             }
 
-            // High-saturation spectrum gradients for authentic album sleeves
-            const albumBackdropPalettes = [
+            // Cinematic block matrix tones for cases backgrounds
+            const dynamicCaseGradients = [
                 'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
                 'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
                 'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)',
@@ -607,8 +665,8 @@
                 'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
             ];
 
-            // 100% ACCURATE TRUE 3D PERSPECTIVE COVER FLOW LAYOUT FORMULA
-            function refresh3DSpaceTransforms() {
+            // ADVANCED STRUCTURAL MULTI-FACE 3D GEOMETRIC POSITIONING ENGINE
+            function compute3DCaseSpaceTransforms() {
                 if (libraryTracksList.length === 0) {
                     emptyNotice.style.display = 'flex';
                     centerTrackTitleDisplay.style.display = 'none';
@@ -617,154 +675,164 @@
                 emptyNotice.style.display = 'none';
                 centerTrackTitleDisplay.style.display = 'flex';
 
-                const cardNodes = coverflowContainer.querySelectorAll('.album-spine-card');
+                const structuralCases = coverflowContainer.querySelectorAll('.album-3d-case');
                 
-                cardNodes.forEach((card, idx) => {
-                    const offsetSeparation = idx - focusedIndex;
+                structuralCases.forEach((albumCase, idx) => {
+                    const trackingOffset = idx - focusedIndex;
                     
                     let translateX = 0;
                     let rotateY = 0;
                     let translateZ = 0;
-                    let visualOpacity = 1;
-                    let calculatedZIndex = 100 - Math.abs(offsetSeparation);
+                    let opacityValue = 1;
+                    let layeredZIndex = 100 - Math.abs(trackingOffset);
 
-                    if (offsetSeparation === 0) {
-                        // Central Face Forward Track
+                    if (trackingOffset === 0) {
+                        // Focused Active Node Facing Forward Completely
                         translateX = 0;
                         rotateY = 0;
-                        translateZ = 140; // Projects forward aggressively along the Z-Axis
-                        calculatedZIndex = 500;
-                        visualOpacity = 1;
-                    } else if (offsetSeparation < 0) {
-                        // Left-side Stacked covers turned inward sharp
-                        rotateY = 60; // Clean precise 3D side turning angle
-                        translateX = (offsetSeparation * 40) - 90; // Stack tightly together
-                        translateZ = 0;
-                        visualOpacity = Math.max(0.2, 1 + (offsetSeparation * 0.25));
-                    } else if (offsetSeparation > 0) {
-                        // Right-side Stacked covers turned outward sharp
-                        rotateY = -60;
-                        translateX = (offsetSeparation * 40) + 90;
-                        translateZ = 0;
-                        visualOpacity = Math.max(0.2, 1 - (offsetSeparation * 0.25));
+                        translateZ = 130; // Shifts center block forward on Z axis
+                        layeredZIndex = 600;
+                        opacityValue = 1;
+                    } else if (trackingOffset < 0) {
+                        // Side Stack Left Profile Casing Setup
+                        rotateY = 65; // High turning scale distortion factor 
+                        translateX = (trackingOffset * 45) - 80; // Overlapping layout increments
+                        translateZ = -40; // Steps elements smoothly into the background fields array layout
+                        opacityValue = Math.max(0.15, 1 + (trackingOffset * 0.25));
+                    } else if (trackingOffset > 0) {
+                        // Side Stack Right Profile Casing Setup
+                        rotateY = -65;
+                        translateX = (trackingOffset * 45) + 80;
+                        translateZ = -40;
+                        opacityValue = Math.max(0.15, 1 - (trackingOffset * 0.25));
                     }
 
-                    // Strict boundary culling to ensure perfect scannability layout
-                    if (Math.abs(offsetSeparation) > 3) {
-                        visualOpacity = 0;
+                    // Strict outer viewport boundary optimization mask tracking
+                    if (Math.abs(trackingOffset) > 3) {
+                        opacityValue = 0;
                     }
 
-                    card.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
-                    card.style.zIndex = calculatedZIndex;
-                    card.style.opacity = visualOpacity;
+                    // Apply coordinate vectors matrix array calculations directly onto element chassis styles
+                    albumCase.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+                    albumCase.style.zIndex = layeredZIndex;
+                    albumCase.style.opacity = opacityValue;
                 });
             }
 
-            function reorientFocusTrack(targetIdx) {
+            function triggerFocusedTrackReorientation(targetIdx) {
                 if (libraryTracksList.length === 0) return;
                 
                 focusedIndex = Math.max(0, Math.min(targetIdx, libraryTracksList.length - 1));
-                refresh3DSpaceTransforms();
+                compute3DCaseSpaceTransforms();
 
-                const activeTrackNode = libraryTracksList[focusedIndex];
+                const isolatedTrackNode = libraryTracksList[focusedIndex];
                 
                 // Update 3D center layout string readouts
-                centerMainTitle.textContent = activeTrackNode.title;
-                centerSubArtist.textContent = activeTrackNode.artist;
+                centerMainTitle.textContent = isolatedTrackNode.title;
+                centerSubArtist.textContent = isolatedTrackNode.artist;
 
-                // Sync context data down seamlessly into Burgundy Tray Deck elements
-                playerTitle.textContent = activeTrackNode.title;
-                playerArtist.textContent = activeTrackNode.artist;
-                playerAlbumArtContainer.style.background = activeTrackNode.sleeveGradient;
+                // Synchronize attributes fields seamlessly over into fixed lower playback modules
+                playerTitle.textContent = isolatedTrackNode.title;
+                playerArtist.textContent = isolatedTrackNode.artist;
+                playerAlbumArtContainer.style.background = isolatedTrackNode.caseBackdropTone;
                 playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
 
-                // Load audio source stream safely
-                audioEngine.src = activeTrackNode.virtualObjectUrl;
-                audioEngine.play().catch(() => { /* Defer runtime browser prompt warnings gracefully */ });
+                // Load background audio sources securely
+                audioEngine.src = isolatedTrackNode.blobObjectLinkUrl;
+                audioEngine.play().catch(() => { /* Standard browser user interface security flags bypass */ });
             }
 
-            function pushSelectedFilesIntoEngine(files) {
-                let triggeringFreshBoot = (libraryTracksList.length === 0);
+            function processSelectedFilesInputPackets(filesList) {
+                let checkInitialLibraryBootState = (libraryTracksList.length === 0);
 
-                for (let i = 0; i < files.length; i++) {
-                    const trackingFile = files[i];
-                    if (!trackingFile.type.startsWith('audio/')) continue;
+                for (let i = 0; i < filesList.length; i++) {
+                    const musicFile = filesList[i];
+                    if (!musicFile.type.startsWith('audio/')) continue;
 
-                    let cleanFileName = trackingFile.name.replace(/\.[^/.]+$/, "");
-                    let parsedTitle = cleanFileName;
-                    let parsedArtist = "Yerel Parça";
+                    let rawCleanedString = musicFile.name.replace(/\.[^/.]+$/, "");
+                    let derivedTitleString = rawCleanedString;
+                    let derivedArtistString = "Yerel Parça";
 
-                    if (cleanFileName.includes(" - ")) {
-                        const chunks = cleanFileName.split(" - ");
-                        parsedArtist = chunks[0].trim();
-                        parsedTitle = chunks[1].trim();
+                    if (rawCleanedString.includes(" - ")) {
+                        const wordSplitFragments = rawCleanedString.split(" - ");
+                        derivedArtistString = wordSplitFragments[0].trim();
+                        derivedTitleString = wordSplitFragments[1].trim();
                     }
 
-                    const dynamicColorTone = albumBackdropPalettes[libraryTracksList.length % albumBackdropPalettes.length];
+                    const dynamicGradIndex = albumBackdropPalettesStyleIndex = libraryTracksList.length % dynamicCaseGradients.length;
+                    const choiceBackdropTone = dynamicCaseGradients[dynamicGradIndex];
                     
-                    const musicTrackItem = {
-                        title: parsedTitle,
-                        artist: parsedArtist,
-                        virtualObjectUrl: URL.createObjectURL(trackingFile),
-                        sleeveGradient: dynamicColorTone
+                    const systemTrackPayload = {
+                        title: derivedTitleString,
+                        artist: derivedArtistString,
+                        blobObjectLinkUrl: URL.createObjectURL(musicFile),
+                        caseBackdropTone: choiceBackdropTone
                     };
 
-                    libraryTracksList.push(musicTrackItem);
+                    libraryTracksList.push(systemTrackPayload);
 
-                    // Build premium physical texture element cards
-                    const albumCard = document.createElement('div');
-                    albumCard.className = 'album-spine-card';
-                    albumCard.innerHTML = `
-                        <div class="album-spine-art" style="background: ${dynamicColorTone}">
+                    // MULTI-FACE STRUCTURAL 3D CUBE CASE GENERATION HOOK
+                    const physicalCaseNode = document.createElement('div');
+                    physicalCaseNode.className = 'album-3d-case';
+                    
+                    // Creates true spatial thickness edges containing vertical song text layouts
+                    physicalCaseNode.innerHTML = `
+                        <div class="case-face face-left">
+                            <div class="spine-text-vertical">${derivedTitleString}</div>
+                        </div>
+                        <div class="case-face face-front" style="background: ${choiceBackdropTone}">
                             <i class="fa-solid fa-record-vinyl"></i>
+                        </div>
+                        <div class="case-face face-right">
+                            <div class="spine-text-vertical">${derivedTitleString}</div>
                         </div>
                     `;
 
-                    const currentIndexedReference = libraryTracksList.length - 1;
-                    albumCard.addEventListener('click', () => {
-                        if (focusedIndex !== currentIndexedReference) {
-                            reorientFocusTrack(currentIndexedReference);
+                    const capturedScopeIndex = libraryTracksList.length - 1;
+                    physicalCaseNode.addEventListener('click', () => {
+                        if (focusedIndex !== capturedScopeIndex) {
+                            triggerFocusedTrackReorientation(capturedScopeIndex);
                         }
                     });
 
-                    coverflowContainer.appendChild(albumCard);
+                    coverflowContainer.appendChild(physicalCaseNode);
                 }
 
-                if (triggeringFreshBoot && libraryTracksList.length > 0) {
-                    reorientFocusTrack(0);
+                if (checkInitialLibraryBootState && libraryTracksList.length > 0) {
+                    triggerFocusedTrackReorientation(0);
                 } else {
-                    refresh3DSpaceTransforms();
+                    compute3DCaseSpaceTransforms();
                 }
             }
 
-            // High precision Touch Gesture Interaction Loop Configurations
+            // High Precision Mobile Touch Inertia Gestures Configurations
             dropZoneViewport.addEventListener('touchstart', (e) => {
-                interactionActive = true;
-                touchOriginX = e.touches[0].clientX;
-                referenceDeltaX = touchOriginX;
+                trackingMotionActive = true;
+                initialTouchX = e.touches[0].clientX;
+                slidingReferenceDeltaX = initialTouchX;
             }, { passive: true });
 
             dropZoneViewport.addEventListener('touchmove', (e) => {
-                if (!interactionActive || libraryTracksList.length === 0) return;
-                const dynamicCurrentTouchX = e.touches[0].clientX;
-                const dynamicDisplacementDelta = dynamicCurrentTouchX - referenceDeltaX;
+                if (!trackingMotionActive || libraryTracksList.length === 0) return;
+                const activeLiveTouchX = e.touches[0].clientX;
+                const motionVectorDisplacement = activeLiveTouchX - slidingReferenceDeltaX;
                 
-                // Optimized deflection distance sensitivity settings
-                if (Math.abs(dynamicDisplacementDelta) > 35) {
-                    if (dynamicDisplacementDelta > 0 && focusedIndex > 0) {
-                        reorientFocusTrack(focusedIndex - 1);
-                        interactionActive = false; 
-                    } else if (dynamicDisplacementDelta < 0 && focusedIndex < libraryTracksList.length - 1) {
-                        reorientFocusTrack(focusedIndex + 1);
-                        interactionActive = false;
+                // Track finger motion offsets for seamless swiping steps
+                if (Math.abs(motionVectorDisplacement) > 35) {
+                    if (motionVectorDisplacement > 0 && focusedIndex > 0) {
+                        triggerFocusedTrackReorientation(focusedIndex - 1);
+                        trackingMotionActive = false; 
+                    } else if (motionVectorDisplacement < 0 && focusedIndex < libraryTracksList.length - 1) {
+                        triggerFocusedTrackReorientation(focusedIndex + 1);
+                        trackingMotionActive = false;
                     }
-                    referenceDeltaX = dynamicCurrentTouchX;
+                    slidingReferenceDeltaX = activeLiveTouchX;
                 }
             }, { passive: true });
 
-            window.addEventListener('touchend', () => interactionActive = false);
+            window.addEventListener('touchend', () => trackingMotionActive = false);
 
-            // Drag and drop processing loops
+            // Drag and Drop desktop execution processing layers
             ['dragenter', 'dragover'].forEach(name => {
                 dropZoneViewport.addEventListener(name, (e) => {
                     e.preventDefault(); e.stopPropagation();
@@ -778,9 +846,9 @@
             });
 
             dropZoneViewport.addEventListener('drop', (e) => {
-                const dataTransferPacket = e.dataTransfer;
-                if (dataTransferPacket && dataTransferPacket.files.length > 0) {
-                    pushSelectedFilesIntoEngine(dataTransferPacket.files);
+                const systemPacketPayload = e.dataTransfer;
+                if (systemPacketPayload && systemPacketPayload.files.length > 0) {
+                    processSelectedFilesInputPackets(systemPacketPayload.files);
                 }
             }, false);
 
@@ -790,12 +858,12 @@
             if (fileInput) {
                 fileInput.addEventListener('change', (e) => {
                     if (e.target.files.length > 0) {
-                        pushSelectedFilesIntoEngine(e.target.files);
+                        processSelectedFilesInputPackets(e.target.files);
                     }
                 });
             }
 
-            // Audio Core Media Playback Execution Node Events Links
+            // Interactive Audio Engine Modules Playback Link Mapping Connections
             if (playBtn && audioEngine) {
                 playBtn.addEventListener('click', () => {
                     if (libraryTracksList.length === 0) {
@@ -819,14 +887,14 @@
 
                 audioEngine.addEventListener('timeupdate', () => {
                     if (audioEngine.duration) {
-                        const calculatedPercentageScore = (audioEngine.currentTime / audioEngine.duration) * 100;
-                        progressFill.style.width = `${calculatedPercentageScore}%`;
+                        const runtimeProgressPercentageValue = (audioEngine.currentTime / audioEngine.duration) * 100;
+                        progressFill.style.width = `${runtimeProgressPercentageValue}%`;
                     }
                 });
 
                 audioEngine.addEventListener('ended', () => {
                     if (focusedIndex < libraryTracksList.length - 1) {
-                        reorientFocusTrack(focusedIndex + 1);
+                        triggerFocusedTrackReorientation(focusedIndex + 1);
                     } else {
                         playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
                         progressFill.style.width = '0%';
@@ -834,7 +902,7 @@
                 });
             }
 
-            window.addEventListener('resize', refresh3DSpaceTransforms);
+            window.addEventListener('resize', compute3DCaseSpaceTransforms);
         });
     </script>
 </body>
