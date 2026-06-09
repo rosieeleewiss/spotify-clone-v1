@@ -563,19 +563,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             cursor: pointer;
         }
 
         .nav-icon {
-            font-size: 20px;
+            font-size: 18px;
             color: #ffffff;
         }
 
         .nav-item span {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 500;
             color: #ffffff;
+            margin-top: 2px;
         }
 
         #hiddenFileInput {
@@ -781,7 +782,7 @@
         }
 
         /* -------------------------------------------------------------
-           PLAYLIST DYNAMIC TRACK DETAIL SCREEN PANEL
+           PLAYLIST DYNAMIC TRACK DETAIL SCREEN PANEL (UPDATED TO MATCH IMAGE 2)
         ------------------------------------------------------------- */
         .detail-panel-view {
             position: absolute;
@@ -789,7 +790,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, #404040 0%, #121212 40%, #000000 100%);
+            background: linear-gradient(to bottom, #1e1e1e 0%, #0d0d0d 30%, #000000 100%);
             z-index: 2500;
             display: flex;
             flex-direction: column;
@@ -811,81 +812,173 @@
             background: none;
             border: none;
             color: #ffffff;
-            font-size: 22px;
+            font-size: 20px;
             cursor: pointer;
         }
 
         .detail-scroll-body {
             flex: 1;
             overflow-y: auto;
-            padding: 16px;
+            padding: 0 16px 140px 16px;
             display: flex;
             flex-direction: column;
         }
 
-        .detail-hero-title {
-            font-size: 28px;
-            font-weight: 800;
-            color: #ffffff;
-            margin-top: 16px;
-            margin-bottom: 8px;
+        /* Image 2 Top Section Layout block */
+        .playlist-info-block {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            align-items: flex-start;
         }
 
-        .detail-creator-row {
+        .playlist-editable-cover {
+            width: 135px;
+            height: 135px;
+            background-color: #242424;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+        .playlist-editable-cover i {
+            color: #9f9f9f;
+            font-size: 36px;
+        }
+
+        .playlist-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+            padding-top: 4px;
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .detail-hero-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 60%;
+        }
+
+        .degistir-btn {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .creator-row-new {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 20px;
+        }
+
+        .add-user-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: #ffffff;
         }
 
         .mini-creator-avatar {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             object-fit: cover;
         }
 
         .creator-name-bold {
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 600;
             color: #ffffff;
         }
 
-        .detail-control-actions {
+        .duration-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #a7a7a7;
+        }
+
+        .duration-row i {
+            font-size: 11px;
+        }
+
+        /* Image 2 Actions Bar */
+        .detail-action-bar-new {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-top: 24px;
             margin-bottom: 24px;
         }
 
-        .left-action-icons {
-            display: flex;
-            gap: 24px;
-            color: #b3b3b3;
-            font-size: 20px;
-        }
-
-        .left-action-icons i {
-            cursor: pointer;
-        }
-
-        .left-action-icons i:active {
+        .action-icon-btn {
+            background: none;
+            border: none;
             color: #ffffff;
-        }
-
-        .giant-play-accent-btn {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background-color: #1db954;
-            color: #000000;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+        }
+
+        /* Centered Add Button */
+        .center-add-button-container {
+            display: flex;
+            justify-content: center;
+            margin: 8px 0 28px 0;
+        }
+
+        .add-to-playlist-btn {
+            background-color: #ffffff;
+            color: #000000;
             border: none;
+            border-radius: 24px;
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .recommended-heading {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
         }
 
         .track-list-vertical-wrapper {
@@ -1048,21 +1141,40 @@
                 <button class="back-panel-btn" id="detailBackBtn"><i class="fa-solid fa-chevron-left"></i></button>
             </header>
             <div class="detail-scroll-body">
-                <h2 class="detail-hero-title" id="detailHeroTitle">Playlist Name</h2>
                 
-                <div class="detail-creator-row">
-                    <img class="mini-creator-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" alt="User">
-                    <span class="creator-name-bold">User Profile</span>
+                <div class="playlist-info-block">
+                    <div class="playlist-editable-cover">
+                        <i class="fa-solid fa-pencil"></i>
+                    </div>
+                    <div class="playlist-text-details">
+                        <div class="title-row">
+                            <h2 class="detail-hero-title" id="detailHeroTitle">1. çalma listem</h2>
+                            <button class="degistir-btn">Değiştir</button>
+                        </div>
+                        
+                        <div class="creator-row-new">
+                            <span class="add-user-icon"><i class="fa-solid fa-plus"></i></span>
+                            <img class="mini-creator-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" alt="User">
+                            <span class="creator-name-bold">nnetofy</span>
+                        </div>
+
+                        <div class="duration-row">
+                            <i class="fa-solid fa-lock"></i>
+                            <span>0 dk.</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="detail-control-actions">
-                    <div class="left-action-icons">
-                        <i class="fa-solid fa-circle-arrow-down"></i>
-                        <i class="fa-solid fa-user-plus"></i>
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </div>
-                    <button class="giant-play-accent-btn"><i class="fa-solid fa-play"></i></button>
+                <div class="detail-action-bar-new">
+                    <button class="action-icon-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                    <button class="action-icon-btn"><i class="fa-solid fa-ellipsis"></i></button>
                 </div>
+
+                <div class="center-add-button-container">
+                    <button class="add-to-playlist-btn"><i class="fa-solid fa-plus"></i> Bu çalma listesine ekle</button>
+                </div>
+
+                <h3 class="recommended-heading">Önerilen şarkılar</h3>
 
                 <div class="track-list-vertical-wrapper" id="detailTracksListContainer">
                     <div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok.</div>
@@ -1284,7 +1396,7 @@
                 });
             }
 
-            // --- COverFLOW 3D ENGINE CONTROLLER ---
+            // --- CoverFLOW 3D ENGINE CONTROLLER ---
             const dynamicCaseGradients = [
                 'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
                 'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
