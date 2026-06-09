@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Core Engine State Registers
+    // --- PERSISTENT DATA CORE REGISTERS ---
     let libraryTracksList = [];
     let playlistRegistryCollection = [];
     let currentlySelectedPlaylistId = null;
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let customUploadedCoverBase64 = null;
     let temporaryEditorContributorsList = [];
 
-    // Main Dashboard & Audio Engine Elements
+    // --- MAIN DASHBOARD & AUDIO AUDIO ENGINE ELEMENTS ---
     const closeTips = document.getElementById('closeTips');
     const tipsCard = document.getElementById('tipsCard');
     const playBtn = document.getElementById('playBtn');
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressFill = document.getElementById('progressFill');
     const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
-    // Bottom Sheet Overlays & Modal Bindings
+    // --- OVERLAYS & SHEET STACK BINDINGS ---
     const menuSheetOverlay = document.getElementById('menuSheetOverlay');
     const bottomSheet = document.getElementById('bottomSheet');
     const dragHandleContainer = document.getElementById('dragHandleContainer');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCreateBtn = document.getElementById('modalCreateBtn');
     const playlistsTargetBox = document.getElementById('playlistsTargetBox');
     
-    // Detailed Playlist Panel Elements
+    // --- DETAILED PLAYLIST CANVAS PANEL ELEMENTS ---
     const detailPanelView = document.getElementById('detailPanelView');
     const detailBackBtn = document.getElementById('detailBackBtn');
     const detailHeroTitle = document.getElementById('detailHeroTitle');
@@ -55,10 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailPlaylistCoverContainer = document.getElementById('detailPlaylistCoverContainer');
     const detailPanelDegistirBtn = document.getElementById('detailPanelDegistirBtn');
     const detailContributorsStrip = document.getElementById('detailContributorsStrip');
-    const detailCreatorLabel = document.getElementById('detailCreatorLabel');
-    const detailAddUserNodeTrigger = document.getElementById('detailAddUserNodeTrigger');
 
-    // Playlist Editor Window Panel Elements
+    // --- PLAYLIST EDITOR VIEW PANEL WINDOW INTERACTION ---
     const editorPanelView = document.getElementById('editorPanelView');
     const editorCancelBtn = document.getElementById('editorCancelBtn');
     const editorSaveBtn = document.getElementById('editorSaveBtn');
@@ -69,6 +67,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const editorContributorsGrid = document.getElementById('editorContributorsGrid');
     const editorDeletePlaylistBtn = document.getElementById('editorDeletePlaylistBtn');
 
+    const dynamicCaseGradients = [
+        'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
+        'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
+        'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)',
+        'linear-gradient(135deg, #b31217 0%, #e52d27 100%)',
+        'linear-gradient(135deg, #00f260 0%, #0575e6 100%)',
+        'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
+    ];
+
+    // --- LOCALSTORAGE INFRASTRUCTURE ENGINE ---
+    function saveDataToLocalStorage() {
+        try {
+            localStorage.setItem('persistent_audio_library', JSON.stringify(libraryTracksList));
+            localStorage.setItem('persistent_playlist_collection', JSON.stringify(playlistRegistryCollection));
+        } catch (error) {
+            console.error("Storage write cap layout warning: Storage limit might be exceeded.", error);
+        }
+    }
+
+    function loadDataFromLocalStorage() {
+        const structuralSavedTracks = localStorage.getItem('persistent_audio_library');
+        const structuralSavedPlaylists = localStorage.getItem('persistent_playlist_collection');
+
+        if (structuralSavedTracks) {
+            libraryTracksList = JSON.parse(structuralSavedTracks);
+            if (coverflowContainer) coverflowContainer.innerHTML = '';
+            libraryTracksList.forEach((track, idx) => {
+                build3DTrackDOMCard(track, idx);
+            });
+        }
+
+        if (structuralSavedPlaylists) {
+            playlistRegistryCollection = JSON.parse(structuralSavedPlaylists);
+            renderPlaylistsToDashboard();
+        }
+
+        if (libraryTracksList.length > 0) {
+            if (tipsCard) tipsCard.style.display = 'none';
+            triggerFocusedTrackReorientation(0, false); // Boot app visualization layout without hard auto-playing audio immediately
+        } else {
+            compute3DCaseSpaceTransforms();
+        }
+    }
+
     // --- ONBOARDING TIPS LOGIC ---
     if (closeTips && tipsCard) {
         closeTips.addEventListener('click', () => {
@@ -76,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- BOTTOM SHEET GESTURE CONFIGURATION ENGINE ---
+    // --- BOTTOM SHEET GESTURE ENGINE LAYOUT ---
     let isDraggingSheet = false;
     let startY = 0;
     let currentY = 0;
@@ -102,9 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         menuSheetOverlay.addEventListener('click', (e) => {
-            if (e.target === menuSheetOverlay) {
-                closeSheetWithAnimation();
-            }
+            if (e.target === menuSheetOverlay) closeSheetWithAnimation();
         });
     }
 
@@ -119,19 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isDraggingSheet) return;
             currentY = e.touches[0].clientY;
             let deltaY = currentY - startY;
-
-            if (deltaY > 0) {
-                bottomSheet.style.transform = `translateY(${deltaY}px)`;
-            } else {
-                bottomSheet.style.transform = `translateY(0px)`;
-            }
+            if (deltaY > 0) bottomSheet.style.transform = `translateY(${deltaY}px)`;
         }, { passive: true });
 
         window.addEventListener('touchend', () => {
             if (!isDraggingSheet) return;
             isDraggingSheet = false;
-            let finalDeltaY = currentY - startY;
-            if (finalDeltaY > 100) {
+            if ((currentY - startY) > 100) {
                 closeSheetWithAnimation();
             } else {
                 resetSheetPosition();
@@ -139,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- PLAYLIST LIFECYCLE MANAGEMENT ENGINES ---
+    // --- PLAYLIST DATA MUTATION CONTROLS ---
     function openPlaylistNamingModal() {
         closeSheetWithAnimation();
         if (playlistNameInput) {
@@ -155,15 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalCancelBtn) {
         modalCancelBtn.addEventListener('click', () => {
             playlistModalOverlay.classList.remove('active');
-            playlistNameInput.blur();
-        });
-    }
-
-    if (playlistNameInput) {
-        playlistNameInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                modalCreateBtn.click();
-            }
         });
     }
 
@@ -192,11 +217,10 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             playlistRegistryCollection.push(newPlaylistObj);
+            saveDataToLocalStorage();
             renderPlaylistsToDashboard();
             
             playlistModalOverlay.classList.remove('active');
-            playlistNameInput.blur();
-
             launchPlaylistDetailsView(generatedId);
         });
     }
@@ -220,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="playlist-metadata">
                     <div class="playlist-name-label">${pl.name}</div>
-                    <div class="playlist-desc-subtext">Çalma listesi • Profil İsmi</div>
+                    <div class="playlist-desc-subtext">Çalma listesi • Kitaplığın</div>
                 </div>
             `;
 
@@ -239,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentlySelectedPlaylistId = id;
         if (detailHeroTitle) detailHeroTitle.textContent = pl.name;
 
-        // Cover Frame Update
         if (detailPlaylistCoverContainer) {
             if (pl.coverImage) {
                 detailPlaylistCoverContainer.style.background = 'none';
@@ -250,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Render Contributors Preview Strip
         if (detailContributorsStrip) {
             detailContributorsStrip.innerHTML = '';
             pl.contributors.forEach(url => {
@@ -263,9 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderDetailTracks();
 
-        if (detailPanelView) {
-            detailPanelView.classList.add('active');
-        }
+        if (detailPanelView) detailPanelView.classList.add('active');
     }
 
     function renderDetailTracks() {
@@ -294,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 trElement.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    triggerFocusedTrackReorientation(index);
+                    triggerFocusedTrackReorientation(index, true);
                 });
                 detailTracksListContainer.appendChild(trElement);
             });
@@ -308,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- TAB EDITOR MANAGEMENT MANAGEMENT & CONTROL PANELS ---
+    // --- MANAGEMENT WORKFLOW CONFIGURATION FOR EDIT VIEW ---
     if (detailPanelDegistirBtn) {
         detailPanelDegistirBtn.addEventListener('click', () => {
             const pl = playlistRegistryCollection.find(p => p.id === currentlySelectedPlaylistId);
@@ -334,16 +354,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             editorImagePreview.style.display = 'none';
             editorFallbackIcon.style.display = 'block';
-            if (editorArtworkShowcase) {
-                editorArtworkShowcase.style.background = playlistObj.background;
-            }
+            if (editorArtworkShowcase) editorArtworkShowcase.style.background = playlistObj.background;
         }
     }
 
     if (editorArtworkShowcase && coverFileInput) {
-        editorArtworkShowcase.addEventListener('click', () => {
-            coverFileInput.click();
-        });
+        editorArtworkShowcase.addEventListener('click', () => coverFileInput.click());
     }
 
     if (coverFileInput) {
@@ -414,6 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 pl.coverImage = customUploadedCoverBase64;
                 pl.contributors = [...temporaryEditorContributorsList];
 
+                saveDataToLocalStorage();
                 launchPlaylistDetailsView(pl.id);
                 renderPlaylistsToDashboard();
             }
@@ -430,28 +447,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (editorDeletePlaylistBtn) {
         editorDeletePlaylistBtn.addEventListener('click', () => {
             playlistRegistryCollection = playlistRegistryCollection.filter(p => p.id !== currentlySelectedPlaylistId);
+            saveDataToLocalStorage();
             renderPlaylistsToDashboard();
 
             if (editorPanelView) editorPanelView.classList.remove('active');
             if (detailPanelView) detailPanelView.classList.remove('active');
             currentlySelectedPlaylistId = null;
-
-            if (playlistRegistryCollection.length === 0 && tipsCard) {
-                tipsCard.style.display = 'flex';
-            }
         });
     }
 
-    // --- COverFLOW 3D ENGINE CONTROLLER ---
-    const dynamicCaseGradients = [
-        'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
-        'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
-        'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)',
-        'linear-gradient(135deg, #b31217 0%, #e52d27 100%)',
-        'linear-gradient(135deg, #00f260 0%, #0575e6 100%)',
-        'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
-    ];
-
+    // --- INTERACTIVE COVERFLOW 3D ENGINE CONTROLLER ---
     function compute3DCaseSpaceTransforms() {
         if (!emptyNotice || !centerTrackTitleDisplay || !coverflowContainer) return;
 
@@ -492,9 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 opacityValue = Math.max(0.15, 1 - (trackingOffset * 0.25));
             }
 
-            if (Math.abs(trackingOffset) > 3) {
-                opacityValue = 0;
-            }
+            if (Math.abs(trackingOffset) > 3) opacityValue = 0;
 
             albumCase.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
             albumCase.style.zIndex = layeredZIndex;
@@ -502,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function triggerFocusedTrackReorientation(targetIdx) {
+    function triggerFocusedTrackReorientation(targetIdx, autoPlayTrack = true) {
         if (libraryTracksList.length === 0) return;
         focusedIndex = Math.max(0, Math.min(targetIdx, libraryTracksList.length - 1));
         compute3DCaseSpaceTransforms();
@@ -519,18 +522,49 @@ document.addEventListener('DOMContentLoaded', () => {
             playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
         }
         
-        if (audioEngine) {
-            audioEngine.src = isolatedTrackNode.blobObjectLinkUrl;
-            audioEngine.play().catch(() => {});
+        if (audioEngine && isolatedTrackNode.audioRawBase64) {
+            audioEngine.src = isolatedTrackNode.audioRawBase64;
+            if (autoPlayTrack) {
+                audioEngine.play().catch(() => {});
+            }
         }
     }
 
+    function build3DTrackDOMCard(trackObj, index) {
+        const physicalCaseNode = document.createElement('div');
+        physicalCaseNode.className = 'album-3d-case';
+        
+        physicalCaseNode.innerHTML = `
+            <div class="case-face face-left">
+                <div class="spine-text-vertical">${trackObj.title}</div>
+            </div>
+            <div class="case-face face-front" style="background: ${trackObj.caseBackdropTone}">
+                 <i class="fa-solid fa-record-vinyl"></i>
+            </div>
+            <div class="case-face face-right">
+                <div class="spine-text-vertical">${trackObj.title}</div>
+            </div>
+        `;
+        
+        physicalCaseNode.addEventListener('click', () => {
+            if (focusedIndex !== index) {
+                triggerFocusedTrackReorientation(index, true);
+            }
+        });
+        if (coverflowContainer) coverflowContainer.appendChild(physicalCaseNode);
+    }
+
+    // --- FILE ENCODING IMPORTATION HANDLERS (MP3 & ORG DATA) ---
     function processSelectedFilesInputPackets(filesList) {
         let checkInitialLibraryBootState = (libraryTracksList.length === 0);
-        
+        let processedCounter = 0;
+
         for (let i = 0; i < filesList.length; i++) {
             const musicFile = filesList[i];
-            if (!musicFile.type.startsWith('audio/')) continue;
+            
+            // Explicit tracking layout processing for MP3 / audio formats or structural ORG track items
+            const lowercasedName = musicFile.name.toLowerCase();
+            if (!musicFile.type.startsWith('audio/') && !lowercasedName.endsWith('.org') && !lowercasedName.endsWith('.mp3')) continue;
 
             let rawCleanedString = musicFile.name.replace(/\.[^/.]+$/, "");
             let derivedTitleString = rawCleanedString;
@@ -542,54 +576,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 derivedTitleString = wordSplitFragments[1].trim();
             }
 
-            const dynamicGradIndex = libraryTracksList.length % dynamicCaseGradients.length;
+            const dynamicGradIndex = (libraryTracksList.length + processedCounter) % dynamicCaseGradients.length;
             const choiceBackdropTone = dynamicCaseGradients[dynamicGradIndex];
-            
-            const systemTrackPayload = {
-                title: derivedTitleString,
-                artist: derivedArtistString,
-                blobObjectLinkUrl: URL.createObjectURL(musicFile),
-                caseBackdropTone: choiceBackdropTone
-            };
-            libraryTracksList.push(systemTrackPayload);
 
-            const physicalCaseNode = document.createElement('div');
-            physicalCaseNode.className = 'album-3d-case';
-            
-            physicalCaseNode.innerHTML = `
-                <div class="case-face face-left">
-                    <div class="spine-text-vertical">${derivedTitleString}</div>
-                </div>
-                <div class="case-face face-front" style="background: ${choiceBackdropTone}">
-                     <i class="fa-solid fa-record-vinyl"></i>
-                </div>
-                <div class="case-face face-right">
-                    <div class="spine-text-vertical">${derivedTitleString}</div>
-                </div>
-            `;
-            
-            const capturedScopeIndex = libraryTracksList.length - 1;
-            physicalCaseNode.addEventListener('click', () => {
-                if (focusedIndex !== capturedScopeIndex) {
-                    triggerFocusedTrackReorientation(capturedScopeIndex);
+            // Instantiating structural reader pipeline to preserve media packet inside client hardware state
+            const dataReader = new FileReader();
+            dataReader.onload = (event) => {
+                const base64AudioData = event.target.result;
+
+                const systemTrackPayload = {
+                    title: derivedTitleString,
+                    artist: derivedArtistString,
+                    audioRawBase64: base64AudioData,
+                    caseBackdropTone: choiceBackdropTone
+                };
+
+                libraryTracksList.push(systemTrackPayload);
+                const currentTrackIndex = libraryTracksList.length - 1;
+
+                build3DTrackDOMCard(systemTrackPayload, currentTrackIndex);
+                saveDataToLocalStorage();
+
+                processedCounter++;
+                if (checkInitialLibraryBootState && processedCounter === 1) {
+                    if (tipsCard) tipsCard.style.display = 'none';
+                    triggerFocusedTrackReorientation(currentTrackIndex, true);
+                } else {
+                    compute3DCaseSpaceTransforms();
                 }
-            });
-            if (coverflowContainer) coverflowContainer.appendChild(physicalCaseNode);
-        }
 
-        if (checkInitialLibraryBootState && libraryTracksList.length > 0) {
-            triggerFocusedTrackReorientation(0);
-        } else {
-            compute3DCaseSpaceTransforms();
-        }
+                if (currentlySelectedPlaylistId !== null) renderDetailTracks();
+            };
 
-        // If a detailed playlist layout window is currently open, dynamically sync track rows
-        if (currentlySelectedPlaylistId !== null) {
-            renderDetailTracks();
+            dataReader.readAsDataURL(musicFile);
         }
     }
 
-    // --- VIEWPORT CAROUSEL GESTURE NAVIGATION ---
+    // --- CAROUSEL TOUCH GESTURE INTERCHANGES ---
     if (dropZoneViewport) {
         dropZoneViewport.addEventListener('touchstart', (e) => {
             trackingMotionActive = true;
@@ -604,19 +627,17 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (Math.abs(motionVectorDisplacement) > 35) {
                 if (motionVectorDisplacement > 0 && focusedIndex > 0) {
-                    triggerFocusedTrackReorientation(focusedIndex - 1);
+                    triggerFocusedTrackReorientation(focusedIndex - 1, true);
                     trackingMotionActive = false; 
                 } else if (motionVectorDisplacement < 0 && focusedIndex < libraryTracksList.length - 1) {
-                    triggerFocusedTrackReorientation(focusedIndex + 1);
+                    triggerFocusedTrackReorientation(focusedIndex + 1, true);
                     trackingMotionActive = false;
                 }
                 slidingReferenceDeltaX = activeLiveTouchX;
             }
         }, { passive: true });
 
-        window.addEventListener('touchend', () => {
-            trackingMotionActive = false;
-        });
+        window.addEventListener('touchend', () => trackingMotionActive = false);
     }
 
     if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
@@ -629,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- AUDIO HARDWARE INTERFACE INTERCHANGES ---
+    // --- ENGINE CORE AUDIO HARDWARE CONTROL LISTENERS ---
     if (playBtn && audioEngine) {
         playBtn.addEventListener('click', () => {
             if (libraryTracksList.length === 0) {
@@ -637,7 +658,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             if (audioEngine.paused) {
-                 audioEngine.play();
+                 audioEngine.play().catch(() => {});
             } else {
                 audioEngine.pause();
             }
@@ -660,7 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         audioEngine.addEventListener('ended', () => {
             if (focusedIndex < libraryTracksList.length - 1) {
-                triggerFocusedTrackReorientation(focusedIndex + 1);
+                triggerFocusedTrackReorientation(focusedIndex + 1, true);
             } else {
                 playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
                 if (progressFill) progressFill.style.width = '0%';
@@ -669,4 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('resize', compute3DCaseSpaceTransforms);
+
+    // Run structural database ingestion lookup at boot sequence
+    loadDataFromLocalStorage();
 });
