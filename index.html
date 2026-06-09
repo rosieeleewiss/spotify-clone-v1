@@ -47,6 +47,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 50px 16px 12px 16px;
+            flex-shrink: 0;
         }
 
         .header-left {
@@ -96,6 +97,7 @@
             flex-direction: column;
             gap: 16px;
             overflow-y: auto;
+            position: relative;
         }
 
         /* Trigger Block: Local File Import Panel */
@@ -111,6 +113,7 @@
             color: #ffffff;
             cursor: pointer;
             transition: background-color 0.2s;
+            flex-shrink: 0;
         }
 
         .import-card:active {
@@ -124,7 +127,6 @@
             flex: 1;
         }
 
-        /* Matches the clear down-arrow icon requested */
         .import-icon {
             font-size: 20px;
             color: #ffffff;
@@ -146,6 +148,132 @@
             font-size: 14px;
         }
 
+        /* NEW: 3D Cover Flow Display Engine Library Viewport */
+        .library-3d-viewport {
+            width: 100%;
+            height: 260px;
+            background-color: #0b0b0b;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            perspective: 900px; /* High field depth to enforce crisp diagonal rotation angles */
+            border: 2px dashed rgba(255, 255, 255, 0.05);
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        /* Drag over visual notification frame highlight */
+        .library-3d-viewport.drag-over {
+            border-color: #1db954;
+            background-color: rgba(29, 185, 84, 0.04);
+        }
+
+        .coverflow-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            cursor: grab;
+        }
+
+        .coverflow-container:active {
+            cursor: grabbing;
+        }
+
+        /* Dynamic Album Card Structures */
+        .album-spine-card {
+            position: absolute;
+            width: 140px;
+            height: 190px;
+            background-color: #222;
+            border-radius: 6px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.45s;
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .album-spine-art {
+            width: 100%;
+            height: 135px;
+            background: linear-gradient(45deg, #333, #111);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .album-spine-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .album-spine-art i {
+            font-size: 38px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .album-spine-details {
+            padding: 8px;
+            background-color: #181818;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .album-spine-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+
+        .album-spine-artist {
+            font-size: 9px;
+            font-weight: 500;
+            color: #a7a7a7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        /* Helpful visual backdrop call-to-action text when library workspace runs clear */
+        .viewport-empty-notice {
+            position: absolute;
+            font-size: 13px;
+            font-weight: 600;
+            color: #6a6a6a;
+            text-align: center;
+            pointer-events: none;
+            padding: 0 32px;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .viewport-empty-notice i {
+            font-size: 28px;
+            color: #444;
+        }
+
         /* Guide Helper Onboarding Box */
         .tips-card {
             background-color: #1e1e1e;
@@ -154,6 +282,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            flex-shrink: 0;
         }
 
         .tips-header {
@@ -204,10 +333,6 @@
             transition: transform 0.1s;
         }
 
-        .action-btn:active {
-            transform: scale(0.96);
-        }
-
         /* Fixed Placement Control Tray Deck */
         .bottom-section {
             position: absolute;
@@ -217,6 +342,7 @@
             padding-bottom: 24px;
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
         }
 
         /* Custom Burgundy Mini Player Deck */
@@ -366,7 +492,6 @@
             color: #ffffff;
         }
 
-        /* Hidden standard file tag selector input frame */
         #hiddenFileInput {
             display: none;
         }
@@ -376,7 +501,7 @@
 
     <div class="app-container">
         <audio id="audioEngine"></audio>
-        <input type="file" id="hiddenFileInput" accept="audio/mp3, audio/*">
+        <input type="file" id="hiddenFileInput" accept="audio/mp3, audio/*" multiple>
 
         <header class="header">
             <div class="header-left">
@@ -385,7 +510,7 @@
                 </div>
                 <h1>Kitaplığın</h1>
             </div>
-            <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+            <button class="add-btn" id="addBtnPlus"><i class="fa-solid fa-plus"></i></button>
         </header>
 
         <main class="content">
@@ -397,6 +522,15 @@
                 <i class="fa-solid fa-chevron-right arrow-icon"></i>
             </button>
 
+            <div class="library-3d-viewport" id="dropZoneViewport">
+                <div class="viewport-empty-notice" id="emptyNotice">
+                    <i class="fa-solid fa-compact-disc fa-spin" style="animation-duration: 4s;"></i>
+                    <span>Müzik dosyalarını buraya sürükleyip bırakın veya yukarıdaki butona basarak kitaplığa ekleyin</span>
+                </div>
+                <div class="coverflow-container" id="coverflowContainer">
+                    </div>
+            </div>
+
             <div class="tips-card" id="tipsCard">
                 <div class="tips-header">
                     <span class="tips-label">İpuçları</span>
@@ -404,7 +538,7 @@
                 </div>
                 <h2 class="tips-title">İlk çalma listeni oluştur</h2>
                 <p class="tips-subtitle">Çok kolay. Sana yardımcı olacağız</p>
-                <button class="action-btn">Çalma listesi oluştur</button>
+                <button class="action-btn" id="createPlaylistBtn">Çalma listesi oluştur</button>
             </div>
         </main>
 
@@ -443,38 +577,253 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Document selector DOM hooks references
+            // Core Audio and Data Collection state vectors
+            let songsLibrary = [];
+            let currentSelectedIndex = 0;
+            
+            // Drag tracking global control structures
+            let isDragging = false;
+            let startX = 0;
+            let currentScrollX = 0;
+            let targetVelocityX = 0;
+
+            // DOM Hooks references mapping
             const closeTips = document.getElementById('closeTips');
             const tipsCard = document.getElementById('tipsCard');
             const playBtn = document.getElementById('playBtn');
             const importBtn = document.getElementById('importBtn');
+            const addBtnPlus = document.getElementById('addBtnPlus');
             const fileInput = document.getElementById('hiddenFileInput');
             const audioEngine = document.getElementById('audioEngine');
+            const dropZoneViewport = document.getElementById('dropZoneViewport');
+            const coverflowContainer = document.getElementById('coverflowContainer');
+            const emptyNotice = document.getElementById('emptyNotice');
             
-            // Player presentation DOM targets
             const playerTitle = document.getElementById('playerTitle');
             const playerArtist = document.getElementById('playerArtist');
             const progressFill = document.getElementById('progressFill');
             const playerAlbumArt = document.getElementById('playerAlbumArt');
             const fallbackMusicIcon = document.getElementById('fallbackMusicIcon');
 
-            // Responsive Interface Event Handlers
+            // Quick closure triggers
             if (closeTips && tipsCard) {
-                closeTips.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    tipsCard.style.display = 'none';
+                closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
+            }
+
+            // Beautiful placeholder track generation presets to simulate random custom album designs 
+            const geometricArtPalettes = [
+                'linear-gradient(135deg, #f5576c 0%, #f093fb 100%)',
+                'linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)',
+                'linear-gradient(135deg, #c3cfe2 0%, #c3cfe2 100%)',
+                'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #13547a 0%, #80d0c7 100%)'
+            ];
+
+            // Core 3D Layer math calculation processor loop engine
+            function updateCoverflowPositioning() {
+                if (songsLibrary.length === 0) {
+                    emptyNotice.style.display = 'flex';
+                    return;
+                }
+                emptyNotice.style.display = 'none';
+
+                const viewportWidth = dropZoneViewport.offsetWidth;
+                const centerPoint = viewportWidth / 2;
+
+                // Loop layout mapping positions matching exactly your cover design flow
+                const blocks = coverflowContainer.querySelectorAll('.album-spine-card');
+                blocks.forEach((card, idx) => {
+                    const offsetIndex = idx - currentSelectedIndex;
+                    
+                    let translateX = offsetIndex * 55; // Crisp overlay layout step values
+                    let rotateY = 0;
+                    let translateZ = 0;
+                    let zIndex = 100 - Math.abs(offsetIndex);
+                    let opacity = 1;
+
+                    if (offsetIndex < 0) {
+                        // Left skewed items turn inward diagonally
+                        rotateY = 55; 
+                        translateX -= 35;
+                        translateZ = -120;
+                    } else if (offsetIndex > 0) {
+                        // Right skewed items turn outward diagonally
+                        rotateY = -55;
+                        translateX += 35;
+                        translateZ = -120;
+                    } else {
+                        // Center main active element expands outward forward safely
+                        rotateY = 0;
+                        translateZ = 80;
+                        zIndex = 200;
+                    }
+
+                    // Hide extreme clipping items if library list expands broad
+                    if (Math.abs(offsetIndex) > 3) {
+                        opacity = 0.2;
+                    }
+
+                    card.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+                    card.style.zIndex = zIndex;
+                    card.style.opacity = opacity;
                 });
             }
 
-            // Interactive Audio Engine Component State Handler Function Loop
+            // High-precision tracking focus transition processing loops
+            function selectTrackFocusIndex(targetIdx) {
+                if (songsLibrary.length === 0) return;
+                
+                // Enforce strict index bounds limitations safely
+                currentSelectedIndex = Math.max(0, Math.min(targetIdx, songsLibrary.length - 1));
+                updateCoverflowPositioning();
+
+                // Live synchronization of target context structures into background audio drivers
+                const currentTrack = songsLibrary[currentSelectedIndex];
+                playerTitle.textContent = currentTrack.title;
+                playerArtist.textContent = currentTrack.artist;
+                
+                // Mirror custom dynamic background art tokens back to control deck tray
+                fallbackMusicIcon.style.display = 'none';
+                playerAlbumArt.style.display = 'block';
+                playerAlbumArt.parentNode.style.background = currentTrack.bgGradient;
+
+                // Load audio source pipeline stream cleanly
+                audioEngine.src = currentTrack.srcURL;
+                audioEngine.play().catch(() => {
+                    // Handled gracefully if browser sandboxing defers direct automation actions
+                });
+            }
+
+            // Universal data parser map loops to format input files reliably
+            function pushFilesToLibraryCollection(incomingFiles) {
+                let initialLoadFlag = (songsLibrary.length === 0);
+
+                for (let i = 0; i < incomingFiles.length; i++) {
+                    const activeFile = incomingFiles[i];
+                    if (!activeFile.type.startsWith('audio/')) continue;
+
+                    let baseCleanName = activeFile.name.replace(/\.[^/.]+$/, "");
+                    let trackTitle = baseCleanName;
+                    let trackArtist = "Yerel Kitaplık (Local Track)";
+
+                    if (baseCleanName.includes(" - ")) {
+                        const fragments = baseCleanName.split(" - ");
+                        trackArtist = fragments[0].trim();
+                        trackTitle = fragments[1].trim();
+                    }
+
+                    const randomizedBackgroundArt = geometricArtPalettes[songsLibrary.length % geometricArtPalettes.length];
+                    const trackingDataNode = {
+                        title: trackTitle,
+                        artist: trackArtist,
+                        srcURL: URL.createObjectURL(activeFile),
+                        bgGradient: randomizedBackgroundArt
+                    };
+
+                    songsLibrary.push(trackingDataNode);
+
+                    // Build and append corresponding DOM node block structures instantly 
+                    const cardMarkup = document.createElement('div');
+                    cardMarkup.className = 'album-spine-card';
+                    cardMarkup.innerHTML = `
+                        <div class="album-spine-art" style="background: ${randomizedBackgroundArt}">
+                            <i class="fa-solid fa-compact-disc"></i>
+                        </div>
+                        <div class="album-spine-details">
+                            <div class="album-spine-title">${trackTitle}</div>
+                            <div class="album-spine-artist">${trackArtist}</div>
+                        </div>
+                    `;
+
+                    // Single item targeting click loops mapped directly onto carousel spines
+                    const lockedIndex = songsLibrary.length - 1;
+                    cardMarkup.addEventListener('click', () => {
+                        if (currentSelectedIndex !== lockedIndex) {
+                            selectTrackFocusIndex(lockedIndex);
+                        }
+                    });
+
+                    coverflowContainer.appendChild(cardMarkup);
+                }
+
+                if (initialLoadFlag && songsLibrary.length > 0) {
+                    selectTrackFocusIndex(0);
+                } else {
+                    updateCoverflowPositioning();
+                }
+            }
+
+            // Touch Gesture Interaction Mapping loops for mobile swipe tracking
+            dropZoneViewport.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                currentScrollX = startX;
+            }, { passive: true });
+
+            dropZoneViewport.addEventListener('touchmove', (e) => {
+                if (!isDragging || songsLibrary.length === 0) return;
+                const trackingX = e.touches[0].clientX;
+                const offsetDelta = trackingX - currentScrollX;
+                
+                // Swipe sensitivity threshold triggers
+                if (Math.abs(offsetDelta) > 45) {
+                    if (offsetDelta > 0 && currentSelectedIndex > 0) {
+                        selectTrackFocusIndex(currentSelectedIndex - 1);
+                        isDragging = false; // Debounce swipe iterations smoothly
+                    } else if (offsetDelta < 0 && currentSelectedIndex < songsLibrary.length - 1) {
+                        selectTrackFocusIndex(currentSelectedIndex + 1);
+                        isDragging = false;
+                    }
+                    currentScrollX = trackingX;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => isDragging = false);
+
+            // Drag and Drop OS systems hook integration handlers
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZoneViewport.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropZoneViewport.classList.add('drag-over');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZoneViewport.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropZoneViewport.classList.remove('drag-over');
+                }, false);
+            });
+
+            dropZoneViewport.addEventListener('drop', (e) => {
+                const nativeDataTransfer = e.dataTransfer;
+                if (nativeDataTransfer && nativeDataTransfer.files.length > 0) {
+                    pushFilesToLibraryCollection(nativeDataTransfer.files);
+                }
+            }, false);
+
+            // Standard System Triggers Interface Actions map wiring
+            if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
+            if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
+            
+            if (fileInput) {
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        pushFilesToLibraryCollection(e.target.files);
+                    }
+                });
+            }
+
+            // Audio Core Media Player Play/Pause interface tracking runtime logic
             if (playBtn && audioEngine) {
                 playBtn.addEventListener('click', () => {
-                    if (!audioEngine.src) {
-                        // Triggers the selection menu loop automatically if empty
+                    if (songsLibrary.length === 0) {
                         fileInput.click();
                         return;
                     }
-                    
                     if (audioEngine.paused) {
                         audioEngine.play();
                     } else {
@@ -482,7 +831,6 @@
                     }
                 });
 
-                // Mirrors audio status signals directly onto interface controls layout vectors
                 audioEngine.addEventListener('play', () => {
                     playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
                 });
@@ -491,7 +839,6 @@
                     playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
                 });
 
-                // Updates timeline progress position track smoothly automatically
                 audioEngine.addEventListener('timeupdate', () => {
                     if (audioEngine.duration) {
                         const score = (audioEngine.currentTime / audioEngine.duration) * 100;
@@ -499,55 +846,19 @@
                     }
                 });
 
-                // Reset layout states when tracking operations reach completion lifecycle points
+                // Advance forward directly when song loop cycle completes sequence lifecycle
                 audioEngine.addEventListener('ended', () => {
-                    playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                    progressFill.style.width = '0%';
-                });
-            }
-
-            // Triggers custom file selector actions upon clicking the marked import card block
-            if (importBtn && fileInput) {
-                importBtn.addEventListener('click', () => {
-                    fileInput.click();
-                });
-            }
-
-            // Handles streaming internal binary target structures safely from local files
-            if (fileInput && audioEngine) {
-                fileInput.addEventListener('change', (event) => {
-                    const pickedFile = event.target.files[0];
-                    if (!pickedFile) return;
-
-                    // Parse readable clean display titles automatically from clean file names
-                    let baseName = pickedFile.name.replace(/\.[^/.]+$/, ""); // Strip out file extension tokens
-                    
-                    // Separate artist information fields safely if delimited with typical characters
-                    if (baseName.includes(" - ")) {
-                        const fragments = baseName.split(" - ");
-                        playerArtist.textContent = fragments[0].trim();
-                        playerTitle.textContent = fragments[1].trim();
+                    if (currentSelectedIndex < songsLibrary.length - 1) {
+                        selectTrackFocusIndex(currentSelectedIndex + 1);
                     } else {
-                        playerTitle.textContent = baseName;
-                        playerArtist.textContent = "Yerel Dosya (Local Audio)";
+                        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                        progressFill.style.width = '0%';
                     }
-
-                    // Convert binary resource pointers safely into browser-playable virtual layout URLs
-                    const streamURL = URL.createObjectURL(pickedFile);
-                    audioEngine.src = streamURL;
-                    
-                    // Show a modern custom placeholder music asset design style 
-                    if (playerAlbumArt && fallbackMusicIcon) {
-                        fallbackMusicIcon.style.display = 'block';
-                        playerAlbumArt.style.display = 'none';
-                    }
-
-                    // Fire up processing run loop actions immediately
-                    audioEngine.play().catch(error => {
-                        console.log("Playback initiation sequence failed or deferred by runtime: ", error);
-                    });
                 });
             }
+
+            // Calculate responsive bounds layout adjustments on load configurations automatically
+            window.addEventListener('resize', updateCoverflowPositioning);
         });
     </script>
 </body>
