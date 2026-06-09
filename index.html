@@ -148,26 +148,26 @@
             font-size: 14px;
         }
 
-        /* NEW: 3D Cover Flow Display Engine Library Viewport */
+        /* PREMIUM 3D COVER FLOW DISPLAY VIEWPORT */
         .library-3d-viewport {
             width: 100%;
-            height: 260px;
-            background-color: #0b0b0b;
+            height: 280px;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #070707 100%);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
-            perspective: 900px; /* High field depth to enforce crisp diagonal rotation angles */
-            border: 2px dashed rgba(255, 255, 255, 0.05);
-            transition: border-color 0.3s, background-color 0.3s;
+            /* Enhanced perspective depth field for realistic distortion vanishing points */
+            perspective: 1000px; 
+            border: 2px dashed rgba(255, 255, 255, 0.04);
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.8);
         }
 
-        /* Drag over visual notification frame highlight */
         .library-3d-viewport.drag-over {
             border-color: #1db954;
-            background-color: rgba(29, 185, 84, 0.04);
+            background: radial-gradient(circle at center, #112d18 0%, #050e07 100%);
         }
 
         .coverflow-container {
@@ -177,6 +177,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Essential flag to pass down 3D space vectors to child elements */
             transform-style: preserve-3d;
             cursor: grab;
         }
@@ -185,93 +186,101 @@
             cursor: grabbing;
         }
 
-        /* Dynamic Album Card Structures */
+        /* Realistic Physical Album Sleeve Elements */
         .album-spine-card {
             position: absolute;
-            width: 140px;
-            height: 190px;
-            background-color: #222;
-            border-radius: 6px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.45s;
+            width: 155px;
+            height: 210px;
+            background-color: #1c1c1c;
+            border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 1px 3px rgba(255,255,255,0.1);
+            /* Ultra fluid spring transform transition curves */
+            transition: transform 0.4s cubic-bezier(0.2, 0.85, 0.3, 1), opacity 0.35s ease;
             transform-style: preserve-3d;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             user-select: none;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* High gloss specular highlight reflection layer */
+        .album-spine-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(125deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 30%, rgba(0,0,0,0) 31%);
+            pointer-events: none;
+            z-index: 5;
         }
 
         .album-spine-art {
             width: 100%;
-            height: 135px;
-            background: linear-gradient(45deg, #333, #111);
+            height: 150px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .album-spine-art img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.4);
         }
 
         .album-spine-art i {
-            font-size: 38px;
-            color: rgba(255, 255, 255, 0.2);
+            font-size: 42px;
+            color: rgba(255, 255, 255, 0.25);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
         .album-spine-details {
-            padding: 8px;
-            background-color: #181818;
+            padding: 10px 8px;
+            background: linear-gradient(to bottom, #181818 0%, #111111 100%);
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.03);
         }
 
         .album-spine-title {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
             color: #ffffff;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
+            max-width: 100%;
             text-align: center;
         }
 
         .album-spine-artist {
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 500;
-            color: #a7a7a7;
+            color: #b3b3b3;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 100%;
             text-align: center;
         }
 
-        /* Helpful visual backdrop call-to-action text when library workspace runs clear */
         .viewport-empty-notice {
             position: absolute;
             font-size: 13px;
             font-weight: 600;
-            color: #6a6a6a;
+            color: #727272;
             text-align: center;
             pointer-events: none;
-            padding: 0 32px;
-            line-height: 1.5;
+            padding: 0 40px;
+            line-height: 1.6;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .viewport-empty-notice i {
-            font-size: 28px;
-            color: #444;
+            font-size: 32px;
+            color: #3a3a3a;
         }
 
         /* Guide Helper Onboarding Box */
@@ -330,7 +339,6 @@
             font-size: 13px;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.1s;
         }
 
         /* Fixed Placement Control Tray Deck */
@@ -375,12 +383,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .album-art img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
 
         .album-art i {
@@ -516,7 +519,7 @@
         <main class="content">
             <button class="import-card" id="importBtn">
                 <div class="import-left">
-                    <i class="fa-solid fa-arrow-down import-icon"></i>
+                    <i class="fa-solid fa-square-rss import-icon"></i>
                     <span class="import-text">Diğer uygulamalardaki müziklerini içe aktar</span>
                 </div>
                 <i class="fa-solid fa-chevron-right arrow-icon"></i>
@@ -524,8 +527,8 @@
 
             <div class="library-3d-viewport" id="dropZoneViewport">
                 <div class="viewport-empty-notice" id="emptyNotice">
-                    <i class="fa-solid fa-compact-disc fa-spin" style="animation-duration: 4s;"></i>
-                    <span>Müzik dosyalarını buraya sürükleyip bırakın veya yukarıdaki butona basarak kitaplığa ekleyin</span>
+                    <i class="fa-solid fa-compact-disc fa-spin" style="animation-duration: 6s;"></i>
+                    <span>Müzik dosyalarını bu alana sürükleyin ya da içe aktarma butonunu kullanın</span>
                 </div>
                 <div class="coverflow-container" id="coverflowContainer">
                     </div>
@@ -538,7 +541,7 @@
                 </div>
                 <h2 class="tips-title">İlk çalma listeni oluştur</h2>
                 <p class="tips-subtitle">Çok kolay. Sana yardımcı olacağız</p>
-                <button class="action-btn" id="createPlaylistBtn">Çalma listesi oluştur</button>
+                <button class="action-btn">Çalma listesi oluştur</button>
             </div>
         </main>
 
@@ -547,18 +550,17 @@
                 <div class="player-left">
                     <div class="album-art" id="playerAlbumArtContainer">
                         <i class="fa-solid fa-music" id="fallbackMusicIcon"></i>
-                        <img id="playerAlbumArt" src="" alt="Album Cover" style="display: none;">
                     </div>
                     <div class="song-info">
                         <div class="song-title" id="playerTitle">Carita de Angel</div>
                         <div class="song-artist">
-                            <span class="local-badge"><i class="fa-solid fa-square-arrow-up-right"></i></span>
+                            <span class="local-badge"><i class="fa-solid fa-square-check"></i></span>
                             <span id="playerArtist">Maria Daniela Y Su Sonido Lasser</span>
                         </div>
                     </div>
                 </div>
                 <div class="player-right">
-                    <button class="device-btn"><i class="fa-solid fa-mobile-screen-button"></i></button>
+                    <button class="device-btn"><i class="fa-solid fa-laptop-medical"></i></button>
                     <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
                 </div>
                 <div class="progress-bar">
@@ -577,17 +579,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Core Audio and Data Collection state vectors
-            let songsLibrary = [];
-            let currentSelectedIndex = 0;
+            let libraryTracks = [];
+            let activeTrackIndex = 0;
             
-            // Drag tracking global control structures
-            let isDragging = false;
-            let startX = 0;
-            let currentScrollX = 0;
-            let targetVelocityX = 0;
+            // Interaction tracking states
+            let touchActive = false;
+            let initialTouchX = 0;
+            let trackedDeltaX = 0;
 
-            // DOM Hooks references mapping
+            // DOM UI Component Hooks
             const closeTips = document.getElementById('closeTips');
             const tipsCard = document.getElementById('tipsCard');
             const playBtn = document.getElementById('playBtn');
@@ -602,225 +602,210 @@
             const playerTitle = document.getElementById('playerTitle');
             const playerArtist = document.getElementById('playerArtist');
             const progressFill = document.getElementById('progressFill');
-            const playerAlbumArt = document.getElementById('playerAlbumArt');
-            const fallbackMusicIcon = document.getElementById('fallbackMusicIcon');
+            const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
-            // Quick closure triggers
             if (closeTips && tipsCard) {
                 closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
             }
 
-            // Beautiful placeholder track generation presets to simulate random custom album designs 
-            const geometricArtPalettes = [
+            // Authentic geometric contrast gradient spectrum blocks for covers
+            const colorfulSleeveBackdrops = [
                 'linear-gradient(135deg, #f5576c 0%, #f093fb 100%)',
-                'linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)',
-                'linear-gradient(135deg, #c3cfe2 0%, #c3cfe2 100%)',
+                'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
                 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
+                'linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)',
                 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                'linear-gradient(135deg, #13547a 0%, #80d0c7 100%)'
+                'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'
             ];
 
-            // Core 3D Layer math calculation processor loop engine
-            function updateCoverflowPositioning() {
-                if (songsLibrary.length === 0) {
+            // ADVANCED 3D POSITION AND LAYER RENDERING MATRIX ENGINE
+            function render3DCoverflowLayout() {
+                if (libraryTracks.length === 0) {
                     emptyNotice.style.display = 'flex';
                     return;
                 }
                 emptyNotice.style.display = 'none';
 
-                const viewportWidth = dropZoneViewport.offsetWidth;
-                const centerPoint = viewportWidth / 2;
-
-                // Loop layout mapping positions matching exactly your cover design flow
-                const blocks = coverflowContainer.querySelectorAll('.album-spine-card');
-                blocks.forEach((card, idx) => {
-                    const offsetIndex = idx - currentSelectedIndex;
+                const cards = coverflowContainer.querySelectorAll('.album-spine-card');
+                cards.forEach((card, idx) => {
+                    const structuralDistance = idx - activeTrackIndex;
                     
-                    let translateX = offsetIndex * 55; // Crisp overlay layout step values
-                    let rotateY = 0;
-                    let translateZ = 0;
-                    let zIndex = 100 - Math.abs(offsetIndex);
-                    let opacity = 1;
+                    let positionX = structuralDistance * 60; // Tighter overlapping horizontal alignment steps
+                    let angleRotationY = 0;
+                    let projectDepthZ = 0;
+                    let absoluteZIndex = 100 - Math.abs(structuralDistance);
+                    let visualOpacity = 1;
 
-                    if (offsetIndex < 0) {
-                        // Left skewed items turn inward diagonally
-                        rotateY = 55; 
-                        translateX -= 35;
-                        translateZ = -120;
-                    } else if (offsetIndex > 0) {
-                        // Right skewed items turn outward diagonally
-                        rotateY = -55;
-                        translateX += 35;
-                        translateZ = -120;
+                    // Compute true 3D geometric positioning values
+                    if (structuralDistance < 0) {
+                        angleRotationY = 65;       // Sharp authentic turning angle profile
+                        positionX -= 45;          // Push sideways to compensate depth profile compression
+                        projectDepthZ = -150;     // Fall back cleanly along spatial Z axis
+                    } else if (structuralDistance > 0) {
+                        angleRotationY = -65;      // Opposite sharp turning angle profile
+                        positionX += 45;
+                        projectDepthZ = -150;
                     } else {
-                        // Center main active element expands outward forward safely
-                        rotateY = 0;
-                        translateZ = 80;
-                        zIndex = 200;
+                        angleRotationY = 0;
+                        projectDepthZ = 100;      // Project the active center forward aggressively
+                        absoluteZIndex = 500;     // Keep current focused node fully on top
                     }
 
-                    // Hide extreme clipping items if library list expands broad
-                    if (Math.abs(offsetIndex) > 3) {
-                        opacity = 0.2;
+                    // Soften visual focus on elements stacked deep on peripheral borders
+                    if (Math.abs(structuralDistance) > 2) {
+                        visualOpacity = 0.4 - (Math.abs(structuralDistance) * 0.05);
+                    }
+                    if (Math.abs(structuralDistance) > 4) {
+                        visualOpacity = 0; // Cull extreme nodes gracefully
                     }
 
-                    card.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
-                    card.style.zIndex = zIndex;
-                    card.style.opacity = opacity;
+                    card.style.transform = `translateX(${positionX}px) rotateY(${angleRotationY}deg) translateZ(${projectDepthZ}px)`;
+                    card.style.zIndex = absoluteZIndex;
+                    card.style.opacity = Math.max(0, visualOpacity);
                 });
             }
 
-            // High-precision tracking focus transition processing loops
-            function selectTrackFocusIndex(targetIdx) {
-                if (songsLibrary.length === 0) return;
+            function syncMediaTrackFocus(trackIdx) {
+                if (libraryTracks.length === 0) return;
                 
-                // Enforce strict index bounds limitations safely
-                currentSelectedIndex = Math.max(0, Math.min(targetIdx, songsLibrary.length - 1));
-                updateCoverflowPositioning();
+                activeTrackIndex = Math.max(0, Math.min(trackIdx, libraryTracks.length - 1));
+                render3DCoverflowLayout();
 
-                // Live synchronization of target context structures into background audio drivers
-                const currentTrack = songsLibrary[currentSelectedIndex];
-                playerTitle.textContent = currentTrack.title;
-                playerArtist.textContent = currentTrack.artist;
+                const targetTrack = libraryTracks[activeTrackIndex];
+                playerTitle.textContent = targetTrack.title;
+                playerArtist.textContent = targetTrack.artist;
                 
-                // Mirror custom dynamic background art tokens back to control deck tray
-                fallbackMusicIcon.style.display = 'none';
-                playerAlbumArt.style.display = 'block';
-                playerAlbumArt.parentNode.style.background = currentTrack.bgGradient;
+                // Synchronize color tones over into mini-player cover frame context directly
+                playerAlbumArtContainer.style.background = targetTrack.sleeveColor;
+                playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.7); font-size:16px;"></i>`;
 
-                // Load audio source pipeline stream cleanly
-                audioEngine.src = currentTrack.srcURL;
-                audioEngine.play().catch(() => {
-                    // Handled gracefully if browser sandboxing defers direct automation actions
-                });
+                // Update system playback sources pipeline nodes
+                audioEngine.src = targetTrack.blobStreamURL;
+                audioEngine.play().catch(() => { /* Sandbox guard tracking wrapper */ });
             }
 
-            // Universal data parser map loops to format input files reliably
-            function pushFilesToLibraryCollection(incomingFiles) {
-                let initialLoadFlag = (songsLibrary.length === 0);
+            function processIncomingAudioFiles(filesList) {
+                let triggeringInitialLoad = (libraryTracks.length === 0);
 
-                for (let i = 0; i < incomingFiles.length; i++) {
-                    const activeFile = incomingFiles[i];
-                    if (!activeFile.type.startsWith('audio/')) continue;
+                for (let i = 0; i < filesList.length; i++) {
+                    const targetFile = filesList[i];
+                    if (!targetFile.type.startsWith('audio/')) continue;
 
-                    let baseCleanName = activeFile.name.replace(/\.[^/.]+$/, "");
-                    let trackTitle = baseCleanName;
-                    let trackArtist = "Yerel Kitaplık (Local Track)";
+                    let baseCleanName = targetFile.name.replace(/\.[^/.]+$/, "");
+                    let derivedTitle = baseCleanName;
+                    let derivedArtist = "Yerel Kitaplık";
 
                     if (baseCleanName.includes(" - ")) {
                         const fragments = baseCleanName.split(" - ");
-                        trackArtist = fragments[0].trim();
-                        trackTitle = fragments[1].trim();
+                        derivedArtist = fragments[0].trim();
+                        derivedTitle = fragments[1].trim();
                     }
 
-                    const randomizedBackgroundArt = geometricArtPalettes[songsLibrary.length % geometricArtPalettes.length];
-                    const trackingDataNode = {
-                        title: trackTitle,
-                        artist: trackArtist,
-                        srcURL: URL.createObjectURL(activeFile),
-                        bgGradient: randomizedBackgroundArt
+                    const uniqueSleeveTone = colorfulSleeveBackdrops[libraryTracks.length % colorfulSleeveBackdrops.length];
+                    
+                    const recordNode = {
+                        title: derivedTitle,
+                        artist: derivedArtist,
+                        blobStreamURL: URL.createObjectURL(targetFile),
+                        sleeveColor: uniqueSleeveTone
                     };
 
-                    songsLibrary.push(trackingDataNode);
+                    libraryTracks.push(recordNode);
 
-                    // Build and append corresponding DOM node block structures instantly 
-                    const cardMarkup = document.createElement('div');
-                    cardMarkup.className = 'album-spine-card';
-                    cardMarkup.innerHTML = `
-                        <div class="album-spine-art" style="background: ${randomizedBackgroundArt}">
-                            <i class="fa-solid fa-compact-disc"></i>
+                    // Build premium physical texture component layers
+                    const cardWrapper = document.createElement('div');
+                    cardWrapper.className = 'album-spine-card';
+                    cardWrapper.innerHTML = `
+                        <div class="album-spine-art" style="background: ${uniqueSleeveTone}">
+                            <i class="fa-solid fa-record-vinyl"></i>
                         </div>
                         <div class="album-spine-details">
-                            <div class="album-spine-title">${trackTitle}</div>
-                            <div class="album-spine-artist">${trackArtist}</div>
+                            <div class="album-spine-title">${derivedTitle}</div>
+                            <div class="album-spine-artist">${derivedArtist}</div>
                         </div>
                     `;
 
-                    // Single item targeting click loops mapped directly onto carousel spines
-                    const lockedIndex = songsLibrary.length - 1;
-                    cardMarkup.addEventListener('click', () => {
-                        if (currentSelectedIndex !== lockedIndex) {
-                            selectTrackFocusIndex(lockedIndex);
+                    const assignedIndex = libraryTracks.length - 1;
+                    cardWrapper.addEventListener('click', () => {
+                        if (activeTrackIndex !== assignedIndex) {
+                            syncMediaTrackFocus(assignedIndex);
                         }
                     });
 
-                    coverflowContainer.appendChild(cardMarkup);
+                    coverflowContainer.appendChild(cardWrapper);
                 }
 
-                if (initialLoadFlag && songsLibrary.length > 0) {
-                    selectTrackFocusIndex(0);
+                if (triggeringInitialLoad && libraryTracks.length > 0) {
+                    syncMediaTrackFocus(0);
                 } else {
-                    updateCoverflowPositioning();
+                    render3DCoverflowLayout();
                 }
             }
 
-            // Touch Gesture Interaction Mapping loops for mobile swipe tracking
+            // Touch Motion Gestures Event Listeners 
             dropZoneViewport.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                startX = e.touches[0].clientX;
-                currentScrollX = startX;
+                touchActive = true;
+                initialTouchX = e.touches[0].clientX;
+                trackedDeltaX = initialTouchX;
             }, { passive: true });
 
             dropZoneViewport.addEventListener('touchmove', (e) => {
-                if (!isDragging || songsLibrary.length === 0) return;
-                const trackingX = e.touches[0].clientX;
-                const offsetDelta = trackingX - currentScrollX;
+                if (!touchActive || libraryTracks.length === 0) return;
+                const activeTouchX = e.touches[0].clientX;
+                const directionalMovementDistance = activeTouchX - trackedDeltaX;
                 
-                // Swipe sensitivity threshold triggers
-                if (Math.abs(offsetDelta) > 45) {
-                    if (offsetDelta > 0 && currentSelectedIndex > 0) {
-                        selectTrackFocusIndex(currentSelectedIndex - 1);
-                        isDragging = false; // Debounce swipe iterations smoothly
-                    } else if (offsetDelta < 0 && currentSelectedIndex < songsLibrary.length - 1) {
-                        selectTrackFocusIndex(currentSelectedIndex + 1);
-                        isDragging = false;
+                // Fine tuned touch deflection thresholds for precise snapping responses
+                if (Math.abs(directionalMovementDistance) > 40) {
+                    if (directionalMovementDistance > 0 && activeTrackIndex > 0) {
+                        syncMediaTrackFocus(activeTrackIndex - 1);
+                        touchActive = false; 
+                    } else if (directionalMovementDistance < 0 && activeTrackIndex < libraryTracks.length - 1) {
+                        syncMediaTrackFocus(activeTrackIndex + 1);
+                        touchActive = false;
                     }
-                    currentScrollX = trackingX;
+                    trackedDeltaX = activeTouchX;
                 }
             }, { passive: true });
 
-            window.addEventListener('touchend', () => isDragging = false);
+            window.addEventListener('touchend', () => touchActive = false);
 
-            // Drag and Drop OS systems hook integration handlers
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropZoneViewport.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+            // Drag and Drop Desktop System Target Interfaces
+            ['dragenter', 'dragover'].forEach(name => {
+                dropZoneViewport.addEventListener(name, (e) => {
+                    e.preventDefault(); e.stopPropagation();
                     dropZoneViewport.classList.add('drag-over');
                 }, false);
             });
 
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropZoneViewport.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+            ['dragleave', 'drop'].forEach(name => {
+                dropZoneViewport.addEventListener(name, (e) => {
+                    e.preventDefault(); e.stopPropagation();
                     dropZoneViewport.classList.remove('drag-over');
                 }, false);
             });
 
             dropZoneViewport.addEventListener('drop', (e) => {
-                const nativeDataTransfer = e.dataTransfer;
-                if (nativeDataTransfer && nativeDataTransfer.files.length > 0) {
-                    pushFilesToLibraryCollection(nativeDataTransfer.files);
+                const transferPacket = e.dataTransfer;
+                if (transferPacket && transferPacket.files.length > 0) {
+                    processIncomingAudioFiles(transferPacket.files);
                 }
             }, false);
 
-            // Standard System Triggers Interface Actions map wiring
             if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
             if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
             
             if (fileInput) {
                 fileInput.addEventListener('change', (e) => {
                     if (e.target.files.length > 0) {
-                        pushFilesToLibraryCollection(e.target.files);
+                        processIncomingAudioFiles(e.target.files);
                     }
                 });
             }
 
-            // Audio Core Media Player Play/Pause interface tracking runtime logic
+            // Media Audio Playback Engine Events Map Linking
             if (playBtn && audioEngine) {
                 playBtn.addEventListener('click', () => {
-                    if (songsLibrary.length === 0) {
+                    if (libraryTracks.length === 0) {
                         fileInput.click();
                         return;
                     }
@@ -833,23 +818,26 @@
 
                 audioEngine.addEventListener('play', () => {
                     playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    const activeDisc = coverflowContainer.querySelectorAll('.album-spine-card i')[activeTrackIndex];
+                    if (activeDisc) activeDisc.classList.add('fa-spin');
                 });
 
                 audioEngine.addEventListener('pause', () => {
                     playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    const activeDisc = coverflowContainer.querySelectorAll('.album-spine-card i')[activeTrackIndex];
+                    if (activeDisc) activeDisc.classList.remove('fa-spin');
                 });
 
                 audioEngine.addEventListener('timeupdate', () => {
                     if (audioEngine.duration) {
-                        const score = (audioEngine.currentTime / audioEngine.duration) * 100;
-                        progressFill.style.width = `${score}%`;
+                        const trackPercentScore = (audioEngine.currentTime / audioEngine.duration) * 100;
+                        progressFill.style.width = `${trackPercentScore}%`;
                     }
                 });
 
-                // Advance forward directly when song loop cycle completes sequence lifecycle
                 audioEngine.addEventListener('ended', () => {
-                    if (currentSelectedIndex < songsLibrary.length - 1) {
-                        selectTrackFocusIndex(currentSelectedIndex + 1);
+                    if (activeTrackIndex < libraryTracks.length - 1) {
+                        syncMediaTrackFocus(activeTrackIndex + 1);
                     } else {
                         playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
                         progressFill.style.width = '0%';
@@ -857,8 +845,7 @@
                 });
             }
 
-            // Calculate responsive bounds layout adjustments on load configurations automatically
-            window.addEventListener('resize', updateCoverflowPositioning);
+            window.addEventListener('resize', render3DCoverflowLayout);
         });
     </script>
 </body>
