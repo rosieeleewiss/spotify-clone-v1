@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- PERSISTENT DATA CORE REGISTERS ---
+    // --- CORE ENGINE REGISTERS ---
     let libraryTracksList = [];
     let playlistRegistryCollection = [];
     let currentlySelectedPlaylistId = null;
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let customUploadedCoverBase64 = null;
     let temporaryEditorContributorsList = [];
 
-    // --- MAIN DASHBOARD & AUDIO AUDIO ENGINE ELEMENTS ---
+    // --- DOM ELEMENT BINDINGS ---
     const closeTips = document.getElementById('closeTips');
     const tipsCard = document.getElementById('tipsCard');
     const playBtn = document.getElementById('playBtn');
@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressFill = document.getElementById('progressFill');
     const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
-    // --- OVERLAYS & SHEET STACK BINDINGS ---
     const menuSheetOverlay = document.getElementById('menuSheetOverlay');
     const bottomSheet = document.getElementById('bottomSheet');
     const dragHandleContainer = document.getElementById('dragHandleContainer');
@@ -47,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCreateBtn = document.getElementById('modalCreateBtn');
     const playlistsTargetBox = document.getElementById('playlistsTargetBox');
     
-    // --- DETAILED PLAYLIST CANVAS PANEL ELEMENTS ---
     const detailPanelView = document.getElementById('detailPanelView');
     const detailBackBtn = document.getElementById('detailBackBtn');
     const detailHeroTitle = document.getElementById('detailHeroTitle');
@@ -56,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailPanelDegistirBtn = document.getElementById('detailPanelDegistirBtn');
     const detailContributorsStrip = document.getElementById('detailContributorsStrip');
 
-    // --- PLAYLIST EDITOR VIEW PANEL WINDOW INTERACTION ---
     const editorPanelView = document.getElementById('editorPanelView');
     const editorCancelBtn = document.getElementById('editorCancelBtn');
     const editorSaveBtn = document.getElementById('editorSaveBtn');
@@ -76,39 +73,98 @@ document.addEventListener('DOMContentLoaded', () => {
         'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
     ];
 
-    // --- LOCALSTORAGE INFRASTRUCTURE ENGINE ---
-    function saveDataToLocalStorage() {
-        try {
-            localStorage.setItem('persistent_audio_library', JSON.stringify(libraryTracksList));
-            localStorage.setItem('persistent_playlist_collection', JSON.stringify(playlistRegistryCollection));
-        } catch (error) {
-            console.error("Storage write cap layout warning: Storage limit might be exceeded.", error);
-        }
+    // --- HIGH-CAPACITY STORAGE ENGINE (INDEXEDDB) ---
+    let dbInstance = null;
+    const DB_NAME = "MusicAppStorageEngine";
+    const DB_VERSION = 1;
+
+    function initDatabaseEngine(callback) {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('tracks')) {
+                db.createObjectStore('tracks', { keyPath: 'id', autoIncrement: true });
+            }
+            if (!db.objectStoreNames.contains('playlists')) {
+                db.createObjectStore('playlists', { keyPath: 'id' });
+            }
+        };
+
+        request.onsuccess = (event) => {
+            dbInstance = event.target.result;
+            if (callback) callback();
+        };
+
+        request.onerror = (event) => {
+            console.error("Database connection failed:", event.target.error);
+        };
     }
 
-    function loadDataFromLocalStorage() {
-        const structuralSavedTracks = localStorage.getItem('persistent_audio_library');
-        const structuralSavedPlaylists = localStorage.getItem('persistent_playlist_collection');
+    function saveTrackToDatabase(trackObj, callback) {
+        if (!dbInstance) return;
+        const transaction = dbInstance.transaction(['tracks'], 'readwrite');
+        const store = transaction.objectStore(['tracks']);
+        const request = store.add(trackObj);
 
-        if (structuralSavedTracks) {
-            libraryTracksList = JSON.parse(structuralSavedTracks);
+        request.onsuccess = () => {
+            if (callback) callback();
+        };
+    }
+
+    function saveAllPlaylistsToDatabase() {
+        if (!dbInstance) return;
+        const transaction = dbInstance.transaction(['playlists'], 'readwrite');
+        const store = transaction.objectStore(['playlists']);
+        
+        // Clear old playlist entries before restructuring update
+        store.clear().onsuccess = () => {
+            playlistRegistryCollection.forEach(pl => {
+                store.put(pl);
+            });
+        };
+    }
+
+    function loadAllDataFromDatabase() {
+        if (!dbInstance) return;
+
+        // 1. Recover Audio Tracks Store
+        const trackTx = dbInstance.transaction(['tracks'], 'readonly');
+        const trackStore = trackTx.objectStore('tracks');
+        const getAllTracks = trackStore.getAll();
+
+        getAllTracks.onsuccess = () => {
+            libraryTracksList = getAllTracks.result || [];
             if (coverflowContainer) coverflowContainer.innerHTML = '';
+            
             libraryTracksList.forEach((track, idx) => {
                 build3DTrackDOMCard(track, idx);
             });
-        }
 
-        if (structuralSavedPlaylists) {
-            playlistRegistryCollection = JSON.parse(structuralSavedPlaylists);
+            if (libraryTracksList.length > 0) {
+                if (tipsCard) tipsCard.style.display = 'none';
+                triggerFocusedTrackReorientation(0, false); // Boot without auto-playing audio immediately
+            } else {
+                compute3DCaseSpaceTransforms();
+            }
+        };
+
+        // 2. Recover Playlists Store
+        const playlistTx = dbInstance.transaction(['playlists'], 'readonly');
+        const playlistStore = playlistTx.objectStore('playlists');
+        const getAllPlaylists = playlistStore.getAll();
+
+        getAllPlaylists.onsuccess = () => {
+            playlistRegistryCollection = getAllPlaylists.result || [];
             renderPlaylistsToDashboard();
-        }
+        };
+    }
 
-        if (libraryTracksList.length > 0) {
-            if (tipsCard) tipsCard.style.display = 'none';
-            triggerFocusedTrackReorientation(0, false); // Boot app visualization layout without hard auto-playing audio immediately
-        } else {
-            compute3DCaseSpaceTransforms();
-        }
+    function deletePlaylistFromDatabase(id) {
+        if (!dbInstance) return;
+        const transaction = dbInstance.transaction(['playlists'], 'readwrite');
+        const store = transaction.objectStore(['playlists']);
+        store.delete(id);
     }
 
     // --- ONBOARDING TIPS LOGIC ---
@@ -217,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             playlistRegistryCollection.push(newPlaylistObj);
-            saveDataToLocalStorage();
+            saveAllPlaylistsToDatabase();
             renderPlaylistsToDashboard();
             
             playlistModalOverlay.classList.remove('active');
@@ -430,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 pl.coverImage = customUploadedCoverBase64;
                 pl.contributors = [...temporaryEditorContributorsList];
 
-                saveDataToLocalStorage();
+                saveAllPlaylistsToDatabase();
                 launchPlaylistDetailsView(pl.id);
                 renderPlaylistsToDashboard();
             }
@@ -446,8 +502,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (editorDeletePlaylistBtn) {
         editorDeletePlaylistBtn.addEventListener('click', () => {
+            deletePlaylistFromDatabase(currentlySelectedPlaylistId);
             playlistRegistryCollection = playlistRegistryCollection.filter(p => p.id !== currentlySelectedPlaylistId);
-            saveDataToLocalStorage();
             renderPlaylistsToDashboard();
 
             if (editorPanelView) editorPanelView.classList.remove('active');
@@ -554,17 +610,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (coverflowContainer) coverflowContainer.appendChild(physicalCaseNode);
     }
 
-    // --- FILE ENCODING IMPORTATION HANDLERS (MP3 & ORG DATA) ---
+    // --- HIGH-PERFORMANCE SEQUENTIAL FILE INGESTION ---
     function processSelectedFilesInputPackets(filesList) {
         let checkInitialLibraryBootState = (libraryTracksList.length === 0);
-        let processedCounter = 0;
+        let currentFileIndex = 0;
 
-        for (let i = 0; i < filesList.length; i++) {
-            const musicFile = filesList[i];
-            
-            // Explicit tracking layout processing for MP3 / audio formats or structural ORG track items
+        function readNextFile() {
+            if (currentFileIndex >= filesList.length) return;
+
+            const musicFile = filesList[currentFileIndex];
             const lowercasedName = musicFile.name.toLowerCase();
-            if (!musicFile.type.startsWith('audio/') && !lowercasedName.endsWith('.org') && !lowercasedName.endsWith('.mp3')) continue;
+
+            // Support both MP3 media protocols and ORG asset uploads
+            if (!musicFile.type.startsWith('audio/') && !lowercasedName.endsWith('.org') && !lowercasedName.endsWith('.mp3')) {
+                currentFileIndex++;
+                readNextFile();
+                return;
+            }
 
             let rawCleanedString = musicFile.name.replace(/\.[^/.]+$/, "");
             let derivedTitleString = rawCleanedString;
@@ -576,10 +638,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 derivedTitleString = wordSplitFragments[1].trim();
             }
 
-            const dynamicGradIndex = (libraryTracksList.length + processedCounter) % dynamicCaseGradients.length;
+            const dynamicGradIndex = libraryTracksList.length % dynamicCaseGradients.length;
             const choiceBackdropTone = dynamicCaseGradients[dynamicGradIndex];
 
-            // Instantiating structural reader pipeline to preserve media packet inside client hardware state
             const dataReader = new FileReader();
             dataReader.onload = (event) => {
                 const base64AudioData = event.target.result;
@@ -591,25 +652,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     caseBackdropTone: choiceBackdropTone
                 };
 
-                libraryTracksList.push(systemTrackPayload);
-                const currentTrackIndex = libraryTracksList.length - 1;
+                // Save onto browser IndexedDB hardware store securely
+                saveTrackToDatabase(systemTrackPayload, () => {
+                    libraryTracksList.push(systemTrackPayload);
+                    const freshIndex = libraryTracksList.length - 1;
 
-                build3DTrackDOMCard(systemTrackPayload, currentTrackIndex);
-                saveDataToLocalStorage();
+                    build3DTrackDOMCard(systemTrackPayload, freshIndex);
 
-                processedCounter++;
-                if (checkInitialLibraryBootState && processedCounter === 1) {
-                    if (tipsCard) tipsCard.style.display = 'none';
-                    triggerFocusedTrackReorientation(currentTrackIndex, true);
-                } else {
-                    compute3DCaseSpaceTransforms();
-                }
+                    if (checkInitialLibraryBootState && freshIndex === 0) {
+                        if (tipsCard) tipsCard.style.display = 'none';
+                        triggerFocusedTrackReorientation(0, true);
+                    } else {
+                        compute3DCaseSpaceTransforms();
+                    }
 
-                if (currentlySelectedPlaylistId !== null) renderDetailTracks();
+                    if (currentlySelectedPlaylistId !== null) renderDetailTracks();
+
+                    // Continue asynchronous generation queue
+                    currentFileIndex++;
+                    readNextFile();
+                });
             };
 
             dataReader.readAsDataURL(musicFile);
         }
+
+        readNextFile();
     }
 
     // --- CAROUSEL TOUCH GESTURE INTERCHANGES ---
@@ -691,6 +759,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('resize', compute3DCaseSpaceTransforms);
 
-    // Run structural database ingestion lookup at boot sequence
-    loadDataFromLocalStorage();
+    // Bootstrap database storage engine on app launch
+    initDatabaseEngine(() => {
+        loadAllDataFromDatabase();
+    });
 });
