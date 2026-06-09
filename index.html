@@ -8,9 +8,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* UI Canvas Standardization Reset */
         * {
             margin: 0;
             padding: 0;
@@ -39,6 +41,7 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
+        /* Top Header Area Layout */
         .header {
             display: flex;
             justify-content: space-between;
@@ -61,7 +64,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #242424;
+            background-color: #282828;
         }
 
         .profile-avatar img {
@@ -70,325 +73,341 @@
             object-fit: cover;
         }
 
-        .pill-badge {
-            background-color: #51071E; /* Updated to your color */
-            color: #ffffff;
+        h1 {
+            font-size: 22px;
             font-weight: 700;
-            font-size: 12px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
+            letter-spacing: -0.4px;
         }
 
-        .header-actions {
+        .add-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 26px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 20px;
-            color: #b3b3b3;
-            font-size: 20px;
         }
 
-        .header-actions i {
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .header-actions i:hover {
-            color: #ffffff;
-        }
-
-        .filter-row {
+        /* Main Workspace Panels Scroll Track */
+        .content {
+            padding: 8px 16px;
+            flex: 1;
             display: flex;
-            gap: 8px;
-            padding: 8px 16px;
-            flex-shrink: 0;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+            position: relative;
+            padding-bottom: 120px; /* Space for the players */
         }
 
-        .filter-pill {
-            background-color: #232323;
+        /* Import Action Trigger Panel */
+        .import-card {
+            width: 100%;
+            background-color: #121212;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s;
-        }
-
-        .filter-pill.active {
-            background-color: #51071E; /* Updated to your color */
-            color: #ffffff;
-            font-weight: 600;
-        }
-
-        .tips-card {
-            background: linear-gradient(135deg, #121212 0%, #080808 100%);
-            border: 1px solid #1a1a1a;
-            margin: 16px;
-            border-radius: 12px;
-            padding: 16px;
-            position: relative;
             flex-shrink: 0;
-            z-index: 10;
         }
 
-        .tips-close {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            color: #a7a7a7;
+        .import-card:active {
+            background-color: #1a1a1a;
+        }
+
+        .import-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .import-icon {
+            font-size: 20px;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        .import-text {
             font-size: 14px;
+            font-weight: 700;
+            line-height: 1.4;
+            text-align: left;
+            color: #ffffff;
+        }
+
+        .arrow-icon {
+            color: #ffffff;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        /* -------------------------------------------------------------
+           PREMIUM 3D GEOMETRIC CASING CAROUSEL VIEWPORT
+        ------------------------------------------------------------- */
+        .library-3d-viewport {
+            width: 100%;
+            height: 320px;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .coverflow-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 800px;
+            transform-style: preserve-3d;
+            cursor: grab;
+        }
+
+        .coverflow-container:active {
+            cursor: grabbing;
+        }
+
+        /* THE 3D ALBUM CASE */
+        .album-3d-case {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.18, 0.9, 0.32, 1.05), opacity 0.4s ease;
+            user-select: none;
+            -webkit-box-reflect: below 12px linear-gradient(transparent, transparent 40%, rgba(255, 255, 255, 0.15));
+        }
+
+        .case-face {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            backface-visibility: visible;
+        }
+
+        .case-face.face-front {
+            transform: rotateY(0deg) translateZ(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 2;
+        }
+
+        .case-face.face-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .case-face.face-front i {
+            font-size: 50px;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .case-face.face-left {
+            width: 16px;
+            left: -8px;
+            transform: rotateY(-90deg) translateZ(0);
+            background: linear-gradient(to right, #111111, #222222);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .case-face.face-right {
+            width: 16px;
+            left: auto;
+            right: -8px;
+            transform: rotateY(90deg) translateZ(0);
+            background: linear-gradient(to left, #111111, #222222);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spine-text-vertical {
+            font-size: 8px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            white-space: nowrap;
+            letter-spacing: 1px;
+            transform: rotate(90deg);
+            width: 140px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .center-track-title-display {
+            position: absolute;
+            bottom: 16px;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 0 24px;
+        }
+
+        .center-main-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .center-sub-artist {
+            font-size: 12px;
+            font-weight: 500;
+            color: #b3b3b3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .viewport-empty-notice {
+            position: absolute;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555555;
+            text-align: center;
+            pointer-events: none;
+            padding: 0 40px;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .viewport-empty-notice i {
+            font-size: 32px;
+            color: #222222;
+        }
+
+        /* Guide Helper Onboarding Box */
+        .tips-card {
+            background-color: #121212;
+            border-radius: 8px;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex-shrink: 0;
+        }
+
+        .tips-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .tips-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #a7a7a7;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #b3b3b3;
+            font-size: 16px;
             cursor: pointer;
         }
 
         .tips-title {
             font-size: 15px;
             font-weight: 700;
-            margin-bottom: 6px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .tips-title i {
-            color: #51071E; /* Updated to your color */
-        }
-
-        .tips-desc {
-            font-size: 13px;
-            color: #a7a7a7;
-            line-height: 1.4;
-        }
-
-        .stage-viewport {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .empty-notice-wrapper {
-            position: absolute;
-            text-align: center;
-            padding: 24px;
-            z-index: 5;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .empty-notice-wrapper i {
-            font-size: 48px;
-            color: #282828;
-            margin-bottom: 16px;
-        }
-
-        .empty-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-
-        .empty-subtitle {
-            font-size: 13px;
-            color: #a7a7a7;
-            max-width: 260px;
-            margin: 0 auto;
-            line-height: 1.4;
-        }
-
-        .coverflow-carousel-space {
-            position: relative;
-            width: 100%;
-            height: 320px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
-            transform-style: preserve-3d;
-            cursor: grab;
-        }
-
-        .coverflow-carousel-space:active {
-            cursor: grabbing;
-        }
-
-        .jewel-case-entity {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background-color: #181818;
-            border-radius: 8px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.45s ease, filter 0.45s ease;
-            transform-style: preserve-3d;
-            will-change: transform, opacity, filter;
-        }
-
-        .spine-hinge-lip {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 2;
-            background-color: #282828;
-        }
-
-        .spine-hinge-lip img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .compact-vinyl-platter {
-            position: absolute;
-            top: 5px;
-            right: 0;
-            width: 190px;
-            height: 190px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #0a0a0a 20%, #1a1a1a 40%, #050505 60%, #151515 80%, #000000 100%);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            z-index: 1;
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            transform: translateX(0) rotate(0deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .compact-vinyl-platter::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 0.5px solid rgba(255, 255, 255, 0.05);
-            box-sizing: border-box;
-        }
-
-        .vinyl-center-label {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            background-color: #333;
-            overflow: hidden;
-            border: 4px solid #000;
-        }
-
-        .vinyl-center-label img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .jewel-case-entity.active-focus {
-            z-index: 100;
-            opacity: 1;
-            filter: drop-shadow(0px 20px 30px rgba(0,0,0,0.7));
-        }
-
-        .jewel-case-entity.active-focus .compact-vinyl-platter {
-            transform: translateX(55px) rotate(0deg);
-        }
-
-        @keyframes vinylSpinCyclical {
-            from { transform: translateX(55px) rotate(0deg); }
-            to { transform: translateX(55px) rotate(360deg); }
-        }
-
-        .jewel-case-entity.active-focus.spinning-media .compact-vinyl-platter {
-            animation: vinylSpinCyclical 12s linear infinite;
-        }
-
-        .stage-center-coordinates {
-            text-align: center;
-            margin-top: 16px;
-            padding: 0 24px;
-            height: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 100%;
-            pointer-events: none;
-        }
-
-        .meta-primary-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: #ffffff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
             margin-bottom: 4px;
+            letter-spacing: -0.1px;
         }
 
-        .meta-sub-artist {
-            font-size: 14px;
-            font-weight: 500;
+        .tips-subtitle {
+            font-size: 13px;
             color: #b3b3b3;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 20px;
+            font-weight: 500;
         }
 
-        .bottom-dock-console {
-            background-color: #000000;
-            border-top: 1px solid #121212;
-            padding: 12px 16px 32px 16px;
-            flex-shrink: 0;
-            z-index: 20;
-        }
-
-        .mini-track-node-panel {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #121212;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
+        .action-btn {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 700;
             cursor: pointer;
         }
 
-        .node-left-profile {
+        /* -------------------------------------------------------------
+           DYNAMIC GENERATED PLAYLIST ITEM ELEMENT STYLING
+        ------------------------------------------------------------- */
+        .playlist-row-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex: 1;
-            min-width: 0;
+            gap: 16px;
+            padding: 10px 0;
+            cursor: pointer;
+            width: 100%;
+            animation: fadeIn 0.3s ease-out;
         }
 
-        .node-thumb-frame {
-            width: 40px;
-            height: 40px;
+        .playlist-row-item:active {
+            opacity: 0.7;
+        }
+
+        .playlist-art-square {
+            width: 64px;
+            height: 64px;
             border-radius: 4px;
-            overflow: hidden;
-            background-color: #282828;
+            background: linear-gradient(135deg, #282828 0%, #121212 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             flex-shrink: 0;
         }
 
-        .node-thumb-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .node-text-stack {
+        .playlist-metadata {
             display: flex;
             flex-direction: column;
+            gap: 4px;
             min-width: 0;
         }
 
-        .node-main-title {
-            font-size: 13px;
+        .playlist-name-label {
+            font-size: 15px;
             font-weight: 600;
             color: #ffffff;
             white-space: nowrap;
@@ -396,157 +415,399 @@
             text-overflow: ellipsis;
         }
 
-        .node-sub-caption {
-            font-size: 11px;
+        .playlist-desc-subtext {
+            font-size: 13px;
             color: #b3b3b3;
+            font-weight: 400;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Fixed Placement Control Tray Deck */
+        .bottom-section {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: #000000;
+            padding-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        /* Custom Burgundy Mini Player Deck */
+        .mini-player {
+            background-color: #51071e; 
+            margin: 0 8px 16px 8px;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .player-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .album-art {
+            width: 38px;
+            height: 38px;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background-color: #282828;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .album-art i {
+            color: #b3b3b3;
+            font-size: 16px;
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .song-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-top: 2px;
         }
 
-        .node-right-controls {
+        .song-artist {
+            font-size: 12px;
+            color: #b3b3b3;
             display: flex;
             align-items: center;
-            gap: 16px;
-            color: #b3b3b3;
-            font-size: 18px;
-            padding-left: 8px;
-        }
-
-        .node-right-controls i {
-            cursor: pointer;
-        }
-
-        .node-right-controls i.active-node-icon {
-            color: #51071E; /* Updated to your color */
-        }
-
-        .progress-timeline-bar {
-            width: 100%;
-            height: 4px;
-            background-color: #2c2c2c;
-            border-radius: 2px;
-            position: relative;
-            margin-bottom: 20px;
+            gap: 4px;
+            white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .progress-playback-fill {
+        .local-badge {
+            color: #1db954;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+        }
+
+        .player-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-right: 8px;
+        }
+
+        .device-btn, .play-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-btn {
+            font-size: 16px;
+            width: 20px;
+        }
+
+        .progress-bar {
             position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
+            bottom: 0;
+            left: 8px;
+            right: 8px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .progress-fill {
             width: 0%;
-            background-color: #51071E; /* Updated to your color */
-            border-radius: 2px;
-        }
-
-        .console-trigger-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .utility-peripheral-btn {
-            font-size: 20px;
-            color: #b3b3b3;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.2s;
-        }
-
-        .utility-peripheral-btn:hover {
-            color: #ffffff;
-        }
-
-        .utility-peripheral-btn.active-state {
-            color: #51071E; /* Updated to your color */
-        }
-
-        .playback-core-cluster {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .secondary-step-trigger {
-            font-size: 24px;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        .primary-governor-trigger {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
+            height: 100%;
             background-color: #ffffff;
-            color: #000000;
+            transition: width 0.1s linear;
+        }
+
+        .bottom-nav {
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 22px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: transform 0.1s ease;
         }
 
-        .primary-governor-trigger:active {
-            transform: scale(0.95);
+        .nav-icon {
+            font-size: 20px;
+            color: #ffffff;
         }
 
-        .sheet-backdrop-shroud {
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        #hiddenFileInput {
+            display: none;
+        }
+
+        /* -------------------------------------------------------------
+           SPOTIFY-STYLE BOTTOM SHEET COMPONENT
+        ------------------------------------------------------------- */
+        .bottom-sheet-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            z-index: 100;
+            z-index: 2000;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
 
-        .sheet-backdrop-shroud.visible-state {
+        .bottom-sheet-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .bottom-sheet-drawer-node {
+        .bottom-sheet {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 85%;
-            background-color: #121212;
+            background-color: #242424;
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
+            padding: 0 16px 40px 16px;
             transform: translateY(100%);
-            transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             display: flex;
             flex-direction: column;
-            z-index: 101;
+            gap: 4px;
         }
 
-        .bottom-sheet-drawer-node.expanded-state {
+        .bottom-sheet.dragging {
+            transition: none;
+        }
+
+        .bottom-sheet-overlay.active .bottom-sheet {
             transform: translateY(0);
         }
 
-        .sheet-header-anchor {
-            padding: 16px;
+        .drag-handle-container {
+            width: 100%;
+            padding: 14px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            touch-action: none;
+        }
+        
+        .drag-handle-container:active {
+            cursor: grabbing;
+        }
+
+        .bottom-sheet-drag-handle {
+            width: 36px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        .sheet-menu-item {
+            width: 100%;
+            background: none;
+            border: none;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #282828;
+            gap: 16px;
+            padding: 12px 0;
+            color: #ffffff;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .sheet-menu-item:active {
+            opacity: 0.7;
+        }
+
+        .sheet-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #b3b3b3;
             flex-shrink: 0;
         }
 
-        .sheet-close-x-btn {
+        .sheet-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sheet-item-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .sheet-item-desc {
+            font-size: 12px;
+            color: #a7a7a7;
+            font-weight: 400;
+        }
+
+        /* -------------------------------------------------------------
+           PLAYLIST CREATION CREATOR SCREEN MODAL
+        ------------------------------------------------------------- */
+        .playlist-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #2a2a2a 0%, #121212 100%);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .playlist-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-heading {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .playlist-name-input {
+            width: 100%;
+            background: none;
+            border: none;
+            border-bottom: 2px solid #777;
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            padding-bottom: 12px;
+            margin-bottom: 40px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .playlist-name-input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .playlist-name-input:focus {
+            border-bottom-color: #1db954;
+        }
+
+        .modal-action-row {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            background: none;
+            border: none;
+            color: #b3b3b3;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 24px;
+        }
+
+        .modal-btn.btn-primary {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .modal-btn:active {
+            opacity: 0.8;
+        }
+
+        /* -------------------------------------------------------------
+           PLAYLIST DYNAMIC TRACK DETAIL SCREEN PANEL
+        ------------------------------------------------------------- */
+        .detail-panel-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #404040 0%, #121212 40%, #000000 100%);
+            z-index: 2500;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .detail-panel-view.active {
+            transform: translateX(0);
+        }
+
+        .detail-header-nav {
+            display: flex;
+            align-items: center;
+            padding: 45px 16px 12px 16px;
+        }
+
+        .back-panel-btn {
             background: none;
             border: none;
             color: #ffffff;
@@ -608,265 +869,214 @@
             cursor: pointer;
         }
 
-        .left-action-icons i:hover, .left-action-icons i:active {
+        .left-action-icons i:active {
             color: #ffffff;
         }
 
-        .right-play-capsule {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .capsule-shuffle-toggle {
-            font-size: 20px;
-            color: #b3b3b3;
-            cursor: pointer;
-        }
-
-        .capsule-shuffle-toggle.active {
-            color: #51071E; /* Updated to your color */
-        }
-
-        .capsule-master-play-circle {
+        .giant-play-accent-btn {
             width: 52px;
             height: 52px;
             border-radius: 50%;
-            background-color: #51071E; /* Updated to your color */
-            color: #ffffff;
+            background-color: #1db954;
+            color: #000000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 22px;
+            border: none;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
-        .media-vector-table {
+        .track-list-vertical-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-        }
-
-        .vector-row-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .vector-row-item:hover, .vector-row-item.focused-track {
-            background-color: rgba(255,255,255,0.05);
-        }
-
-        .vector-left-meta {
-            display: flex;
-            align-items: center;
             gap: 12px;
-            flex: 1;
-            min-width: 0;
         }
 
-        .vector-index-marker {
-            width: 20px;
-            font-size: 14px;
+        .empty-track-placeholder-state {
             color: #b3b3b3;
+            font-size: 14px;
             text-align: center;
-        }
-
-        .vector-row-item.focused-track .vector-index-marker {
-            color: #51071E; /* Updated to your color */
-        }
-
-        .vector-cover-art {
-            width: 40px;
-            height: 40px;
-            border-radius: 4px;
-            overflow: hidden;
-            background-color: #282828;
-            flex-shrink: 0;
-        }
-
-        .vector-cover-art img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .vector-identity-block {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        .vector-title-string {
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .vector-row-item.focused-track .vector-title-string {
-            color: #51071E; /* Updated to your color */
-        }
-
-        .vector-artist-string {
-            font-size: 12px;
-            color: #b3b3b3;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-top: 2px;
-        }
-
-        .vector-right-data {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            color: #b3b3b3;
-            font-size: 14px;
-        }
-
-        .vector-right-data i {
-            cursor: pointer;
-        }
-
-        #hiddenFileInput {
-            display: none;
+            margin-top: 40px;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
     <div class="app-container">
+        <audio id="audioEngine"></audio>
+        <input type="file" id="hiddenFileInput" accept="audio/mp3, audio/*" multiple>
+
         <header class="header">
             <div class="header-left">
                 <div class="profile-avatar">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profil">
+                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" alt="Profile">
                 </div>
-                <span class="pill-badge">Premium</span>
+                <h1>Kitaplığın</h1>
             </div>
-            <div class="header-actions">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <i class="fa-solid fa-plus" id="addBtnPlus"></i>
-            </div>
+            <button class="add-btn" id="addBtnPlus"><i class="fa-solid fa-plus"></i></button>
         </header>
 
-        <div class="filter-row">
-            <div class="filter-pill active">Çalma Listeleri</div>
-            <div class="filter-pill">Albümler</div>
-            <div class="filter-pill">Sanatçılar</div>
-        </div>
-
-        <div class="tips-card" id="tipsCard">
-            <i class="fa-solid fa-xmark tips-close" id="closeTips"></i>
-            <div class="tips-title">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                <span>İpucu</span>
-            </div>
-            <div class="tips-desc">Cihazındaki MP3 dosyalarını yüklemek için sağ üstteki "+" butonuna veya aşağıdaki boş alana tıkla.</div>
-        </div>
-
-        <main class="stage-viewport" id="dropZoneViewport">
-            <div class="empty-notice-wrapper" id="emptyNotice">
-                <i class="fa-solid fa-compact-disc"></i>
-                <div class="empty-title">Kitaplığın henüz boş</div>
-                <div class="empty-subtitle">Müzik yüklemek için buraya tıklayabilir veya dosyalarını sürükleyip bırakabilirsin.</div>
-            </div>
-
-            <div class="coverflow-carousel-space" id="coverflowContainer"></div>
-
-            <div class="stage-center-coordinates" id="centerTrackTitleDisplay">
-                <div class="meta-primary-title" id="centerMainTitle">-</div>
-                <div class="meta-sub-artist" id="centerSubArtist">-</div>
-            </div>
-        </main>
-
-        <footer class="bottom-dock-console">
-            <div class="mini-track-node-panel" id="miniPlayerTrigger">
-                <div class="node-left-profile">
-                    <div class="node-thumb-frame" id="playerAlbumArtContainer">
-                        <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=100&auto=format&fit=crop&q=80" alt="Kapak">
-                    </div>
-                    <div class="node-text-stack">
-                        <div class="node-main-title" id="playerTitle">Çalma listesi seçilmedi</div>
-                        <div class="node-sub-caption" id="playerArtist">Dosya yükleyin</div>
-                    </div>
+        <main class="content" id="mainContentScrollTrack">
+            <button class="import-card" id="importBtn">
+                <div class="import-left">
+                    <i class="fa-solid fa-arrow-down import-icon"></i>
+                    <span class="import-text">Diğer uygulamalardaki müziklerini içe aktar</span>
                 </div>
-                <div class="node-right-controls">
-                    <i class="fa-solid fa-laptop-code"></i>
-                    <i class="fa-solid fa-circle-check active-node-icon"></i>
-                </div>
-            </div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </button>
 
-            <div class="progress-timeline-bar">
-                <div class="progress-playback-fill" id="progressFill"></div>
-            </div>
-
-            <div class="console-trigger-row">
-                <div class="utility-peripheral-btn" id="importBtn">
-                    <i class="fa-solid fa-folder-plus"></i>
+            <div class="library-3d-viewport" id="dropZoneViewport">
+                <div class="viewport-empty-notice" id="emptyNotice">
+                    <i class="fa-solid fa-compact-disc"></i>
+                    <span>Müzik dosyalarını buraya sürükleyin veya içe aktarın</span>
                 </div>
                 
-                <div class="playback-core-cluster">
-                    <i class="fa-solid fa-backward-step secondary-step-trigger" id="prevTrackBtn"></i>
-                    <div class="primary-governor-trigger" id="playBtn">
-                        <i class="fa-solid fa-play"></i>
-                    </div>
-                    <i class="fa-solid fa-forward-step secondary-step-trigger" id="nextTrackBtn"></i>
-                </div>
-
-                <div class="utility-peripheral-btn" id="listMenuTriggerBtn">
-                    <i class="fa-solid fa-list-ul"></i>
+                <div class="coverflow-container" id="coverflowContainer"></div>
+                
+                <div class="center-track-title-display" id="centerTrackTitleDisplay" style="display: none;">
+                    <div class="center-main-title" id="centerMainTitle">Track Name</div>
+                    <div class="center-sub-artist" id="centerSubArtist">Artist Name</div>
                 </div>
             </div>
-        </footer>
 
-        <div class="sheet-backdrop-shroud" id="menuSheetOverlay"></div>
-        <div class="bottom-sheet-drawer-node" id="detailListSheet">
-            <div class="sheet-header-anchor">
-                <i class="fa-solid fa-chevron-down sheet-close-x-btn" id="closeSheetBtn"></i>
-                <span class="creator-name-bold" style="font-size:14px;">Müzik Listesi</span>
-                <i class="fa-solid fa-ellipsis-vertical" style="color:#b3b3b3; font-size:18px;"></i>
+            <div class="tips-card" id="tipsCard">
+                <div class="tips-header">
+                    <span class="tips-label">İpuçları</span>
+                    <button class="close-btn" id="closeTips"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <h2 class="tips-title">İlk çalma listeni oluştur</h2>
+                <p class="tips-subtitle">Çok kolay. Sana yardımcı olacağız</p>
+                <button class="action-btn" id="createPlaylistTriggerBtn">Çalma listesi oluştur</button>
             </div>
             
+            <div id="playlistsTargetBox" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </main>
+
+        <div class="bottom-section">
+            <div class="mini-player">
+                <div class="player-left">
+                    <div class="album-art" id="playerAlbumArtContainer">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <div class="song-info">
+                        <div class="song-title" id="playerTitle">Carita de Angel</div>
+                        <div class="song-artist">
+                            <span class="local-badge"><i class="fa-solid fa-square-check"></i></span>
+                            <span id="playerArtist">Maria Daniela Y Su Sonido Lasser</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-right">
+                    <button class="device-btn"><i class="fa-solid fa-mobile-screen-button"></i></button>
+                    <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <button class="nav-item">
+                    <i class="fa-solid fa-lines-leaning nav-icon"></i>
+                    <span>Kitaplığın</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="bottom-sheet-overlay" id="menuSheetOverlay">
+            <div class="bottom-sheet" id="bottomSheet">
+                <div class="drag-handle-container" id="dragHandleContainer">
+                    <div class="bottom-sheet-drag-handle"></div>
+                </div>
+                
+                <button class="sheet-menu-item" id="sheetMenuCreatePlaylistBtn">
+                    <div class="sheet-icon-wrapper">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <div class="sheet-text-wrapper">
+                        <div class="sheet-item-title">Çalma Listesi</div>
+                        <div class="sheet-item-desc">Şarkı veya bölüm içeren bir çalma listesi oluştur</div>
+                    </div>
+                </button>
+
+                <button class="sheet-menu-item">
+                    <div class="sheet-icon-wrapper">
+                        <i class="fa-solid fa-user-group"></i>
+                    </div>
+                    <div class="sheet-text-wrapper">
+                        <div class="sheet-item-title">Ortak çalma listesi</div>
+                        <div class="sheet-item-desc">Arkadaşlarınla birlikte çalma listesi oluştur</div>
+                    </div>
+                </button>
+
+                <button class="sheet-menu-item">
+                    <div class="sheet-icon-wrapper">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                    </div>
+                    <div class="sheet-text-wrapper">
+                        <div class="sheet-item-title">Blend</div>
+                        <div class="sheet-item-desc">Arkadaşlarının zevklerini bir çalma listesinde buluştur</div>
+                    </div>
+                </button>
+
+                <button class="sheet-menu-item">
+                    <div class="sheet-icon-wrapper">
+                        <i class="fa-solid fa-folder"></i>
+                    </div>
+                    <div class="sheet-text-wrapper">
+                        <div class="sheet-item-title">Klasör</div>
+                        <div class="sheet-item-desc">Çalma listelerini düzenle</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="playlist-modal-overlay" id="playlistModalOverlay">
+            <div class="modal-heading">Çalma listene bir isim ver</div>
+            <input type="text" class="playlist-name-input" id="playlistNameInput" placeholder="Çalma listem" autocomplete="off">
+            <div class="modal-action-row">
+                <button class="modal-btn" id="modalCancelBtn">İptal</button>
+                <button class="modal-btn btn-primary" id="modalCreateBtn">Oluştur</button>
+            </div>
+        </div>
+
+        <div class="detail-panel-view" id="detailPanelView">
+            <header class="detail-header-nav">
+                <button class="back-panel-btn" id="detailBackBtn"><i class="fa-solid fa-chevron-left"></i></button>
+            </header>
             <div class="detail-scroll-body">
-                <div class="detail-hero-title">Kitaplığındaki Parçalar</div>
+                <h2 class="detail-hero-title" id="detailHeroTitle">Playlist Name</h2>
                 
                 <div class="detail-creator-row">
-                    <img class="mini-creator-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar">
-                    <span class="creator-name-bold">Premium Kullanıcı</span>
+                    <img class="mini-creator-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" alt="User">
+                    <span class="creator-name-bold">User Profile</span>
                 </div>
 
                 <div class="detail-control-actions">
                     <div class="left-action-icons">
-                        <i class="fa-solid fa-circle-down"></i>
+                        <i class="fa-solid fa-circle-arrow-down"></i>
                         <i class="fa-solid fa-user-plus"></i>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
                     </div>
-                    <div class="right-play-capsule">
-                        <i class="fa-solid fa-shuffle capsule-shuffle-toggle"></i>
-                        <div class="capsule-master-play-circle" id="capsulePlayBtn">
-                            <i class="fa-solid fa-play"></i>
-                        </div>
-                    </div>
+                    <button class="giant-play-accent-btn"><i class="fa-solid fa-play"></i></button>
                 </div>
 
-                <div class="media-vector-table" id="sheetTracksContainer"></div>
+                <div class="track-list-vertical-wrapper" id="detailTracksListContainer">
+                    <div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok.</div>
+                </div>
             </div>
         </div>
 
-        <input type="file" id="hiddenFileInput" multiple accept="audio/mp3,audio/*">
-        <audio id="audioEngine"></audio>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let libraryTracksList = [];
             let focusedIndex = 0;
+            
             let trackingMotionActive = false;
             let initialTouchX = 0;
             let slidingReferenceDeltaX = 0;
@@ -874,7 +1084,6 @@
             const closeTips = document.getElementById('closeTips');
             const tipsCard = document.getElementById('tipsCard');
             const playBtn = document.getElementById('playBtn');
-            const capsulePlayBtn = document.getElementById('capsulePlayBtn');
             const importBtn = document.getElementById('importBtn');
             const addBtnPlus = document.getElementById('addBtnPlus');
             const fileInput = document.getElementById('hiddenFileInput');
@@ -882,310 +1091,408 @@
             const dropZoneViewport = document.getElementById('dropZoneViewport');
             const coverflowContainer = document.getElementById('coverflowContainer');
             const emptyNotice = document.getElementById('emptyNotice');
+            
+            const centerTrackTitleDisplay = document.getElementById('centerTrackTitleDisplay');
             const centerMainTitle = document.getElementById('centerMainTitle');
             const centerSubArtist = document.getElementById('centerSubArtist');
+
             const playerTitle = document.getElementById('playerTitle');
             const playerArtist = document.getElementById('playerArtist');
             const progressFill = document.getElementById('progressFill');
             const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
+            // Bottom sheet overlays DOM bindings
             const menuSheetOverlay = document.getElementById('menuSheetOverlay');
-            const detailListSheet = document.getElementById('detailListSheet');
-            const listMenuTriggerBtn = document.getElementById('listMenuTriggerBtn');
-            const closeSheetBtn = document.getElementById('closeSheetBtn');
-            const miniPlayerTrigger = document.getElementById('miniPlayerTrigger');
-            const sheetTracksContainer = document.getElementById('sheetTracksContainer');
-            const prevTrackBtn = document.getElementById('prevTrackBtn');
-            const nextTrackBtn = document.getElementById('nextTrackBtn');
+            const bottomSheet = document.getElementById('bottomSheet');
+            const dragHandleContainer = document.getElementById('dragHandleContainer');
 
-            const structuralCoverGradients = [
-                'linear-gradient(135deg, #f5222d 0%, #722ed1 100%)',
-                'linear-gradient(135deg, #fa8c16 0%, #fadb14 100%)',
-                'linear-gradient(135deg, #13c2c2 0%, #52c41a 100%)',
-                'linear-gradient(135deg, #1890ff 0%, #2f54eb 100%)',
-                'linear-gradient(135deg, #eb2f96 0%, #722ed1 100%)'
-            ];
+            // Playlist Lifecycle DOM Bindings
+            const createPlaylistTriggerBtn = document.getElementById('createPlaylistTriggerBtn');
+            const sheetMenuCreatePlaylistBtn = document.getElementById('sheetMenuCreatePlaylistBtn');
+            const playlistModalOverlay = document.getElementById('playlistModalOverlay');
+            const playlistNameInput = document.getElementById('playlistNameInput');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalCreateBtn = document.getElementById('modalCreateBtn');
+            const playlistsTargetBox = document.getElementById('playlistsTargetBox');
+            
+            const detailPanelView = document.getElementById('detailPanelView');
+            const detailBackBtn = document.getElementById('detailBackBtn');
+            const detailHeroTitle = document.getElementById('detailHeroTitle');
+            const detailTracksListContainer = document.getElementById('detailTracksListContainer');
 
             if (closeTips && tipsCard) {
-                closeTips.addEventListener('click', (e) => {
+                closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
+            }
+
+            // --- BOTTOM SHEET GESTURE CONFIGURATION ENGINE ---
+            let isDraggingSheet = false;
+            let startY = 0;
+            let currentY = 0;
+
+            function closeSheetWithAnimation() {
+                bottomSheet.classList.remove('dragging');
+                bottomSheet.style.transform = '';
+                menuSheetOverlay.classList.remove('active');
+            }
+
+            function resetSheetPosition() {
+                bottomSheet.classList.remove('dragging');
+                bottomSheet.style.transform = 'translateY(0)';
+            }
+
+            if (addBtnPlus && menuSheetOverlay) {
+                addBtnPlus.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    tipsCard.style.display = 'none';
+                    bottomSheet.style.transform = '';
+                    menuSheetOverlay.classList.add('active');
                 });
-            }
 
-            // Sheet Overlay Toggle Handlers
-            function openLibraryDrawer() {
-                menuSheetOverlay.classList.add('visible-state');
-                detailListSheet.classList.add('expanded-state');
-                populateSheetTrackListView();
-            }
-
-            function closeLibraryDrawer() {
-                menuSheetOverlay.classList.remove('visible-state');
-                detailListSheet.classList.remove('expanded-state');
-            }
-
-            if (listMenuTriggerBtn) listMenuTriggerBtn.addEventListener('click', openLibraryDrawer);
-            if (miniPlayerTrigger) miniPlayerTrigger.addEventListener('click', openLibraryDrawer); 
-            if (closeSheetBtn) closeSheetBtn.addEventListener('click', closeLibraryDrawer);
-            if (menuSheetOverlay) menuSheetOverlay.addEventListener('click', closeLibraryDrawer);
-
-            if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
-            if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
-            
-            if (dropZoneViewport) {
-                dropZoneViewport.addEventListener('click', (e) => {
-                    if (libraryTracksList.length === 0 && e.target === dropZoneViewport) {
-                        fileInput.click();
+                menuSheetOverlay.addEventListener('click', (e) => {
+                    if (e.target === menuSheetOverlay) {
+                        closeSheetWithAnimation();
                     }
                 });
             }
 
-            window.addEventListener('dragover', (e) => e.preventDefault());
-            window.addEventListener('drop', (e) => e.preventDefault());
+            if (dragHandleContainer && bottomSheet) {
+                dragHandleContainer.addEventListener('touchstart', (e) => {
+                    isDraggingSheet = true;
+                    startY = e.touches[0].clientY;
+                    bottomSheet.classList.add('dragging');
+                }, { passive: true });
 
-            if (dropZoneViewport) {
-                dropZoneViewport.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    dropZoneViewport.style.backgroundColor = 'rgba(81, 7, 30, 0.1)';
-                });
-                dropZoneViewport.addEventListener('dragleave', () => {
-                    dropZoneViewport.style.backgroundColor = 'transparent';
-                });
-                dropZoneViewport.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    dropZoneViewport.style.backgroundColor = 'transparent';
-                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                        processSelectedFilesInputPackets(e.dataTransfer.files);
+                window.addEventListener('touchmove', (e) => {
+                    if (!isDraggingSheet) return;
+                    currentY = e.touches[0].clientY;
+                    let deltaY = currentY - startY;
+
+                    if (deltaY > 0) {
+                        bottomSheet.style.transform = `translateY(${deltaY}px)`;
+                    } else {
+                        bottomSheet.style.transform = `translateY(0px)`;
+                    }
+                }, { passive: true });
+
+                window.addEventListener('touchend', () => {
+                    if (!isDraggingSheet) return;
+                    isDraggingSheet = false;
+                    let finalDeltaY = currentY - startY;
+                    if (finalDeltaY > 100) {
+                        closeSheetWithAnimation();
+                    } else {
+                        resetSheetPosition();
                     }
                 });
+            }
+
+            // --- DYNAMIC PLAYLIST CONSTRUCTOR ---
+            function openPlaylistNamingModal() {
+                closeSheetWithAnimation();
+                playlistNameInput.value = '';
+                playlistModalOverlay.classList.add('active');
+                setTimeout(() => playlistNameInput.focus(), 150);
+            }
+
+            if (createPlaylistTriggerBtn) createPlaylistTriggerBtn.addEventListener('click', openPlaylistNamingModal);
+            if (sheetMenuCreatePlaylistBtn) sheetMenuCreatePlaylistBtn.addEventListener('click', openPlaylistNamingModal);
+
+            if (modalCancelBtn) {
+                modalCancelBtn.addEventListener('click', () => {
+                    playlistModalOverlay.classList.remove('active');
+                    playlistNameInput.blur();
+                });
+            }
+
+            // Let users save by pressing Enter key on keyboard
+            playlistNameInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    modalCreateBtn.click();
+                }
+            });
+
+            if (modalCreateBtn) {
+                modalCreateBtn.addEventListener('click', () => {
+                    let chosenName = playlistNameInput.value.trim();
+                    if (!chosenName) chosenName = "Çalma Listem";
+
+                    // Hide tips onboarding framework permanently once playlist setup completes
+                    if (tipsCard) tipsCard.style.display = 'none';
+
+                    // Pick an elegant background gradient color for the playlist cover item row
+                    const playlistGradients = [
+                        'linear-gradient(135deg, #4568dc 0%, #b06ab3 100%)',
+                        'linear-gradient(135deg, #3a1c1c 0%, #5d4037 100%)',
+                        'linear-gradient(135deg, #1f4037 0%, #99f2c8 100%)',
+                        'linear-gradient(135deg, #2c3e50 0%, #bdc3c7 100%)'
+                    ];
+                    const randomBg = playlistGradients[Math.floor(Math.random() * playlistGradients.length)];
+
+                    // Build and Append New Row to Library
+                    const playlistRowElement = document.createElement('div');
+                    playlistRowElement.className = 'playlist-row-item';
+                    playlistRowElement.innerHTML = `
+                        <div class="playlist-art-square" style="background: ${randomBg}">
+                            <i class="fa-solid fa-music"></i>
+                        </div>
+                        <div class="playlist-metadata">
+                            <div class="playlist-name-label">${chosenName}</div>
+                            <div class="playlist-desc-subtext">Çalma listesi • Kitaplığın</div>
+                        </div>
+                    `;
+
+                    // Trigger playlist view detail panel on click
+                    playlistRowElement.addEventListener('click', () => {
+                        detailHeroTitle.textContent = chosenName;
+                        detailTracksListContainer.innerHTML = '';
+
+                        if (libraryTracksList.length === 0) {
+                            detailTracksListContainer.innerHTML = `<div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok. Şarkı yüklemek için yukarıdaki "içe aktar" düğmesini kullanabilirsiniz.</div>`;
+                        } else {
+                            libraryTracksList.forEach((track, index) => {
+                                const trElement = document.createElement('div');
+                                trElement.className = 'playlist-row-item';
+                                trElement.innerHTML = `
+                                    <div class="playlist-art-square" style="width:44px; height:44px; font-size:14px; background:${track.caseBackdropTone}">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                    <div class="playlist-metadata">
+                                        <div class="playlist-name-label" style="font-size:14px;">${track.title}</div>
+                                        <div class="playlist-desc-subtext" style="font-size:12px;">${track.artist}</div>
+                                    </div>
+                                `;
+                                trElement.addEventListener('click', (e) => {
+                                    e.stopPropagation();
+                                    triggerFocusedTrackReorientation(index);
+                                });
+                                detailTracksListContainer.appendChild(trElement);
+                            });
+                        }
+                        detailPanelView.classList.add('active');
+                    });
+
+                    playlistsTargetBox.appendChild(playlistRowElement);
+
+                    // Clear Modal Overlay View Stack
+                    playlistModalOverlay.classList.remove('active');
+                    playlistNameInput.blur();
+                });
+            }
+
+            if (detailBackBtn) {
+                detailBackBtn.addEventListener('click', () => {
+                    detailPanelView.classList.remove('active');
+                });
+            }
+
+            // --- COverFLOW 3D ENGINE CONTROLLER ---
+            const dynamicCaseGradients = [
+                'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
+                'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
+                'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)',
+                'linear-gradient(135deg, #b31217 0%, #e52d27 100%)',
+                'linear-gradient(135deg, #00f260 0%, #0575e6 100%)',
+                'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
+            ];
+
+            function compute3DCaseSpaceTransforms() {
+                if (libraryTracksList.length === 0) {
+                    emptyNotice.style.display = 'flex';
+                    centerTrackTitleDisplay.style.display = 'none';
+                    return;
+                }
+                emptyNotice.style.display = 'none';
+                centerTrackTitleDisplay.style.display = 'flex';
+
+                const structuralCases = coverflowContainer.querySelectorAll('.album-3d-case');
+                
+                structuralCases.forEach((albumCase, idx) => {
+                    const trackingOffset = idx - focusedIndex;
+                    
+                    let translateX = 0;
+                    let rotateY = 0;
+                    let translateZ = 0;
+                    let opacityValue = 1;
+                    let layeredZIndex = 100 - Math.abs(trackingOffset);
+
+                    if (trackingOffset === 0) {
+                        translateX = 0;
+                        rotateY = 0;
+                        translateZ = 130;
+                        layeredZIndex = 600;
+                        opacityValue = 1;
+                    } else if (trackingOffset < 0) {
+                        rotateY = 65; 
+                        translateX = (trackingOffset * 45) - 80; 
+                        translateZ = -40; 
+                        opacityValue = Math.max(0.15, 1 + (trackingOffset * 0.25));
+                    } else if (trackingOffset > 0) {
+                        rotateY = -65;
+                        translateX = (trackingOffset * 45) + 80;
+                        translateZ = -40;
+                        opacityValue = Math.max(0.15, 1 - (trackingOffset * 0.25));
+                    }
+
+                    if (Math.abs(trackingOffset) > 3) {
+                        opacityValue = 0;
+                    }
+
+                    albumCase.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+                    albumCase.style.zIndex = layeredZIndex;
+                    albumCase.style.opacity = opacityValue;
+                });
+            }
+
+            function triggerFocusedTrackReorientation(targetIdx) {
+                if (libraryTracksList.length === 0) return;
+                
+                focusedIndex = Math.max(0, Math.min(targetIdx, libraryTracksList.length - 1));
+                compute3DCaseSpaceTransforms();
+
+                const isolatedTrackNode = libraryTracksList[focusedIndex];
+                
+                centerMainTitle.textContent = isolatedTrackNode.title;
+                centerSubArtist.textContent = isolatedTrackNode.artist;
+
+                playerTitle.textContent = isolatedTrackNode.title;
+                playerArtist.textContent = isolatedTrackNode.artist;
+                playerAlbumArtContainer.style.background = isolatedTrackNode.caseBackdropTone;
+                playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
+
+                audioEngine.src = isolatedTrackNode.blobObjectLinkUrl;
+                audioEngine.play().catch(() => {});
             }
 
             function processSelectedFilesInputPackets(filesList) {
-                let initialLength = libraryTracksList.length;
-                
+                let checkInitialLibraryBootState = (libraryTracksList.length === 0);
+
                 for (let i = 0; i < filesList.length; i++) {
-                    const file = filesList[i];
-                    if (file.type.match('audio.*') || file.name.endsWith('.mp3')) {
-                        const trackObjectUrl = URL.createObjectURL(file);
-                        let cleanTitle = file.name.replace(/\.[^/.]+$/, "");
-                        let derivedArtist = "Bilinmeyen Sanatçı";
-                        
-                        if (cleanTitle.includes('-')) {
-                            const fragments = cleanTitle.split('-');
-                            derivedArtist = fragments[0].trim();
-                            cleanTitle = fragments[1].trim();
-                        }
+                    const musicFile = filesList[i];
+                    if (!musicFile.type.startsWith('audio/')) continue;
 
-                        const randomGradient = structuralCoverGradients[Math.floor(Math.random() * structuralCoverGradients.length)];
-                        libraryTracksList.push({
-                            title: cleanTitle,
-                            artist: derivedArtist,
-                            audioUrl: trackObjectUrl,
-                            gradient: randomGradient,
-                            fileName: file.name
-                        });
+                    let rawCleanedString = musicFile.name.replace(/\.[^/.]+$/, "");
+                    let derivedTitleString = rawCleanedString;
+                    let derivedArtistString = "Yerel Parça";
+
+                    if (rawCleanedString.includes(" - ")) {
+                        const wordSplitFragments = rawCleanedString.split(" - ");
+                        derivedArtistString = wordSplitFragments[0].trim();
+                        derivedTitleString = wordSplitFragments[1].trim();
                     }
-                }
 
-                if (libraryTracksList.length > 0) {
-                    if (emptyNotice) emptyNotice.style.opacity = '0';
-                    setTimeout(() => { if (emptyNotice) emptyNotice.style.display = 'none'; }, 300);
+                    const dynamicGradIndex = libraryTracksList.length % dynamicCaseGradients.length;
+                    const choiceBackdropTone = dynamicCaseGradients[dynamicGradIndex];
                     
-                    renderCoverflowSpatialDOM();
-                    if (initialLength === 0) {
-                        triggerFocusedTrackReorientation(0);
-                    } else {
-                        compute3DCaseSpaceTransforms();
-                    }
-                }
-            }
+                    const systemTrackPayload = {
+                        title: derivedTitleString,
+                        artist: derivedArtistString,
+                        blobObjectLinkUrl: URL.createObjectURL(musicFile),
+                        caseBackdropTone: choiceBackdropTone
+                    };
 
-            function renderCoverflowSpatialDOM() {
-                coverflowContainer.innerHTML = '';
-                libraryTracksList.forEach((track, index) => {
-                    const caseEntity = document.createElement('div');
-                    caseEntity.className = `jewel-case-entity ${index === focusedIndex ? 'active-focus' : ''}`;
-                    caseEntity.dataset.index = index;
+                    libraryTracksList.push(systemTrackPayload);
 
-                    const frontLip = document.createElement('div');
-                    frontLip.className = 'spine-hinge-lip';
-                    frontLip.style.background = track.gradient;
-                    frontLip.innerHTML = `
-                        <div style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);">
-                            <div style="font-weight:800; font-size:14px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${track.title}</div>
-                            <div style="font-size:10px; color:#ccc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">${track.artist}</div>
-                        </div>`;
+                    const physicalCaseNode = document.createElement('div');
+                    physicalCaseNode.className = 'album-3d-case';
+                    
+                    physicalCaseNode.innerHTML = `
+                        <div class="case-face face-left">
+                            <div class="spine-text-vertical">${derivedTitleString}</div>
+                        </div>
+                        <div class="case-face face-front" style="background: ${choiceBackdropTone}">
+                            <i class="fa-solid fa-record-vinyl"></i>
+                        </div>
+                        <div class="case-face face-right">
+                            <div class="spine-text-vertical">${derivedTitleString}</div>
+                        </div>
+                    `;
 
-                    const vinylPlatter = document.createElement('div');
-                    vinylPlatter.className = 'compact-vinyl-platter';
-                    const labelCenter = document.createElement('div');
-                    labelCenter.className = 'vinyl-center-label';
-                    labelCenter.style.background = track.gradient;
-
-                    vinylPlatter.appendChild(labelCenter);
-                    caseEntity.appendChild(vinylPlatter);
-                    caseEntity.appendChild(frontLip);
-
-                    caseEntity.addEventListener('click', () => {
-                        if (index === focusedIndex) {
-                            togglePlaybackGlobalState();
-                        } else {
-                            triggerFocusedTrackReorientation(index);
+                    const capturedScopeIndex = libraryTracksList.length - 1;
+                    physicalCaseNode.addEventListener('click', () => {
+                        if (focusedIndex !== capturedScopeIndex) {
+                            triggerFocusedTrackReorientation(capturedScopeIndex);
                         }
                     });
-                    coverflowContainer.appendChild(caseEntity);
-                });
-            }
 
-            function compute3DCaseSpaceTransforms() {
-                const physicalElements = coverflowContainer.querySelectorAll('.jewel-case-entity');
-                physicalElements.forEach((entity, index) => {
-                    const offsetDelta = index - focusedIndex;
-                    let transformPropertyValue = '';
-                    let opacityPropertyValue = 1;
-
-                    if (offsetDelta === 0) {
-                        transformPropertyValue = `translateX(0px) translateZ(50px) rotateY(0deg)`;
-                        entity.classList.add('active-focus');
-                        if (!audioEngine.paused) entity.classList.add('spinning-media');
-                        else entity.classList.remove('spinning-media');
-                    } else {
-                        entity.classList.remove('active-focus');
-                        entity.classList.remove('spinning-media');
-                        const pushDistance = (offsetDelta > 0 ? 1 : -1) * 110 + (offsetDelta * 15);
-                        const rotationYAngle = (offsetDelta > 0 ? -1 : 1) * 45;
-                        transformPropertyValue = `translateX(${pushDistance}px) translateZ(-60px) rotateY(${rotationYAngle}deg)`;
-                        opacityPropertyValue = Math.abs(offsetDelta) > 2 ? 0.2 : (Math.abs(offsetDelta) > 1 ? 0.5 : 1);
-                    }
-                    entity.style.transform = transformPropertyValue;
-                    entity.style.opacity = opacityPropertyValue;
-                    entity.style.zIndex = 50 - Math.abs(offsetDelta);
-                });
-            }
-
-            function triggerFocusedTrackReorientation(targetIndex) {
-                if (targetIndex < 0 || targetIndex >= libraryTracksList.length) return;
-                focusedIndex = targetIndex;
-                const activeTrack = libraryTracksList[focusedIndex];
-
-                centerMainTitle.textContent = activeTrack.title;
-                centerSubArtist.textContent = activeTrack.artist;
-                playerTitle.textContent = activeTrack.title;
-                playerArtist.textContent = activeTrack.artist;
-
-                playerAlbumArtContainer.innerHTML = '';
-                const innerGradientBox = document.createElement('div');
-                innerGradientBox.style.width = '100%';
-                innerGradientBox.style.height = '100%';
-                innerGradientBox.style.background = activeTrack.gradient;
-                playerAlbumArtContainer.appendChild(innerGradientBox);
-
-                audioEngine.src = activeTrack.audioUrl;
-                audioEngine.load();
-                audioEngine.play().catch(() => {});
-
-                compute3DCaseSpaceTransforms();
-                
-                const rows = sheetTracksContainer.querySelectorAll('.vector-row-item');
-                rows.forEach((row, i) => {
-                    if (i === focusedIndex) row.classList.add('focused-track');
-                    else row.classList.remove('focused-track');
-                });
-            }
-
-            function populateSheetTrackListView() {
-                sheetTracksContainer.innerHTML = '';
-                if (libraryTracksList.length === 0) {
-                    sheetTracksContainer.innerHTML = `<div style="text-align:center; padding:32px; color:#777; font-size:14px;">Yüklenmiş dosya bulunamadı.</div>`;
-                    return;
+                    coverflowContainer.appendChild(physicalCaseNode);
                 }
 
-                libraryTracksList.forEach((track, index) => {
-                    const vectorRow = document.createElement('div');
-                    vectorRow.className = `vector-row-item ${index === focusedIndex ? 'focused-track' : ''}`;
-                    vectorRow.innerHTML = `
-                        <div class="vector-left-meta">
-                            <div class="vector-index-marker">${index + 1}</div>
-                            <div class="vector-cover-art" style="background:${track.gradient};"></div>
-                            <div class="vector-identity-block">
-                                <div class="vector-title-string">${track.title}</div>
-                                <div class="vector-artist-string">${track.artist}</div>
-                            </div>
-                        </div>
-                        <div class="vector-right-data"><i class="fa-solid fa-ellipsis"></i></div>`;
+                if (checkInitialLibraryBootState && libraryTracksList.length > 0) {
+                    triggerFocusedTrackReorientation(0);
+                } else {
+                    compute3DCaseSpaceTransforms();
+                }
+            }
 
-                    vectorRow.addEventListener('click', () => {
-                        triggerFocusedTrackReorientation(index);
-                        closeLibraryDrawer();
-                    });
-                    sheetTracksContainer.appendChild(vectorRow);
+            dropZoneViewport.addEventListener('touchstart', (e) => {
+                trackingMotionActive = true;
+                initialTouchX = e.touches[0].clientX;
+                slidingReferenceDeltaX = initialTouchX;
+            }, { passive: true });
+
+            dropZoneViewport.addEventListener('touchmove', (e) => {
+                if (!trackingMotionActive || libraryTracksList.length === 0) return;
+                const activeLiveTouchX = e.touches[0].clientX;
+                const motionVectorDisplacement = activeLiveTouchX - slidingReferenceDeltaX;
+                
+                if (Math.abs(motionVectorDisplacement) > 35) {
+                    if (motionVectorDisplacement > 0 && focusedIndex > 0) {
+                        triggerFocusedTrackReorientation(focusedIndex - 1);
+                        trackingMotionActive = false; 
+                    } else if (motionVectorDisplacement < 0 && focusedIndex < libraryTracksList.length - 1) {
+                        triggerFocusedTrackReorientation(focusedIndex + 1);
+                        trackingMotionActive = false;
+                    }
+                    slidingReferenceDeltaX = activeLiveTouchX;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => trackingMotionActive = false);
+
+            if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
+            
+            if (fileInput) {
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        processSelectedFilesInputPackets(e.target.files);
+                    }
                 });
             }
 
-            // Coverflow Swipe Logic
-            if (coverflowContainer) {
-                coverflowContainer.addEventListener('touchstart', (e) => {
-                    trackingMotionActive = true;
-                    initialTouchX = e.touches[0].clientX;
-                });
-                coverflowContainer.addEventListener('touchmove', (e) => {
-                    if (!trackingMotionActive) return;
-                    slidingReferenceDeltaX = e.touches[0].clientX - initialTouchX;
-                });
-                coverflowContainer.addEventListener('touchend', () => {
-                    if (!trackingMotionActive) return;
-                    trackingMotionActive = false;
-                    if (slidingReferenceDeltaX > 50 && focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1);
-                    else if (slidingReferenceDeltaX < -50 && focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
+            if (playBtn && audioEngine) {
+                playBtn.addEventListener('click', () => {
+                    if (libraryTracksList.length === 0) {
+                        fileInput.click();
+                        return;
+                    }
+                    if (audioEngine.paused) {
+                        audioEngine.play();
+                    } else {
+                        audioEngine.pause();
+                    }
                 });
 
-                coverflowContainer.addEventListener('mousedown', (e) => {
-                    trackingMotionActive = true;
-                    initialTouchX = e.clientX;
-                });
-                window.addEventListener('mousemove', (e) => {
-                    if (trackingMotionActive) slidingReferenceDeltaX = e.clientX - initialTouchX;
-                });
-                window.addEventListener('mouseup', () => {
-                    if (!trackingMotionActive) return;
-                    trackingMotionActive = false;
-                    if (slidingReferenceDeltaX > 60 && focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1);
-                    else if (slidingReferenceDeltaX < -60 && focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
-                });
-            }
-
-            if (prevTrackBtn) prevTrackBtn.addEventListener('click', () => { if (focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1); });
-            if (nextTrackBtn) nextTrackBtn.addEventListener('click', () => { if (focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1); });
-            if (fileInput) fileInput.addEventListener('change', (e) => { if (e.target.files.length > 0) processSelectedFilesInputPackets(e.target.files); });
-
-            function togglePlaybackGlobalState() {
-                if (libraryTracksList.length === 0) { fileInput.click(); return; }
-                if (audioEngine.paused) audioEngine.play();
-                else audioEngine.pause();
-            }
-
-            if (playBtn) playBtn.addEventListener('click', togglePlaybackGlobalState);
-            if (capsulePlayBtn) capsulePlayBtn.addEventListener('click', togglePlaybackGlobalState);
-
-            if (audioEngine) {
                 audioEngine.addEventListener('play', () => {
                     playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    capsulePlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    const current = coverflowContainer.querySelector('.jewel-case-entity.active-focus');
-                    if (current) current.classList.add('spinning-media');
                 });
+
                 audioEngine.addEventListener('pause', () => {
                     playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                    capsulePlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                    const current = coverflowContainer.querySelector('.jewel-case-entity.active-focus');
-                    if (current) current.classList.remove('spinning-media');
                 });
+
                 audioEngine.addEventListener('timeupdate', () => {
-                    if (audioEngine.duration) progressFill.style.width = `${(audioEngine.currentTime / audioEngine.duration) * 100}%`;
+                    if (audioEngine.duration) {
+                        const runtimeProgressPercentageValue = (audioEngine.currentTime / audioEngine.duration) * 100;
+                        progressFill.style.width = `${runtimeProgressPercentageValue}%`;
+                    }
                 });
+
                 audioEngine.addEventListener('ended', () => {
-                    if (focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
+                    if (focusedIndex < libraryTracksList.length - 1) {
+                        triggerFocusedTrackReorientation(focusedIndex + 1);
+                    } else {
+                        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                        progressFill.style.width = '0%';
+                    }
                 });
             }
 
