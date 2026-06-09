@@ -523,7 +523,7 @@
         }
 
         /* -------------------------------------------------------------
-           NEW ADDITION: SPOTIFY-STYLE BOTTOM SHEET COMPONENT
+           SPOTIFY-STYLE BOTTOM SHEET COMPONENT (WITH GESTURE DRAG)
         ------------------------------------------------------------- */
         .bottom-sheet-overlay {
             position: absolute;
@@ -551,16 +551,37 @@
             background-color: #242424;
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
-            padding: 12px 16px 40px 16px;
+            padding: 0 16px 40px 16px;
             transform: translateY(100%);
+            /* Using a variable fallback for standard opening animations */
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
+        /* Disable transition styles instantly during direct raw finger dragging */
+        .bottom-sheet.dragging {
+            transition: none;
+        }
+
         .bottom-sheet-overlay.active .bottom-sheet {
             transform: translateY(0);
+        }
+
+        /* Expanded Interactive Target Box Wrapper for Dragging Area */
+        .drag-handle-container {
+            width: 100%;
+            padding: 14px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            touch-action: none; /* Prevents native browser scrolling during gestures */
+        }
+        
+        .drag-handle-container:active {
+            cursor: grabbing;
         }
 
         .bottom-sheet-drag-handle {
@@ -568,8 +589,6 @@
             height: 4px;
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 2px;
-            align-self: center;
-            margin-bottom: 16px;
         }
 
         .sheet-menu-item {
@@ -703,8 +722,10 @@
         </div>
 
         <div class="bottom-sheet-overlay" id="menuSheetOverlay">
-            <div class="bottom-sheet">
-                <div class="bottom-sheet-drag-handle"></div>
+            <div class="bottom-sheet" id="bottomSheet">
+                <div class="drag-handle-container" id="dragHandleContainer">
+                    <div class="bottom-sheet-drag-handle"></div>
+                </div>
                 
                 <button class="sheet-menu-item">
                     <div class="sheet-icon-wrapper">
@@ -781,26 +802,83 @@
 
             // Bottom sheet DOM bindings
             const menuSheetOverlay = document.getElementById('menuSheetOverlay');
+            const bottomSheet = document.getElementById('bottomSheet');
+            const dragHandleContainer = document.getElementById('dragHandleContainer');
 
             if (closeTips && tipsCard) {
                 closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
             }
 
-            // Toggle Bottom Sheet Logic
+            // --- BOTTOM SHEET GESTURE MANAGEMENT ENGINE ---
+            let isDraggingSheet = false;
+            let startY = 0;
+            let currentY = 0;
+
+            function closeSheetWithAnimation() {
+                bottomSheet.classList.remove('dragging');
+                bottomSheet.style.transform = ''; // Clear inline styles
+                menuSheetOverlay.classList.remove('active');
+            }
+
+            function resetSheetPosition() {
+                bottomSheet.classList.remove('dragging');
+                bottomSheet.style.transform = 'translateY(0)';
+            }
+
+            // Open Menu Button Event Trigger
             if (addBtnPlus && menuSheetOverlay) {
                 addBtnPlus.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Stop propagation to avoid instant triggers
+                    e.stopPropagation();
+                    bottomSheet.style.transform = ''; // Clean inline drag rules
                     menuSheetOverlay.classList.add('active');
                 });
 
                 // Dismiss menu clicking onto dark background field area
                 menuSheetOverlay.addEventListener('click', (e) => {
                     if (e.target === menuSheetOverlay) {
-                        menuSheetOverlay.classList.remove('active');
+                        closeSheetWithAnimation();
                     }
                 });
             }
 
+            // Interactive Handle Pointer Touch Events listeners
+            if (dragHandleContainer && bottomSheet) {
+                dragHandleContainer.addEventListener('touchstart', (e) => {
+                    isDraggingSheet = true;
+                    startY = e.touches[0].clientY;
+                    bottomSheet.classList.add('dragging');
+                }, { passive: true });
+
+                window.addEventListener('touchmove', (e) => {
+                    if (!isDraggingSheet) return;
+                    
+                    currentY = e.touches[0].clientY;
+                    let deltaY = currentY - startY;
+
+                    // Only allow dragging downward
+                    if (deltaY > 0) {
+                        bottomSheet.style.transform = `translateY(${deltaY}px)`;
+                    } else {
+                        bottomSheet.style.transform = `translateY(0px)`;
+                    }
+                }, { passive: true });
+
+                window.addEventListener('touchend', () => {
+                    if (!isDraggingSheet) return;
+                    isDraggingSheet = false;
+
+                    let finalDeltaY = currentY - startY;
+                    // Dismiss threshold rule limit check (if dragged down > 100px)
+                    if (finalDeltaY > 100) {
+                        closeSheetWithAnimation();
+                    } else {
+                        resetSheetPosition();
+                    }
+                });
+            }
+
+
+            // --- ALBUM CAROUSEL CONTROLS ---
             const dynamicCaseGradients = [
                 'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
                 'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
