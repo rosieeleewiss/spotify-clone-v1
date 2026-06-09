@@ -98,6 +98,7 @@
             gap: 16px;
             overflow-y: auto;
             position: relative;
+            padding-bottom: 120px; /* Space for the players */
         }
 
         /* Import Action Trigger Panel */
@@ -374,10 +375,14 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 8px 0;
+            padding: 10px 0;
             cursor: pointer;
             width: 100%;
             animation: fadeIn 0.3s ease-out;
+        }
+
+        .playlist-row-item:active {
+            opacity: 0.7;
         }
 
         .playlist-art-square {
@@ -389,20 +394,25 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: #b3b3b3;
+            color: #ffffff;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
         }
 
         .playlist-metadata {
             display: flex;
             flex-direction: column;
             gap: 4px;
+            min-width: 0;
         }
 
         .playlist-name-label {
             font-size: 15px;
             font-weight: 600;
             color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .playlist-desc-subtext {
@@ -687,7 +697,7 @@
         }
 
         /* -------------------------------------------------------------
-           PLAYLIST CREATION CREATOR SCREEN MODAL (PHOTO 2)
+           PLAYLIST CREATION CREATOR SCREEN MODAL
         ------------------------------------------------------------- */
         .playlist-modal-overlay {
             position: absolute;
@@ -735,6 +745,10 @@
             transition: border-color 0.2s;
         }
 
+        .playlist-name-input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
         .playlist-name-input:focus {
             border-bottom-color: #1db954;
         }
@@ -767,7 +781,7 @@
         }
 
         /* -------------------------------------------------------------
-           PLAYLIST DYNAMIC TRACK DETAIL SCREEN PANEL (PHOTO 5)
+           PLAYLIST DYNAMIC TRACK DETAIL SCREEN PANEL
         ------------------------------------------------------------- */
         .detail-panel-view {
             position: absolute;
@@ -851,7 +865,11 @@
             font-size: 20px;
         }
 
-        .left-action-icons i:pointer, .left-action-icons i:active {
+        .left-action-icons i {
+            cursor: pointer;
+        }
+
+        .left-action-icons i:active {
             color: #ffffff;
         }
 
@@ -873,7 +891,7 @@
         .track-list-vertical-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
         .empty-track-placeholder-state {
@@ -1088,7 +1106,7 @@
             const bottomSheet = document.getElementById('bottomSheet');
             const dragHandleContainer = document.getElementById('dragHandleContainer');
 
-            // NEW DOM Bindings for Playlist Lifecycle Feature Sets
+            // Playlist Lifecycle DOM Bindings
             const createPlaylistTriggerBtn = document.getElementById('createPlaylistTriggerBtn');
             const sheetMenuCreatePlaylistBtn = document.getElementById('sheetMenuCreatePlaylistBtn');
             const playlistModalOverlay = document.getElementById('playlistModalOverlay');
@@ -1167,7 +1185,7 @@
                 });
             }
 
-            // --- DYNAMIC PLAYLIST CONSTRUCTOR SYSTEM INTERFACES ---
+            // --- DYNAMIC PLAYLIST CONSTRUCTOR ---
             function openPlaylistNamingModal() {
                 closeSheetWithAnimation();
                 playlistNameInput.value = '';
@@ -1185,36 +1203,51 @@
                 });
             }
 
+            // Let users save by pressing Enter key on keyboard
+            playlistNameInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    modalCreateBtn.click();
+                }
+            });
+
             if (modalCreateBtn) {
                 modalCreateBtn.addEventListener('click', () => {
                     let chosenName = playlistNameInput.value.trim();
                     if (!chosenName) chosenName = "Çalma Listem";
 
-                    // Hide tips onboarding framework once playlist setup completes
+                    // Hide tips onboarding framework permanently once playlist setup completes
                     if (tipsCard) tipsCard.style.display = 'none';
 
-                    // Build and Append New Row to Library Grid Area
+                    // Pick an elegant background gradient color for the playlist cover item row
+                    const playlistGradients = [
+                        'linear-gradient(135deg, #4568dc 0%, #b06ab3 100%)',
+                        'linear-gradient(135deg, #3a1c1c 0%, #5d4037 100%)',
+                        'linear-gradient(135deg, #1f4037 0%, #99f2c8 100%)',
+                        'linear-gradient(135deg, #2c3e50 0%, #bdc3c7 100%)'
+                    ];
+                    const randomBg = playlistGradients[Math.floor(Math.random() * playlistGradients.length)];
+
+                    // Build and Append New Row to Library
                     const playlistRowElement = document.createElement('div');
                     playlistRowElement.className = 'playlist-row-item';
                     playlistRowElement.innerHTML = `
-                        <div class="playlist-art-square">
+                        <div class="playlist-art-square" style="background: ${randomBg}">
                             <i class="fa-solid fa-music"></i>
                         </div>
                         <div class="playlist-metadata">
                             <div class="playlist-name-label">${chosenName}</div>
-                            <div class="playlist-desc-subtext">Çalma listesi • Profil İsmi</div>
+                            <div class="playlist-desc-subtext">Çalma listesi • Kitaplığın</div>
                         </div>
                     `;
 
-                    // Handle full detailed overview open triggers
+                    // Trigger playlist view detail panel on click
                     playlistRowElement.addEventListener('click', () => {
                         detailHeroTitle.textContent = chosenName;
                         detailTracksListContainer.innerHTML = '';
 
                         if (libraryTracksList.length === 0) {
-                            detailTracksListContainer.innerHTML = `<div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok. Şarkı yüklemek için yukarıdaki içe aktar düğmesini kullanın.</div>`;
+                            detailTracksListContainer.innerHTML = `<div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok. Şarkı yüklemek için yukarıdaki "içe aktar" düğmesini kullanabilirsiniz.</div>`;
                         } else {
-                            // Populate list with loaded context elements
                             libraryTracksList.forEach((track, index) => {
                                 const trElement = document.createElement('div');
                                 trElement.className = 'playlist-row-item';
@@ -1239,7 +1272,7 @@
 
                     playlistsTargetBox.appendChild(playlistRowElement);
 
-                    // Clear Modal Overlay Stack Views
+                    // Clear Modal Overlay View Stack
                     playlistModalOverlay.classList.remove('active');
                     playlistNameInput.blur();
                 });
@@ -1250,7 +1283,6 @@
                     detailPanelView.classList.remove('active');
                 });
             }
-
 
             // --- COverFLOW 3D ENGINE CONTROLLER ---
             const dynamicCaseGradients = [
