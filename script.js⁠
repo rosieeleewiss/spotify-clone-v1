@@ -2,11 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let libraryTracksList = [];
     let focusedIndex = 0;
     
-    let logicDragActive = false;
-    let startingTouchPointX = 0;
-    let interactiveLiveDisplacementDeltaX = 0;
+    let trackingMotionActive = false;
+    let initialTouchX = 0;
+    let slidingReferenceDeltaX = 0;
 
-    // DOM Links setup mapping definitions
     const closeTips = document.getElementById('closeTips');
     const tipsCard = document.getElementById('tipsCard');
     const playBtn = document.getElementById('playBtn');
@@ -16,7 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioEngine = document.getElementById('audioEngine');
     const dropZoneViewport = document.getElementById('dropZoneViewport');
     const coverflowContainer = document.getElementById('coverflowContainer');
+    const emptyNotice = document.getElementById('emptyNotice');
     
+    const centerTrackTitleDisplay = document.getElementById('centerTrackTitleDisplay');
     const centerMainTitle = document.getElementById('centerMainTitle');
     const centerSubArtist = document.getElementById('centerSubArtist');
 
@@ -25,186 +26,355 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressFill = document.getElementById('progressFill');
     const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
+    // Bottom sheet overlays DOM bindings
+    const menuSheetOverlay = document.getElementById('menuSheetOverlay');
+    const bottomSheet = document.getElementById('bottomSheet');
+    const dragHandleContainer = document.getElementById('dragHandleContainer');
+
+    // NEW DOM Bindings for Playlist Lifecycle Feature Sets
+    const createPlaylistTriggerBtn = document.getElementById('createPlaylistTriggerBtn');
+    const sheetMenuCreatePlaylistBtn = document.getElementById('sheetMenuCreatePlaylistBtn');
+    const playlistModalOverlay = document.getElementById('playlistModalOverlay');
+    const playlistNameInput = document.getElementById('playlistNameInput');
+    const modalCancelBtn = document.getElementById('modalCancelBtn');
+    const modalCreateBtn = document.getElementById('modalCreateBtn');
+    const playlistsTargetBox = document.getElementById('playlistsTargetBox');
+    
+    const detailPanelView = document.getElementById('detailPanelView');
+    const detailBackBtn = document.getElementById('detailBackBtn');
+    const detailHeroTitle = document.getElementById('detailHeroTitle');
+    const detailTracksListContainer = document.getElementById('detailTracksListContainer');
+
     if (closeTips && tipsCard) {
         closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
     }
 
-    // HIGH FIDELITY 3D CORE ROTATING MATH TRANSFORMATIONS COMPUTATION ENGINE
-    function computeGeometries3DTransforms() {
-        if (libraryTracksList.length === 0) return;
+    // --- BOTTOM SHEET GESTURE CONFIGURATION ENGINE ---
+    let isDraggingSheet = false;
+    let startY = 0;
+    let currentY = 0;
 
-        const structuralBoxes = coverflowContainer.querySelectorAll('.album-3d-case');
+    function closeSheetWithAnimation() {
+        bottomSheet.classList.remove('dragging');
+        bottomSheet.style.transform = '';
+        menuSheetOverlay.classList.remove('active');
+    }
+
+    function resetSheetPosition() {
+        bottomSheet.classList.remove('dragging');
+        bottomSheet.style.transform = 'translateY(0)';
+    }
+
+    if (addBtnPlus && menuSheetOverlay) {
+        addBtnPlus.addEventListener('click', (e) => {
+            e.stopPropagation();
+            bottomSheet.style.transform = '';
+            menuSheetOverlay.classList.add('active');
+        });
+
+        menuSheetOverlay.addEventListener('click', (e) => {
+            if (e.target === menuSheetOverlay) {
+                closeSheetWithAnimation();
+            }
+        });
+    }
+
+    if (dragHandleContainer && bottomSheet) {
+        dragHandleContainer.addEventListener('touchstart', (e) => {
+            isDraggingSheet = true;
+            startY = e.touches[0].clientY;
+            bottomSheet.classList.add('dragging');
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!isDraggingSheet) return;
+            currentY = e.touches[0].clientY;
+            let deltaY = currentY - startY;
+
+            if (deltaY > 0) {
+                bottomSheet.style.transform = `translateY(${deltaY}px)`;
+            } else {
+                bottomSheet.style.transform = `translateY(0px)`;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => {
+            if (!isDraggingSheet) return;
+            isDraggingSheet = false;
+            let finalDeltaY = currentY - startY;
+            if (finalDeltaY > 100) {
+                closeSheetWithAnimation();
+            } else {
+                resetSheetPosition();
+            }
+        });
+    }
+
+    // --- DYNAMIC PLAYLIST CONSTRUCTOR SYSTEM INTERFACES ---
+    function openPlaylistNamingModal() {
+        closeSheetWithAnimation();
+        playlistNameInput.value = '';
+        playlistModalOverlay.classList.add('active');
+        setTimeout(() => playlistNameInput.focus(), 150);
+    }
+
+    if (createPlaylistTriggerBtn) createPlaylistTriggerBtn.addEventListener('click', openPlaylistNamingModal);
+    if (sheetMenuCreatePlaylistBtn) sheetMenuCreatePlaylistBtn.addEventListener('click', openPlaylistNamingModal);
+
+    if (modalCancelBtn) {
+        modalCancelBtn.addEventListener('click', () => {
+            playlistModalOverlay.classList.remove('active');
+            playlistNameInput.blur();
+        });
+    }
+
+    if (modalCreateBtn) {
+        modalCreateBtn.addEventListener('click', () => {
+            let chosenName = playlistNameInput.value.trim();
+            if (!chosenName) chosenName = "Çalma Listem";
+
+            // Hide tips onboarding framework once playlist setup completes
+            if (tipsCard) tipsCard.style.display = 'none';
+
+            // Build and Append New Row to Library Grid Area
+            const playlistRowElement = document.createElement('div');
+            playlistRowElement.className = 'playlist-row-item';
+            playlistRowElement.innerHTML = `
+                <div class="playlist-art-square">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+                <div class="playlist-metadata">
+                    <div class="playlist-name-label">${chosenName}</div>
+                    <div class="playlist-desc-subtext">Çalma listesi • Profil İsmi</div>
+                </div>
+            `;
+
+            // Handle full detailed overview open triggers
+            playlistRowElement.addEventListener('click', () => {
+                detailHeroTitle.textContent = chosenName;
+                detailTracksListContainer.innerHTML = '';
+
+                if (libraryTracksList.length === 0) {
+                    detailTracksListContainer.innerHTML = `<div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok. Şarkı yüklemek için yukarıdaki içe aktar düğmesini kullanın.</div>`;
+                } else {
+                    // Populate list with loaded context elements
+                    libraryTracksList.forEach((track, index) => {
+                        const trElement = document.createElement('div');
+                        trElement.className = 'playlist-row-item';
+                        trElement.innerHTML = `
+                            <div class="playlist-art-square" style="width:44px; height:44px; font-size:14px; background:${track.caseBackdropTone}">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                            <div class="playlist-metadata">
+                                <div class="playlist-name-label" style="font-size:14px;">${track.title}</div>
+                                <div class="playlist-desc-subtext" style="font-size:12px;">${track.artist}</div>
+                            </div>
+                        `;
+                        trElement.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            triggerFocusedTrackReorientation(index);
+                        });
+                        detailTracksListContainer.appendChild(trElement);
+                    });
+                }
+                detailPanelView.classList.add('active');
+            });
+
+            playlistsTargetBox.appendChild(playlistRowElement);
+
+            // Clear Modal Overlay Stack Views
+            playlistModalOverlay.classList.remove('active');
+            playlistNameInput.blur();
+        });
+    }
+
+    if (detailBackBtn) {
+        detailBackBtn.addEventListener('click', () => {
+            detailPanelView.classList.remove('active');
+        });
+    }
+
+
+    // --- COverFLOW 3D ENGINE CONTROLLER ---
+    const dynamicCaseGradients = [
+        'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
+        'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
+        'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)',
+        'linear-gradient(135deg, #b31217 0%, #e52d27 100%)',
+        'linear-gradient(135deg, #00f260 0%, #0575e6 100%)',
+        'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
+    ];
+
+    function compute3DCaseSpaceTransforms() {
+        if (libraryTracksList.length === 0) {
+            emptyNotice.style.display = 'flex';
+            centerTrackTitleDisplay.style.display = 'none';
+            return;
+        }
+        emptyNotice.style.display = 'none';
+        centerTrackTitleDisplay.style.display = 'flex';
+
+        const structuralCases = coverflowContainer.querySelectorAll('.album-3d-case');
         
-        structuralBoxes.forEach((boxHull, idx) => {
-            const structuralOffset = idx - focusedIndex;
+        structuralCases.forEach((albumCase, idx) => {
+            const trackingOffset = idx - focusedIndex;
             
             let translateX = 0;
             let rotateY = 0;
             let translateZ = 0;
-            let compositeOpacity = 1;
-            let spatialIndexLayer = 100 - Math.abs(structuralOffset);
+            let opacityValue = 1;
+            let layeredZIndex = 100 - Math.abs(trackingOffset);
 
-            if (structuralOffset === 0) {
-                // Focus Center card matrix mapping
+            if (trackingOffset === 0) {
                 translateX = 0;
                 rotateY = 0;
-                translateZ = 140; 
-                spatialIndexLayer = 700;
-                compositeOpacity = 1;
-            } else if (structuralOffset < 0) {
-                // Left Wing side cards configuration setup parameters
+                translateZ = 130;
+                layeredZIndex = 600;
+                opacityValue = 1;
+            } else if (trackingOffset < 0) {
                 rotateY = 65; 
-                translateX = (structuralOffset * 55) - 85; 
-                translateZ = -20; 
-                compositeOpacity = Math.max(0.2, 1 + (structuralOffset * 0.3));
-            } else if (structuralOffset > 0) {
-                // Right Wing side cards configuration setup parameters
+                translateX = (trackingOffset * 45) - 80; 
+                translateZ = -40; 
+                opacityValue = Math.max(0.15, 1 + (trackingOffset * 0.25));
+            } else if (trackingOffset > 0) {
                 rotateY = -65;
-                translateX = (structuralOffset * 55) + 85;
-                translateZ = -20;
-                compositeOpacity = Math.max(0.2, 1 - (structuralOffset * 0.3));
+                translateX = (trackingOffset * 45) + 80;
+                translateZ = -40;
+                opacityValue = Math.max(0.15, 1 - (trackingOffset * 0.25));
             }
 
-            if (Math.abs(structuralOffset) > 2) {
-                compositeOpacity = 0;
+            if (Math.abs(trackingOffset) > 3) {
+                opacityValue = 0;
             }
 
-            boxHull.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
-            boxHull.style.zIndex = spatialIndexLayer;
-            boxHull.style.opacity = compositeOpacity;
+            albumCase.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+            albumCase.style.zIndex = layeredZIndex;
+            albumCase.style.opacity = opacityValue;
         });
     }
 
-    function triggerFocusedTrackReorientation(targetIndexKey) {
+    function triggerFocusedTrackReorientation(targetIdx) {
         if (libraryTracksList.length === 0) return;
         
-        focusedIndex = Math.max(0, Math.min(targetIndexKey, libraryTracksList.length - 1));
-        computeGeometries3DTransforms();
+        focusedIndex = Math.max(0, Math.min(targetIdx, libraryTracksList.length - 1));
+        compute3DCaseSpaceTransforms();
 
-        const track = libraryTracksList[focusedIndex];
+        const isolatedTrackNode = libraryTracksList[focusedIndex];
         
-        // Render current selected track string metadata
-        centerMainTitle.textContent = track.title;
-        centerSubArtist.textContent = track.artist;
+        centerMainTitle.textContent = isolatedTrackNode.title;
+        centerSubArtist.textContent = isolatedTrackNode.artist;
 
-        playerTitle.textContent = track.title;
-        playerArtist.textContent = track.artist;
-        playerAlbumArtContainer.innerHTML = `<img src="${track.coverImageURL}" style="width:100%; height:100%; object-fit:cover;">`;
+        playerTitle.textContent = isolatedTrackNode.title;
+        playerArtist.textContent = isolatedTrackNode.artist;
+        playerAlbumArtContainer.style.background = isolatedTrackNode.caseBackdropTone;
+        playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
 
-        if (track.blobResourceObjectLink) {
-            audioEngine.src = track.blobResourceObjectLink;
-            audioEngine.play().catch(() => {});
-        }
+        audioEngine.src = isolatedTrackNode.blobObjectLinkUrl;
+        audioEngine.play().catch(() => {});
     }
 
-    // BUILDS MULTI-FACED RECTANGULAR GEOMETRIC BOX NODE WITH SIDE TEXT
-    function appendTrackTo3DCarousel(title, artist, coverURL, blobLink = null) {
-        const systemTrackDataNode = {
-            title: title,
-            artist: artist,
-            coverImageURL: coverURL,
-            blobResourceObjectLink: blobLink
-        };
+    function processSelectedFilesInputPackets(filesList) {
+        let checkInitialLibraryBootState = (libraryTracksList.length === 0);
 
-        libraryTracksList.push(systemTrackDataNode);
+        for (let i = 0; i < filesList.length; i++) {
+            const musicFile = filesList[i];
+            if (!musicFile.type.startsWith('audio/')) continue;
 
-        const multiFaceBoxHullNode = document.createElement('div');
-        multiFaceBoxHullNode.className = 'album-3d-case';
-        
-        multiFaceBoxHullNode.innerHTML = `
-            <div class="case-face face-left">
-                <div class="spine-text-vertical">${title}</div>
-            </div>
-            <div class="case-face face-top"></div>
-            <div class="case-face face-front">
-                <img src="${coverURL}">
-            </div>
-            <div class="case-face face-right">
-                <div class="spine-text-vertical">${title}</div>
-            </div>
-        `;
+            let rawCleanedString = musicFile.name.replace(/\.[^/.]+$/, "");
+            let derivedTitleString = rawCleanedString;
+            let derivedArtistString = "Yerel Parça";
 
-        const localIndexScopeReferenceKey = libraryTracksList.length - 1;
-        multiFaceBoxHullNode.addEventListener('click', () => {
-            triggerFocusedTrackReorientation(localIndexScopeReferenceKey);
-        });
-
-        coverflowContainer.appendChild(multiFaceBoxHullNode);
-    }
-
-    function processIncomingAudioFiles(fileCollectionArray) {
-        for (let i = 0; i < fileCollectionArray.length; i++) {
-            const file = fileCollectionArray[i];
-            if (!file.type.startsWith('audio/')) continue;
-
-            let rawName = file.name.replace(/\.[^/.]+$/, "");
-            let mappedTitle = rawName;
-            let mappedArtist = "Yerel Parça";
-
-            if (rawName.includes(" - ")) {
-                const parts = rawName.split(" - ");
-                mappedArtist = parts[0].trim();
-                mappedTitle = parts[1].trim();
+            if (rawCleanedString.includes(" - ")) {
+                const wordSplitFragments = rawCleanedString.split(" - ");
+                derivedArtistString = wordSplitFragments[0].trim();
+                derivedTitleString = wordSplitFragments[1].trim();
             }
 
-            // Beautiful placeholder color dynamic gradient generator fallback if artwork tags aren't indexed
-            const placeholderArtworkGradientUrl = `https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=200&auto=format&fit=crop`;
+            const dynamicGradIndex = libraryTracksList.length % dynamicCaseGradients.length;
+            const choiceBackdropTone = dynamicCaseGradients[dynamicGradIndex];
             
-            appendTrackTo3DCarousel(mappedTitle, mappedArtist, placeholderArtworkGradientUrl, URL.createObjectURL(file));
+            const systemTrackPayload = {
+                title: derivedTitleString,
+                artist: derivedArtistString,
+                blobObjectLinkUrl: URL.createObjectURL(musicFile),
+                caseBackdropTone: choiceBackdropTone
+            };
+
+            libraryTracksList.push(systemTrackPayload);
+
+            const physicalCaseNode = document.createElement('div');
+            physicalCaseNode.className = 'album-3d-case';
+            
+            physicalCaseNode.innerHTML = `
+                <div class="case-face face-left">
+                    <div class="spine-text-vertical">${derivedTitleString}</div>
+                </div>
+                <div class="case-face face-front" style="background: ${choiceBackdropTone}">
+                    <i class="fa-solid fa-record-vinyl"></i>
+                </div>
+                <div class="case-face face-right">
+                    <div class="spine-text-vertical">${derivedTitleString}</div>
+                </div>
+            `;
+
+            const capturedScopeIndex = libraryTracksList.length - 1;
+            physicalCaseNode.addEventListener('click', () => {
+                if (focusedIndex !== capturedScopeIndex) {
+                    triggerFocusedTrackReorientation(capturedScopeIndex);
+                }
+            });
+
+            coverflowContainer.appendChild(physicalCaseNode);
         }
-        
-        // Jump viewport focus tracking directly onto the newly parsed audio track item entry node index
-        triggerFocusedTrackReorientation(libraryTracksList.length - fileCollectionArray.length);
+
+        if (checkInitialLibraryBootState && libraryTracksList.length > 0) {
+            triggerFocusedTrackReorientation(0);
+        } else {
+            compute3DCaseSpaceTransforms();
+        }
     }
 
-    // PRE-POPULATE PREMIUM STARTER MUSIC EXAMPLES DIRECTLY ON BOOT LOAD CYCLE
-    appendTrackTo3DCarousel("Carita de Angel", "Maria Daniela Y Su Sonido Lasser", "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=250&auto=format&fit=crop");
-    appendTrackTo3DCarousel("After Hours", "The Weeknd", "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=250&auto=format&fit=crop");
-    appendTrackTo3DCarousel("Future Nostalgia", "Dua Lipa", "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?q=80&w=250&auto=format&fit=crop");
-
-    // Initialize display state loop immediately
-    triggerFocusedTrackReorientation(0);
-
-    // High Precision Touch Inertia Gesture Trackers
     dropZoneViewport.addEventListener('touchstart', (e) => {
-        logicDragActive = true;
-        startingTouchPointX = e.touches[0].clientX;
-        interactiveLiveDisplacementDeltaX = startingTouchPointX;
+        trackingMotionActive = true;
+        initialTouchX = e.touches[0].clientX;
+        slidingReferenceDeltaX = initialTouchX;
     }, { passive: true });
 
     dropZoneViewport.addEventListener('touchmove', (e) => {
-        if (!logicDragActive || libraryTracksList.length === 0) return;
-        const touchLiveCurrentCoordinateX = e.touches[0].clientX;
-        const dynamicMotionDeltaDisplacement = touchLiveCurrentCoordinateX - interactiveLiveDisplacementDeltaX;
+        if (!trackingMotionActive || libraryTracksList.length === 0) return;
+        const activeLiveTouchX = e.touches[0].clientX;
+        const motionVectorDisplacement = activeLiveTouchX - slidingReferenceDeltaX;
         
-        if (Math.abs(dynamicMotionDeltaDisplacement) > 40) {
-            if (dynamicMotionDeltaDisplacement > 0 && focusedIndex > 0) {
+        if (Math.abs(motionVectorDisplacement) > 35) {
+            if (motionVectorDisplacement > 0 && focusedIndex > 0) {
                 triggerFocusedTrackReorientation(focusedIndex - 1);
-                logicDragActive = false; 
-            } else if (dynamicMotionDeltaDisplacement < 0 && focusedIndex < libraryTracksList.length - 1) {
+                trackingMotionActive = false; 
+            } else if (motionVectorDisplacement < 0 && focusedIndex < libraryTracksList.length - 1) {
                 triggerFocusedTrackReorientation(focusedIndex + 1);
-                logicDragActive = false;
+                trackingMotionActive = false;
             }
-            interactiveLiveDisplacementDeltaX = touchLiveCurrentCoordinateX;
+            slidingReferenceDeltaX = activeLiveTouchX;
         }
     }, { passive: true });
 
-    window.addEventListener('touchend', () => logicDragActive = false);
+    window.addEventListener('touchend', () => trackingMotionActive = false);
 
-    // Import click triggers links bindings
     if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
-    if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
     
     if (fileInput) {
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) processIncomingAudioFiles(e.target.files);
+            if (e.target.files.length > 0) {
+                processSelectedFilesInputPackets(e.target.files);
+            }
         });
     }
 
-    // Media Control Action Listeners
     if (playBtn && audioEngine) {
         playBtn.addEventListener('click', () => {
-            if (!audioEngine.src) return;
+            if (libraryTracksList.length === 0) {
+                fileInput.click();
+                return;
+            }
             if (audioEngine.paused) {
                 audioEngine.play();
             } else {
@@ -212,14 +382,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        audioEngine.addEventListener('play', () => { playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; });
-        audioEngine.addEventListener('pause', () => { playBtn.innerHTML = '<i class="fa-solid fa-play"></i>'; });
+        audioEngine.addEventListener('play', () => {
+            playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        });
+
+        audioEngine.addEventListener('pause', () => {
+            playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        });
+
         audioEngine.addEventListener('timeupdate', () => {
             if (audioEngine.duration) {
-                progressFill.style.width = `${(audioEngine.currentTime / audioEngine.duration) * 100}%`;
+                const runtimeProgressPercentageValue = (audioEngine.currentTime / audioEngine.duration) * 100;
+                progressFill.style.width = `${runtimeProgressPercentageValue}%`;
+            }
+        });
+
+        audioEngine.addEventListener('ended', () => {
+            if (focusedIndex < libraryTracksList.length - 1) {
+                triggerFocusedTrackReorientation(focusedIndex + 1);
+            } else {
+                playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                progressFill.style.width = '0%';
             }
         });
     }
 
-    window.addEventListener('resize', computeGeometries3DTransforms);
+    window.addEventListener('resize', compute3DCaseSpaceTransforms);
 });
