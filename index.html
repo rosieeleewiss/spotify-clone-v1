@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kitaplığın - Modern 3D Müzik Oynatıcı</title>
+    <title>Kitaplığın</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
 
     <style>
         /* ==========================================================================
-           1. GLOBAL SIFIRLAMALAR & FUTURISTIC LAYER DESTEKLERİ
+           1. CORE INTERFACE ARCHITECTURE & STANDARD RESET
            ========================================================================== */
         * {
             margin: 0;
@@ -31,11 +31,11 @@
             overflow: hidden;
         }
 
-        /* Mobil Cihaz Çerçeve Standardı */
+        /* Phone Screen Chassis Form Factor */
         .app-container {
             width: 100vw;
             height: 100vh;
-            max-width: 450px;
+            max-width: 480px;
             background-color: #000000;
             display: flex;
             flex-direction: column;
@@ -43,14 +43,13 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* Üst Menü / Başlık Alanı */
+        /* Header Navigation UI */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 16px 12px 16px;
+            padding: 45px 16px 12px 16px;
             flex-shrink: 0;
-            z-index: 10;
         }
 
         .header-left {
@@ -60,11 +59,14 @@
         }
 
         .profile-avatar {
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #282828;
         }
 
         .profile-avatar img {
@@ -74,41 +76,37 @@
         }
 
         h1 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
         }
 
         .add-btn {
             background: none;
             border: none;
             color: #ffffff;
-            font-size: 24px;
+            font-size: 26px;
             cursor: pointer;
-            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
         }
 
-        .add-btn:active {
-            transform: scale(0.9);
-        }
-
-        /* Ana İçerik Kaydırma Alanı */
+        /* Screen Scrolling Layer Matrix */
         .content {
             padding: 8px 16px;
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
             overflow-y: auto;
             position: relative;
         }
 
-        /* İçe Aktarma Buton Kartı */
         .import-card {
             width: 100%;
             background-color: #121212;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
+            border: none;
+            border-radius: 8px;
             padding: 16px;
             display: flex;
             align-items: center;
@@ -127,40 +125,43 @@
             display: flex;
             align-items: center;
             gap: 16px;
+            flex: 1;
         }
 
         .import-icon {
-            font-size: 18px;
+            font-size: 20px;
             color: #ffffff;
+            opacity: 0.9;
         }
 
         .import-text {
             font-size: 14px;
             font-weight: 700;
+            line-height: 1.4;
+            text-align: left;
         }
 
         .arrow-icon {
-            color: #b3b3b3;
-            font-size: 13px;
+            color: #ffffff;
+            opacity: 0.8;
+            font-size: 14px;
         }
 
         /* ==========================================================================
-           2. GERÇEK GEOMETRİK 3D COVERFLOW SİSTEMİ (ANA İSTİKAMET)
+           2. PREMIUM TRUE 3D PERSPECTIVE GEOMETRIC SYSTEM (CANVAS LAYER)
            ========================================================================== */
         .library-3d-viewport {
             width: 100%;
-            height: 340px;
+            height: 330px;
             background: #000000;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
-            border-radius: 16px;
+            border-radius: 12px;
         }
 
-        /* 3D Sahne ve Kamera Perspektif Ayarları */
         .coverflow-container {
             position: relative;
             width: 100%;
@@ -168,8 +169,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1200px; /* Derinlik hissi katsayısı */
-            perspective-origin: 50% 25%; /* Üstten bakış açısı vererek yan ve üst kalınlıkları gösterir */
+            perspective: 1000px; /* Deepens the spatial camera field depth */
+            perspective-origin: 50% 28%; /* Angled slightly downward to view the thick top/side edges */
             transform-style: preserve-3d;
             cursor: grab;
         }
@@ -178,39 +179,40 @@
             cursor: grabbing;
         }
 
-        /* MATRİS KALINLIĞI OLAN 3 BOYUTLU ALBÜM KUTUSU */
+        /* THE HARDWARE EXTRUDED 3D RECTANGULAR CASE MATRICES */
         .album-3d-case {
             position: absolute;
-            width: 155px;
-            height: 155px;
+            width: 152px;
+            height: 152px;
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
             user-select: none;
-            /* Premium Zemin Yansıması */
-            -webkit-box-reflect: below 20px linear-gradient(transparent, transparent 40%, rgba(255, 255, 255, 0.18));
+            /* Ultra-smooth cinematic reflection system */
+            -webkit-box-reflect: below 18px linear-gradient(transparent, transparent 40%, rgba(255, 255, 255, 0.25));
         }
 
-        /* Ortak Yüz Yapılandırıcı */
+        /* Shared face presets for building solid thickness volumes */
         .case-face {
             position: absolute;
-            background-color: #1a1a1a;
+            background-color: #1c1c1c;
             backface-visibility: visible;
-            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
         }
 
-        /* Ön Kapak Görsel Matrisi */
+        /* FRONT ARTWORK FACE PLATE */
         .case-face.face-front {
-            width: 155px;
-            height: 155px;
+            width: 152px;
+            height: 152px;
             top: 0;
             left: 0;
-            transform: rotateY(0deg) translateZ(12px); /* Kalınlığın yarısı kadar önde */
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 6px;
-            overflow: hidden;
+            transform: rotateY(0deg) translateZ(12px); /* Offsets forward out of the core structural matrix axis */
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 6px;
+            overflow: hidden;
+            z-index: 5;
         }
 
         .case-face.face-front img {
@@ -219,46 +221,50 @@
             object-fit: cover;
         }
 
-        /* Sol Kalınlık Kemik Çerçevesi (Albüm Sırtı - Dikey Yazı Alanı) */
+        /* LEFT EXTENSION BOUND SPINE WALL */
         .case-face.face-left {
-            width: 24px; /* 3D Nesne Kalınlığı */
-            height: 155px;
+            width: 24px; /* Extruded thickness depth parameter size */
+            height: 152px;
             top: 0;
-            left: 65.5px; /* (155/2) - (24/2) = 65.5px tam merkeze sabitleme */
-            transform: rotateY(-90deg) translateZ(77.5px); /* Sol kenara öteleme */
-            background: linear-gradient(to right, #080808, #282828, #121212);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            left: -12px;
+            transform: rotateY(-90deg) translateZ(0);
+            background: linear-gradient(to right, #0a0a0a, #2d2d2d);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 3;
         }
 
-        /* Sağ Kalınlık Çerçevesi */
+        /* RIGHT EXTENSION BOUND SPINE WALL */
         .case-face.face-right {
             width: 24px;
-            height: 155px;
+            height: 152px;
             top: 0;
-            left: 65.5px;
-            transform: rotateY(90deg) translateZ(77.5px);
-            background: linear-gradient(to left, #080808, #282828, #121212);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            left: auto;
+            right: -12px;
+            transform: rotateY(90deg) translateZ(0);
+            background: linear-gradient(to left, #0a0a0a, #2d2d2d);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 3;
         }
 
-        /* Üst Kalınlık Çerçevesi */
+        /* TOP DEPTH LID EDGE */
         .case-face.face-top {
-            width: 155px;
+            width: 152px;
             height: 24px;
-            top: 65.5px;
+            top: -12px;
             left: 0;
-            transform: rotateX(90deg) translateZ(77.5px);
-            background: linear-gradient(to bottom, #383838, #101010);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            transform: rotateX(90deg) translateZ(0);
+            background: linear-gradient(to bottom, #3a3a3a, #111111);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 4;
         }
 
-        /* Yan Kalınlıktaki Dikine Yazılan Şarkı İsmi */
+        /* Vertical text printing on side thickness spines */
         .spine-text-vertical {
             font-size: 8px;
             font-weight: 800;
@@ -267,24 +273,24 @@
             white-space: nowrap;
             letter-spacing: 2px;
             transform: rotate(90deg);
-            width: 130px;
+            width: 132px;
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* Merkezdeki Aktif Şarkı Detay Yazıları */
+        /* Center focus information labels display overlay layer */
         .center-track-title-display {
             position: absolute;
-            bottom: 4px;
+            bottom: 0px;
             width: 100%;
             text-align: center;
             pointer-events: none;
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            padding: 0 24px;
-            z-index: 20;
+            gap: 3px;
+            padding: 0 16px;
+            z-index: 100;
         }
 
         .center-main-title {
@@ -297,7 +303,7 @@
         }
 
         .center-sub-artist {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             color: #b3b3b3;
             white-space: nowrap;
@@ -306,12 +312,11 @@
         }
 
         /* ==========================================================================
-           3. ÖNERİ KARTLARI & İPUÇLARI PANELİ
+           3. BASE CONTENT ELEMENTS & PLAYER CONTROLS
            ========================================================================== */
         .tips-card {
             background-color: #121212;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 20px 16px;
             display: flex;
             flex-direction: column;
@@ -329,10 +334,8 @@
 
         .tips-label {
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 600;
             color: #a7a7a7;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .close-btn {
@@ -344,547 +347,12 @@
         }
 
         .tips-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             margin-bottom: 4px;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.1px;
         }
 
         .tips-subtitle {
             font-size: 13px;
             color: #b3b3b3;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .action-btn {
-            background-color: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 24px;
-            padding: 10px 20px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .action-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* ==========================================================================
-           4. ALT PREMİUM MEDYA KONTROL PANELI & MINI PLAYER
-           ========================================================================== */
-        .bottom-section {
-            width: 100%;
-            background-color: #000000;
-            padding-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            z-index: 30;
-        }
-
-        .mini-player {
-            background: linear-gradient(135deg, #4c0519 0%, #1c000a 100%); 
-            margin: 0 8px 12px 8px;
-            border-radius: 12px;
-            padding: 10px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            overflow: hidden;
-        }
-
-        .player-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .album-art {
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
-            overflow: hidden;
-            flex-shrink: 0;
-            background-color: #282828;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .album-art img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .song-info {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        .song-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .song-artist {
-            font-size: 12px;
-            color: #cccccc;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .local-badge {
-            color: #1db954;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-        }
-
-        .player-right {
-            display: flex;
-            align-items: center;
-            gap: 22px;
-            padding-right: 4px;
-        }
-
-        .device-btn, .play-btn {
-            background: none;
-            border: none;
-            color: #ffffff;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .play-btn {
-            font-size: 18px;
-            width: 22px;
-        }
-
-        /* İnce Çalma İlerleme Çubuğu */
-        .progress-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2.5px;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background-color: #ffffff;
-            transition: width 0.1s linear;
-        }
-
-        .bottom-nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            padding-top: 4px;
-        }
-
-        .nav-item {
-            background: none;
-            border: none;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-
-        .nav-icon {
-            font-size: 20px;
-            color: #ffffff;
-        }
-
-        .nav-item span {
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        #hiddenFileInput {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="app-container">
-        <audio id="audioEngine"></audio>
-        <input type="file" id="hiddenFileInput" accept="audio/mp3, audio/*" multiple>
-
-        <header class="header">
-            <div class="header-left">
-                <div class="profile-avatar">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" alt="Profil">
-                </div>
-                <h1>Kitaplığın</h1>
-            </div>
-            <button class="add-btn" id="addBtnPlus"><i class="fa-solid fa-plus"></i></button>
-        </header>
-
-        <main class="content">
-            <button class="import-card" id="importBtn">
-                <div class="import-left">
-                    <i class="fa-solid fa-arrow-down import-icon"></i>
-                    <span class="import-text">Diğer uygulamalardaki müziklerini içe aktar</span>
-                </div>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </button>
-
-            <div class="library-3d-viewport" id="dropZoneViewport">
-                <div class="coverflow-container" id="coverflowContainer"></div>
-                
-                <div class="center-track-title-display" id="centerTrackTitleDisplay">
-                    <div class="center-main-title" id="centerMainTitle">-</div>
-                    <div class="center-sub-artist" id="centerSubArtist">-</div>
-                </div>
-            </div>
-
-            <div class="tips-card" id="tipsCard">
-                <div class="tips-header">
-                    <span class="tips-label">İpuçları</span>
-                    <button class="close-btn" id="closeTips"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <h2 class="tips-title">İlk çalma listeni oluştur</h2>
-                <p class="tips-subtitle">Çok kolay. Sana yardımcı olacağız</p>
-                <button class="action-btn">Çalma listesi oluştur</button>
-            </div>
-        </main>
-
-        <div class="bottom-section">
-            <div class="mini-player">
-                <div class="player-left">
-                    <div class="album-art" id="playerAlbumArtContainer">
-                        <i class="fa-solid fa-music"></i>
-                    </div>
-                    <div class="song-info">
-                        <div class="song-title" id="playerTitle">-</div>
-                        <div class="song-artist">
-                            <span class="local-badge"><i class="fa-solid fa-square-check"></i></span>
-                            <span id="playerArtist">-</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="player-right">
-                    <button class="device-btn"><i class="fa-solid fa-mobile-screen-button"></i></button>
-                    <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-            </div>
-
-            <nav class="bottom-nav">
-                <button class="nav-item">
-                    <i class="fa-solid fa-lines-leaning nav-icon"></i>
-                    <span>Kitaplığın</span>
-                </button>
-            </nav>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let libraryTracksList = [];
-            let focusedIndex = 0;
-            
-            // Kaydırma (Swipe) Durum Kontrolcüleri
-            let isDragging = false;
-            let startX = 0;
-            let currentX = 0;
-
-            // DOM Nesne Bağlantıları
-            const closeTips = document.getElementById('closeTips');
-            const tipsCard = document.getElementById('tipsCard');
-            const playBtn = document.getElementById('playBtn');
-            const importBtn = document.getElementById('importBtn');
-            const addBtnPlus = document.getElementById('addBtnPlus');
-            const fileInput = document.getElementById('hiddenFileInput');
-            const audioEngine = document.getElementById('audioEngine');
-            const dropZoneViewport = document.getElementById('dropZoneViewport');
-            const coverflowContainer = document.getElementById('coverflowContainer');
-            
-            const centerMainTitle = document.getElementById('centerMainTitle');
-            const centerSubArtist = document.getElementById('centerSubArtist');
-
-            const playerTitle = document.getElementById('playerTitle');
-            const playerArtist = document.getElementById('playerArtist');
-            const progressFill = document.getElementById('progressFill');
-            const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
-
-            if (closeTips && tipsCard) {
-                closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
-            }
-
-            // MÜKEMMEL KAVİSLİ 3 BOYUTLU ALAN PROJEKSİYON HESAPLAYICI (Ana Algoritma)
-            function computeGeometries3DTransforms() {
-                if (libraryTracksList.length === 0) return;
-
-                const caseItems = coverflowContainer.querySelectorAll('.album-3d-case');
-                
-                caseItems.forEach((box, idx) => {
-                    const offset = idx - focusedIndex;
-                    
-                    let translateX = 0;
-                    let rotateY = 0;
-                    let translateZ = 0;
-                    let opacity = 1;
-                    let zIndex = 100 - Math.abs(offset);
-
-                    if (offset === 0) {
-                        // Merkezdeki Odaklanmış Aktif Kart (Düz, Parlak ve Önde)
-                        translateX = 0;
-                        rotateY = 0;
-                        translateZ = 130; 
-                        zIndex = 500;
-                        opacity = 1;
-                    } else if (offset < 0) {
-                        // Sol Kanattaki Kartlar (Geriye doğru bükülmüş ve yan kalınlığı gösteren açı)
-                        rotateY = 60;  /* İçe bükülme derecesi sayesinde kalın kenar görünür */
-                        translateX = (offset * 50) - 85; 
-                        translateZ = -30; 
-                        opacity = Math.max(0.15, 1 + (offset * 0.35));
-                    } else if (offset > 0) {
-                        // Sağ Kanattaki Kartlar
-                        rotateY = -60; 
-                        translateX = (offset * 50) + 85;
-                        translateZ = -30;
-                        opacity = Math.max(0.15, 1 - (offset * 0.35));
-                    }
-
-                    // Sadece ekrana sığacak yakınlıktakileri göster
-                    if (Math.abs(offset) > 2) {
-                        opacity = 0;
-                    }
-
-                    // 3B Matris Kodunun Nesneye Giydirilmesi
-                    box.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
-                    box.style.zIndex = zIndex;
-                    box.style.opacity = opacity;
-                });
-            }
-
-            // Seçilen Şarkıyı Merkeze Çekme ve Eşzamanlama
-            function triggerFocusedTrackReorientation(targetIndex) {
-                if (libraryTracksList.length === 0) return;
-                
-                focusedIndex = Math.max(0, Math.min(targetIndex, libraryTracksList.length - 1));
-                computeGeometries3DTransforms();
-
-                const track = libraryTracksList[focusedIndex];
-                
-                // Metin Alanlarını Güncelle
-                centerMainTitle.textContent = track.title;
-                centerSubArtist.textContent = track.artist;
-
-                playerTitle.textContent = track.title;
-                playerArtist.textContent = track.artist;
-                playerAlbumArtContainer.innerHTML = `<img src="${track.coverImageURL}">`;
-
-                // Ses Dosyası Bağlantısı Varsa Oynat
-                if (track.blobUrl) {
-                    audioEngine.src = track.blobUrl;
-                    audioEngine.play().catch(() => {});
-                }
-            }
-
-            // GERÇEKÇİ KUTU MODELİ YAPILANDIRICI NODU OLUŞTURMA
-            function appendTrackTo3DCarousel(title, artist, coverURL, blobUrl = null) {
-                const trackNode = {
-                    title: title,
-                    artist: artist,
-                    coverImageURL: coverURL,
-                    blobUrl: blobUrl
-                };
-
-                libraryTracksList.push(trackNode);
-
-                const caseHull = document.createElement('div');
-                caseHull.className = 'album-3d-case';
-                
-                // 3 Boyutlu Küpün/Kutunun Yüzey Katmanları
-                caseHull.innerHTML = `
-                    <div class="case-face face-left">
-                        <div class="spine-text-vertical">${title}</div>
-                    </div>
-                    <div class="case-face face-top"></div>
-                    <div class="case-face face-front">
-                        <img src="${coverURL}">
-                    </div>
-                    <div class="case-face face-right">
-                        <div class="spine-text-vertical">${title}</div>
-                    </div>
-                `;
-
-                const indexRef = libraryTracksList.length - 1;
-                caseHull.addEventListener('click', () => {
-                    triggerFocusedTrackReorientation(indexRef);
-                });
-
-                coverflowContainer.appendChild(caseHull);
-            }
-
-            // Kullanıcı Dosya Yükleme İşleyicisi
-            function processIncomingAudioFiles(files) {
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    if (!file.type.startsWith('audio/')) continue;
-
-                    let rawName = file.name.replace(/\.[^/.]+$/, "");
-                    let title = rawName;
-                    let artist = "Yerel Parça";
-
-                    if (rawName.includes(" - ")) {
-                        const parts = rawName.split(" - ");
-                        artist = parts[0].trim();
-                        title = parts[1].trim();
-                    }
-
-                    // Yüklenen şarkılar için göz alıcı neon soyut bir kapak şablonu
-                    const fallbackCover = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=250&auto=format&fit=crop";
-                    
-                    appendTrackTo3DCarousel(title, artist, fallbackCover, URL.createObjectURL(file));
-                }
-                
-                // En son eklenen şarkıya odaklan
-                triggerFocusedTrackReorientation(libraryTracksList.length - files.length);
-            }
-
-            // SİSTEME ÖN TANIMLI OLARAK GELECEK REHBER ŞARKILAR (Hemen Görsel Şölen Başlasın Diye)
-            appendTrackTo3DCarousel("Carita de Angel", "Maria Daniela Y Su Sonido Lasser", "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=250&auto=format&fit=crop");
-            appendTrackTo3DCarousel("After Hours", "The Weeknd", "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=250&auto=format&fit=crop");
-            appendTrackTo3DCarousel("Future Nostalgia", "Dua Lipa", "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?q=80&w=250&auto=format&fit=crop");
-            appendTrackTo3DCarousel("Starboy", "The Weeknd", "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=250&auto=format&fit=crop");
-
-            // Başlangıç Kurulumu
-            triggerFocusedTrackReorientation(0);
-
-            // Mobil Dokunmatik Hassas Kaydırma (Swipe) Algılayıcıları
-            dropZoneViewport.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                startX = e.touches[0].clientX;
-                currentX = startX;
-            }, { passive: true });
-
-            dropZoneViewport.addEventListener('touchmove', (e) => {
-                if (!isDragging || libraryTracksList.length === 0) return;
-                const x = e.touches[0].clientX;
-                const diff = x - currentX;
-                
-                if (Math.abs(diff) > 45) { // Hassasiyet eşiği
-                    if (diff > 0 && focusedIndex > 0) {
-                        triggerFocusedTrackReorientation(focusedIndex - 1);
-                        isDragging = false; 
-                    } else if (diff < 0 && focusedIndex < libraryTracksList.length - 1) {
-                        triggerFocusedTrackReorientation(focusedIndex + 1);
-                        isDragging = false;
-                    }
-                    currentX = x;
-                }
-            }, { passive: true });
-
-            window.addEventListener('touchend', () => isDragging = false);
-
-            // Fare ile Sürükleme Desteği (Masaüstü Testleri İçerik)
-            dropZoneViewport.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                startX = e.clientX;
-                currentX = startX;
-            });
-
-            window.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                const diff = e.clientX - currentX;
-                if (Math.abs(diff) > 55) {
-                    if (diff > 0 && focusedIndex > 0) {
-                        triggerFocusedTrackReorientation(focusedIndex - 1);
-                        isDragging = false;
-                    } else if (diff < 0 && focusedIndex < libraryTracksList.length - 1) {
-                        triggerFocusedTrackReorientation(focusedIndex + 1);
-                        isDragging = false;
-                    }
-                }
-            });
-
-            window.addEventListener('mouseup', () => isDragging = false);
-
-            // Drag & Drop (Sürükle Bırak) Dosya Dinleyicileri
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(name => {
-                dropZoneViewport.addEventListener(name, (e) => { e.preventDefault(); e.stopPropagation(); }, false);
-            });
-
-            dropZoneViewport.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                if (dt && dt.files.length > 0) processIncomingAudioFiles(dt.files);
-            }, false);
-
-            // Buton Tetikleyicileri
-            if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
-            if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
-            if (fileInput) {
-                fileInput.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) processIncomingAudioFiles(e.target.files);
-                });
-            }
-
-            // Medya Oynatıcı Kontrolleri
-            if (playBtn && audioEngine) {
-                playBtn.addEventListener('click', () => {
-                    if (!audioEngine.src) return;
-                    if (audioEngine.paused) {
-                        audioEngine.play();
-                    } else {
-                        audioEngine.pause();
-                    }
-                });
-
-                audioEngine.addEventListener('play', () => { playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; });
-                audioEngine.addEventListener('pause', () => { playBtn.innerHTML = '<i class="fa-solid fa-play"></i>'; });
-                audioEngine.addEventListener('timeupdate', () => {
-                    if (audioEngine.duration) {
-                        progressFill.style.width = `${(audioEngine.currentTime / audioEngine.duration) * 100}%`;
-                    }
-                });
-                audioEngine.addEventListener('ended', () => {
-                    if (focusedIndex < libraryTracksList.length - 1) {
-                        triggerFocusedTrackReorientation(focusedIndex + 1);
-                    } else {
-                        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                        progressFill.style.width = '0%';
-                    }
-                });
-            }
-
-            window.addEventListener('resize', computeGeometries3DTransforms);
-        });
-    </script>
-</body>
-</html>
