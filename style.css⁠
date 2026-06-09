@@ -1,9 +1,9 @@
-/* Reset and True OLED Black Base */
+/* Base Reset Layout */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -13,157 +13,344 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
+    overflow: hidden;
 }
 
-/* Perfect Mobile Viewport Constraints */
 .app-container {
-    width: 100%;
-    max-width: 420px;
+    width: 100vw;
+    height: 100vh;
+    max-width: 480px;
     background-color: #000000;
-    position: relative;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    position: relative;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
-.status-bar-spacer {
-    height: 15px;
-}
-
-/* Header UI */
+/* Top App Navigation Bar */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 16px 20px 16px;
+    padding: 45px 16px 12px 16px;
+    flex-shrink: 0;
 }
 
 .header-left {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 .profile-avatar {
-    width: 38px;
-    height: 38px;
-    background-color: #2879ff;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    color: #000000;
-    font-weight: bold;
-    font-size: 15px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    letter-spacing: 0.5px;
+    background-color: #282828;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 h1 {
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-.icon-btn {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    letter-spacing: -0.4px;
 }
 
 .add-btn {
-    font-size: 22px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
-/* Content Area */
+/* Screen Scrolling Layer Workspace */
 .content {
-    padding: 0 16px;
+    padding: 8px 16px;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    position: relative;
 }
 
-/* Import Card Component */
+/* Action Link Deck Component */
 .import-card {
     width: 100%;
-    background-color: #1c1c1e;
+    background-color: #121212;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     color: #ffffff;
     cursor: pointer;
-    margin-bottom: 20px;
-    text-align: left;
     transition: background-color 0.2s;
+    flex-shrink: 0;
 }
 
 .import-card:active {
-    background-color: #2c2c2e;
+    background-color: #1a1a1a;
+}
+
+.import-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
 }
 
 .import-icon {
-    font-size: 22px;
-    margin-right: 16px;
+    font-size: 20px;
     color: #ffffff;
-}
-
-.import-text-container {
-    flex: 1;
-    padding-right: 8px;
+    opacity: 0.9;
 }
 
 .import-text {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.4;
+    text-align: left;
     color: #ffffff;
 }
 
 .arrow-icon {
-    color: #8e8e93;
+    color: #ffffff;
+    opacity: 0.8;
     font-size: 14px;
 }
 
-/* Tips Container */
-.tips-card {
-    background-color: #1c1c1e;
+/* -------------------------------------------------------------
+   PREMIUM GEOMETRIC 3D BOX MODEL CAROUSEL PLATFORM
+------------------------------------------------------------- */
+.library-3d-viewport {
+    width: 100%;
+    height: 350px; 
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
     border-radius: 12px;
+}
+
+.coverflow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 900px;
+    perspective-origin: 50% 38%;
+    transform-style: preserve-3d;
+    cursor: grab;
+}
+
+.coverflow-container:active {
+    cursor: grabbing;
+}
+
+/* PHYSICAL 3D BOX MATRIX EXTRUSION HULL */
+.album-3d-case {
+    position: absolute;
+    width: 145px;
+    height: 145px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.18, 0.9, 0.32, 1.12), opacity 0.4s ease;
+    user-select: none;
+    -webkit-box-reflect: below 16px linear-gradient(transparent, transparent 25%, rgba(255, 255, 255, 0.22));
+}
+
+.case-face {
+    position: absolute;
+    background-color: #161616;
+    backface-visibility: visible;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+}
+
+.case-face.face-front {
+    width: 145px;
+    height: 145px;
+    top: 0;
+    left: 0;
+    transform: rotateY(0deg) translateZ(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 4px;
+    z-index: 5;
+}
+
+.case-face.face-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.case-face.face-front i {
+    font-size: 45px;
+    color: rgba(255, 255, 255, 0.15);
+}
+
+.case-face.face-left {
+    width: 24px;
+    height: 145px;
+    top: 0;
+    left: -12px;
+    transform: rotateY(-90deg) translateZ(0);
+    background: linear-gradient(to right, #0a0a0a, #282828);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.case-face.face-right {
+    width: 24px;
+    height: 145px;
+    top: 0;
+    left: auto;
+    right: -12px;
+    transform: rotateY(90deg) translateZ(0);
+    background: linear-gradient(to left, #0a0a0a, #282828);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.case-face.face-top {
+    width: 145px;
+    height: 24px;
+    top: -12px;
+    left: 0;
+    transform: rotateX(90deg) translateZ(0);
+    background: linear-gradient(to bottom, #2c2c2c, #0f0f0f);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 4;
+}
+
+.spine-text-vertical {
+    font-size: 8px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    white-space: nowrap;
+    letter-spacing: 1.5px;
+    transform: rotate(90deg);
+    width: 125px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.center-track-title-display {
+    position: absolute;
+    bottom: 12px;
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 24px;
+}
+
+.center-main-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.center-sub-artist {
+    font-size: 12px;
+    font-weight: 500;
+    color: #b3b3b3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.viewport-empty-notice {
+    position: absolute;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555555;
+    text-align: center;
+    pointer-events: none;
+    padding: 0 40px;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.viewport-empty-notice i {
+    font-size: 32px;
+    color: #222222;
+}
+
+.tips-card {
+    background-color: #121212;
+    border-radius: 8px;
     padding: 20px 16px;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-shrink: 0;
 }
 
 .tips-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     margin-bottom: 12px;
 }
 
 .tips-label {
     font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #eaeaea;
-    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: #a7a7a7;
 }
 
 .close-btn {
     background: none;
     border: none;
-    color: #8e8e93;
-    font-size: 18px;
+    color: #b3b3b3;
+    font-size: 16px;
     cursor: pointer;
 }
 
 .tips-title {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
-    margin-bottom: 6px;
-    letter-spacing: -0.2px;
+    margin-bottom: 4px;
+    letter-spacing: -0.1px;
 }
 
 .tips-subtitle {
@@ -177,33 +364,29 @@ h1 {
     background-color: #ffffff;
     color: #000000;
     border: none;
-    border-radius: 24px;
-    padding: 12px 24px;
-    font-size: 14px;
+    border-radius: 20px;
+    padding: 10px 18px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.1s;
 }
 
-.action-btn:active {
-    transform: scale(0.96);
-}
-
-/* Bottom Nav and Player Architecture */
 .bottom-section {
     position: absolute;
     bottom: 0;
     width: 100%;
     background-color: #000000;
-    padding-bottom: 12px;
+    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
 }
 
-/* Custom Magenta Mini-Player */
 .mini-player {
-    background-color: #51051d; /* Perfect Burgundy tone match */
-    margin: 0 8px;
+    background-color: #51071e; 
+    margin: 0 8px 16px 8px;
     border-radius: 8px;
-    padding: 10px 12px;
+    padding: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -215,24 +398,24 @@ h1 {
     align-items: center;
     gap: 12px;
     flex: 1;
-    min-width: 0; /* Prevents text overflow breaks */
+    min-width: 0;
 }
 
 .album-art {
-    width: 42px;
-    height: 42px;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+    width: 38px;
+    height: 38px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #282828;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    flex-shrink: 0;
 }
 
-.fallback-art i {
-    color: #ff2d55;
-    font-size: 18px;
+.album-art i {
+    color: #b3b3b3;
+    font-size: 16px;
 }
 
 .song-info {
@@ -245,15 +428,15 @@ h1 {
     font-size: 13px;
     font-weight: 600;
     color: #ffffff;
+    margin-bottom: 1px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 2px;
 }
 
 .song-artist {
     font-size: 12px;
-    color: #cccccc;
+    color: #b3b3b3;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -263,9 +446,9 @@ h1 {
 }
 
 .local-badge {
-    color: #1ed760;
+    color: #1db954;
     font-size: 11px;
-    display: inline-flex;
+    display: flex;
     align-items: center;
 }
 
@@ -273,44 +456,46 @@ h1 {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding-left: 12px;
+    padding-right: 8px;
 }
 
-.device-btn {
-    color: #b3b3b3;
+.device-btn, .play-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
     font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .play-btn {
-    font-size: 20px;
-    color: #ffffff;
-    width: 28px;
+    font-size: 16px;
+    width: 20px;
 }
 
-/* Micro-Progress Bar */
 .progress-bar {
     position: absolute;
     bottom: 0;
-    left: 12px;
-    right: 12px;
+    left: 8px;
+    right: 8px;
     height: 2px;
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 1px;
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .progress-fill {
-    width: 15%; /* Initial track spot */
+    width: 0%;
     height: 100%;
     background-color: #ffffff;
-    border-radius: 1px;
+    transition: width 0.1s linear;
 }
 
-/* Bottom Navigation */
 .bottom-nav {
     display: flex;
     justify-content: center;
-    padding-top: 14px;
-    background-color: #000000;
+    align-items: center;
+    width: 100%;
 }
 
 .nav-item {
@@ -325,11 +510,16 @@ h1 {
 }
 
 .nav-icon {
-    font-size: 22px;
+    font-size: 20px;
+    color: #ffffff;
 }
 
 .nav-item span {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.2px;
+    color: #ffffff;
+}
+
+#hiddenFileInput {
+    display: none;
 }
