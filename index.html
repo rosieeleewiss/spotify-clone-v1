@@ -7,10 +7,556 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2 family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Base Reset Layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 480px;
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Top App Navigation Bar */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 45px 16px 12px 16px;
+            flex-shrink: 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #282828;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+        }
+
+        .add-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 26px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Screen Scrolling Layer Workspace */
+        .content {
+            padding: 8px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Action Link Deck Component */
+        .import-card {
+            width: 100%;
+            background-color: #121212;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .import-card:active {
+            background-color: #1a1a1a;
+        }
+
+        .import-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .import-icon {
+            font-size: 20px;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        .import-text {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.4;
+            text-align: left;
+            color: #ffffff;
+        }
+
+        .arrow-icon {
+            color: #ffffff;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        /* -------------------------------------------------------------
+           PREMIUM GEOMETRIC 3D BOX MODEL CAROUSEL PLATFORM
+        ------------------------------------------------------------- */
+        .library-3d-viewport {
+            width: 100%;
+            height: 350px; /* Extended to leave space for high-fidelity vertical reflections */
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .coverflow-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Camera perspective focal length setting */
+            perspective: 900px;
+            /* Angled viewing perspective origin parameters */
+            perspective-origin: 50% 38%;
+            transform-style: preserve-3d;
+            cursor: grab;
+        }
+
+        .coverflow-container:active {
+            cursor: grabbing;
+        }
+
+        /* PHYSICAL 3D BOX MATRIX EXTRUSION HULL */
+        .album-3d-case {
+            position: absolute;
+            width: 145px;
+            height: 145px;
+            transform-style: preserve-3d;
+            /* Smooth fluid mechanical ease transition curves */
+            transition: transform 0.5s cubic-bezier(0.18, 0.9, 0.32, 1.12), opacity 0.4s ease;
+            user-select: none;
+            
+            /* Ground mirror box floor display reflection matrix configuration settings */
+            -webkit-box-reflect: below 16px linear-gradient(transparent, transparent 25%, rgba(255, 255, 255, 0.22));
+        }
+
+        /* Structural Multi-Face Geometries Base Definition */
+        .case-face {
+            position: absolute;
+            background-color: #161616;
+            backface-visibility: visible;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+        }
+
+        /* Front Face Panel Plate */
+        .case-face.face-front {
+            width: 145px;
+            height: 145px;
+            top: 0;
+            left: 0;
+            /* Displaces face sheet forward along Z axis out of cross-sections layer */
+            transform: rotateY(0deg) translateZ(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 4px;
+            z-index: 5;
+        }
+
+        .case-face.face-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .case-face.face-front i {
+            font-size: 45px;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Left Side Edge / Spine Plate Profile */
+        .case-face.face-left {
+            width: 24px; /* Real structural physical thickness depth */
+            height: 145px;
+            top: 0;
+            left: -12px;
+            transform: rotateY(-90deg) translateZ(0);
+            background: linear-gradient(to right, #0a0a0a, #282828);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        /* Right Side Edge / Spine Plate Profile */
+        .case-face.face-right {
+            width: 24px;
+            height: 145px;
+            top: 0;
+            left: auto;
+            right: -12px;
+            transform: rotateY(90deg) translateZ(0);
+            background: linear-gradient(to left, #0a0a0a, #282828);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        /* Top Lid Face Edge Component Panel */
+        .case-face.face-top {
+            width: 145px;
+            height: 24px;
+            top: -12px;
+            left: 0;
+            transform: rotateX(90deg) translateZ(0);
+            background: linear-gradient(to bottom, #2c2c2c, #0f0f0f);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 4;
+        }
+
+        /* Vertical Typography Formatting Rule for Spine Details */
+        .spine-text-vertical {
+            font-size: 8px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            white-space: nowrap;
+            letter-spacing: 1.5px;
+            /* Rotates the element precisely onto the thin side track profile face */
+            transform: rotate(90deg);
+            width: 125px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Active Core Node Metadata Readouts Subsystem Panel */
+        .center-track-title-display {
+            position: absolute;
+            bottom: 12px;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 0 24px;
+        }
+
+        .center-main-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .center-sub-artist {
+            font-size: 12px;
+            font-weight: 500;
+            color: #b3b3b3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .viewport-empty-notice {
+            position: absolute;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555555;
+            text-align: center;
+            pointer-events: none;
+            padding: 0 40px;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .viewport-empty-notice i {
+            font-size: 32px;
+            color: #222222;
+        }
+
+        /* Context Guide Onboarding Module Row Box */
+        .tips-card {
+            background-color: #121212;
+            border-radius: 8px;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex-shrink: 0;
+        }
+
+        .tips-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .tips-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #a7a7a7;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #b3b3b3;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .tips-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.1px;
+        }
+
+        .tips-subtitle {
+            font-size: 13px;
+            color: #b3b3b3;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .action-btn {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Footing Deck Tray Section Panel Base Container */
+        .bottom-section {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: #000000;
+            padding-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        /* Custom Burgundy System Media Deck Player UI Row */
+        .mini-player {
+            background-color: #51071e; 
+            margin: 0 8px 16px 8px;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .player-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .album-art {
+            width: 38px;
+            height: 38px;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background-color: #282828;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .album-art i {
+            color: #b3b3b3;
+            font-size: 16px;
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .song-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .song-artist {
+            font-size: 12px;
+            color: #b3b3b3;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .local-badge {
+            color: #1db954;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+        }
+
+        .player-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-right: 8px;
+        }
+
+        .device-btn, .play-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-btn {
+            font-size: 16px;
+            width: 20px;
+        }
+
+        /* Timeline Metric Linear Gauge Fillers styles */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 8px;
+            right: 8px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #ffffff;
+            transition: width 0.1s linear;
+        }
+
+        /* Lower Nav Tray Grid Layout Area definitions fields links hooks */
+        .bottom-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            color: #ffffff;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        #hiddenFileInput {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
@@ -38,11 +584,16 @@
             </button>
 
             <div class="library-3d-viewport" id="dropZoneViewport">
+                <div class="viewport-empty-notice" id="emptyNotice">
+                    <i class="fa-solid fa-compact-disc"></i>
+                    <span>Müzik dosyalarını buraya sürükleyin veya içe aktarın</span>
+                </div>
+                
                 <div class="coverflow-container" id="coverflowContainer"></div>
                 
-                <div class="center-track-title-display" id="centerTrackTitleDisplay">
-                    <div class="center-main-title" id="centerMainTitle">-</div>
-                    <div class="center-sub-artist" id="centerSubArtist">-</div>
+                <div class="center-track-title-display" id="centerTrackTitleDisplay" style="display: none;">
+                    <div class="center-main-title" id="centerMainTitle">Track Name</div>
+                    <div class="center-sub-artist" id="centerSubArtist">Artist Name</div>
                 </div>
             </div>
 
@@ -64,10 +615,10 @@
                         <i class="fa-solid fa-music"></i>
                     </div>
                     <div class="song-info">
-                        <div class="song-title" id="playerTitle">-</div>
+                        <div class="song-title" id="playerTitle">Carita de Angel</div>
                         <div class="song-artist">
                             <span class="local-badge"><i class="fa-solid fa-square-check"></i></span>
-                            <span id="playerArtist">-</span>
+                            <span id="playerArtist">Maria Daniela Y Su Sonido Lasser</span>
                         </div>
                     </div>
                 </div>
@@ -89,6 +640,291 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let libraryTracksList = [];
+            let focusedIndex = 0;
+            
+            // Interaction tracking states flags variables
+            let logicDragActive = false;
+            let startingTouchPointX = 0;
+            let interactiveLiveDisplacementDeltaX = 0;
+
+            // DOM Element Hooks links mapper components system definitions
+            const closeTips = document.getElementById('closeTips');
+            const tipsCard = document.getElementById('tipsCard');
+            const playBtn = document.getElementById('playBtn');
+            const importBtn = document.getElementById('importBtn');
+            const addBtnPlus = document.getElementById('addBtnPlus');
+            const fileInput = document.getElementById('hiddenFileInput');
+            const audioEngine = document.getElementById('audioEngine');
+            const dropZoneViewport = document.getElementById('dropZoneViewport');
+            const coverflowContainer = document.getElementById('coverflowContainer');
+            const emptyNotice = document.getElementById('emptyNotice');
+            
+            const centerTrackTitleDisplay = document.getElementById('centerTrackTitleDisplay');
+            const centerMainTitle = document.getElementById('centerMainTitle');
+            const centerSubArtist = document.getElementById('centerSubArtist');
+
+            const playerTitle = document.getElementById('playerTitle');
+            const playerArtist = document.getElementById('playerArtist');
+            const progressFill = document.getElementById('progressFill');
+            const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
+
+            if (closeTips && tipsCard) {
+                closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
+            }
+
+            // Bold colorful spectrum sets for case blocks backgrounds tones rendering profiles
+            const multiFacePaletteGradients = [
+                'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
+                'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
+                'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)',
+                'linear-gradient(135deg, #b31217 0%, #e52d27 100%)',
+                'linear-gradient(135deg, #00f260 0%, #0575e6 100%)',
+                'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
+            ];
+
+            // ADVANCED MATHEMATICAL GEOMETRIC 3D SPACE LAYOUT COMPONENT PROJECTION ENGINE
+            function computeGeometries3DTransforms() {
+                if (libraryTracksList.length === 0) {
+                    emptyNotice.style.display = 'flex';
+                    centerTrackTitleDisplay.style.display = 'none';
+                    return;
+                }
+                emptyNotice.style.display = 'none';
+                centerTrackTitleDisplay.style.display = 'flex';
+
+                const structuralBoxes = coverflowContainer.querySelectorAll('.album-3d-case');
+                
+                structuralBoxes.forEach((boxHull, idx) => {
+                    const structuralOffset = idx - focusedIndex;
+                    
+                    let translateX = 0;
+                    let rotateY = 0;
+                    let translateZ = 0;
+                    let compositeOpacity = 1;
+                    let spatialIndexLayer = 100 - Math.abs(structuralOffset);
+
+                    if (structuralOffset === 0) {
+                        // Main Active Center Facing Element projection block coordinates matrix
+                        translateX = 0;
+                        rotateY = 0;
+                        translateZ = 135; // Pushes active card aggressively forward into field view depths
+                        spatialIndexLayer = 700;
+                        compositeOpacity = 1;
+                    } else if (structuralOffset < 0) {
+                        // Left Profile Wing Stack element spatial matrix profile configurations setup
+                        rotateY = 62; // Deep perspective geometric tilt distortion factor configuration
+                        translateX = (structuralOffset * 48) - 75; // Clustered side overlaps settings offsets rules
+                        translateZ = -30; // Steps card deep into the display background tunnel field matrices maps
+                        compositeOpacity = Math.max(0.2, 1 + (structuralOffset * 0.28));
+                    } else if (structuralOffset > 0) {
+                        // Right Profile Wing Stack element spatial matrix profile configurations setup
+                        rotateY = -62;
+                        translateX = (structuralOffset * 48) + 75;
+                        translateZ = -30;
+                        compositeOpacity = Math.max(0.2, 1 - (structuralOffset * 0.28));
+                    }
+
+                    // Strict edge boundary masking layout visibility controller culling optimization
+                    if (Math.abs(structuralOffset) > 3) {
+                        compositeOpacity = 0;
+                    }
+
+                    // Apply coordinate projection specifications directly into the DOM vector element stylesheets
+                    boxHull.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+                    boxHull.style.zIndex = spatialIndexLayer;
+                    boxHull.style.opacity = compositeOpacity;
+                });
+            }
+
+            function triggerFocusedTrackReorientation(targetIndexKey) {
+                if (libraryTracksList.length === 0) return;
+                
+                focusedIndex = Math.max(0, Math.min(targetIndexKey, libraryTracksList.length - 1));
+                computeGeometries3DTransforms();
+
+                const isolatedTrackPayload = libraryTracksList[focusedIndex];
+                
+                // Update 3D center layout string readouts
+                centerMainTitle.textContent = isolatedTrackPayload.title;
+                centerSubArtist.textContent = isolatedTrackPayload.artist;
+
+                // Sync data attributes smoothly down into the static audio system tray module blocks deck rows layout
+                playerTitle.textContent = isolatedTrackPayload.title;
+                playerArtist.textContent = isolatedTrackPayload.artist;
+                playerAlbumArtContainer.style.background = isolatedTrackPayload.chassisBackdropTone;
+                playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
+
+                // Load source elements securely into runtime engines context modules nodes safely
+                audioEngine.src = isolatedTrackPayload.blobResourceObjectLink;
+                audioEngine.play().catch(() => { /* Defer native browser security constraints alerts prompts seamlessly */ });
+            }
+
+            function pushSelectedInputAudioFilesToSystem(fileCollectionArray) {
+                let triggeringInitialBootCycle = (libraryTracksList.length === 0);
+
+                for (let i = 0; i < fileCollectionArray.length; i++) {
+                    const runningTrackFile = fileCollectionArray[i];
+                    if (!runningTrackFile.type.startsWith('audio/')) continue;
+
+                    let rawCleanedNameString = runningTrackFile.name.replace(/\.[^/.]+$/, "");
+                    let mappedTitleField = rawCleanedNameString;
+                    let mappedArtistField = "Yerel Parça";
+
+                    if (rawCleanedNameString.includes(" - ")) {
+                        const splitStringTokens = rawCleanedNameString.split(" - ");
+                        mappedArtistField = splitStringTokens[0].trim();
+                        mappedTitleField = splitStringTokens[1].trim();
+                    }
+
+                    const backdropGradientIndex = libraryTracksList.length % multiFacePaletteGradients.length;
+                    const computedBackdropToneValue = multiFacePaletteGradients[backdropGradientIndex];
+                    
+                    const systemTrackDataNode = {
+                        title: mappedTitleField,
+                        artist: mappedArtistField,
+                        blobResourceObjectLink: URL.createObjectURL(runningTrackFile),
+                        chassisBackdropTone: computedBackdropToneValue
+                    };
+
+                    libraryTracksList.push(systemTrackDataNode);
+
+                    // HIGH FIDELITY MULTI-FACE 3D CUBE CASE FABRICATOR NODES GENERATION
+                    const multiFaceBoxHullNode = document.createElement('div');
+                    multiFaceBoxHullNode.className = 'album-3d-case';
+                    
+                    // Builds structural thickness edges containing vertical text lines for full geometric realism
+                    multiFaceBoxHullNode.innerHTML = `
+                        <div class="case-face face-left">
+                            <div class="spine-text-vertical">${mappedTitleField}</div>
+                        </div>
+                        <div class="case-face face-top"></div>
+                        <div class="case-face face-front" style="background: ${computedBackdropToneValue}">
+                            <i class="fa-solid fa-record-vinyl"></i>
+                        </div>
+                        <div class="case-face face-right">
+                            <div class="spine-text-vertical">${mappedTitleField}</div>
+                        </div>
+                    `;
+
+                    const localIndexScopeReferenceKey = libraryTracksList.length - 1;
+                    multiFaceBoxHullNode.addEventListener('click', () => {
+                        if (focusedIndex !== localIndexScopeReferenceKey) {
+                            triggerFocusedTrackReorientation(localIndexScopeReferenceKey);
+                        }
+                    });
+
+                    coverflowContainer.appendChild(multiFaceBoxHullNode);
+                }
+
+                if (triggeringInitialBootCycle && libraryTracksList.length > 0) {
+                    triggerFocusedTrackReorientation(0);
+                } else {
+                    computeGeometries3DTransforms();
+                }
+            }
+
+            // High Precision Touch Inertia Gesture Trackers Event Bindings Settings
+            dropZoneViewport.addEventListener('touchstart', (e) => {
+                logicDragActive = true;
+                startingTouchPointX = e.touches[0].clientX;
+                interactiveLiveDisplacementDeltaX = startingTouchPointX;
+            }, { passive: true });
+
+            dropZoneViewport.addEventListener('touchmove', (e) => {
+                if (!logicDragActive || libraryTracksList.length === 0) return;
+                const touchLiveCurrentCoordinateX = e.touches[0].clientX;
+                const dynamicMotionDeltaDisplacement = touchLiveCurrentCoordinateX - interactiveLiveDisplacementDeltaX;
+                
+                // Track dragging threshold increments to switch focus cleanly
+                if (Math.abs(dynamicMotionDeltaDisplacement) > 35) {
+                    if (dynamicMotionDeltaDisplacement > 0 && focusedIndex > 0) {
+                        triggerFocusedTrackReorientation(focusedIndex - 1);
+                        logicDragActive = false; 
+                    } else if (dynamicMotionDeltaDisplacement < 0 && focusedIndex < libraryTracksList.length - 1) {
+                        triggerFocusedTrackReorientation(focusedIndex + 1);
+                        logicDragActive = false;
+                    }
+                    interactiveLiveDisplacementDeltaX = touchLiveCurrentCoordinateX;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => logicDragActive = false);
+
+            // Drag and Drop desktop processing event handler registrations
+            ['dragenter', 'dragover'].forEach(name => {
+                dropZoneViewport.addEventListener(name, (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(name => {
+                dropZoneViewport.addEventListener(name, (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                }, false);
+            });
+
+            dropZoneViewport.addEventListener('drop', (e) => {
+                const dropDataPayloadPacket = e.dataTransfer;
+                if (dropDataPayloadPacket && dropDataPayloadPacket.files.length > 0) {
+                    pushSelectedInputAudioFilesToSystem(dropDataPayloadPacket.files);
+                }
+            }, false);
+
+            if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
+            if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
+            
+            if (fileInput) {
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        pushSelectedInputAudioFilesToSystem(e.target.files);
+                    }
+                });
+            }
+
+            // Media Control Action Triggers Listeners Subsystem Links Connections
+            if (playBtn && audioEngine) {
+                playBtn.addEventListener('click', () => {
+                    if (libraryTracksList.length === 0) {
+                        fileInput.click();
+                        return;
+                    }
+                    if (audioEngine.paused) {
+                        audioEngine.play();
+                    } else {
+                        audioEngine.pause();
+                    }
+                });
+
+                audioEngine.addEventListener('play', () => {
+                    playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                });
+
+                audioEngine.addEventListener('pause', () => {
+                    playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                });
+
+                audioEngine.addEventListener('timeupdate', () => {
+                    if (audioEngine.duration) {
+                        const dynamicTimelineProgressValueScore = (audioEngine.currentTime / audioEngine.duration) * 100;
+                        progressFill.style.width = `${dynamicTimelineProgressValueScore}%`;
+                    }
+                });
+
+                audioEngine.addEventListener('ended', () => {
+                    if (focusedIndex < libraryTracksList.length - 1) {
+                        triggerFocusedTrackReorientation(focusedIndex + 1);
+                    } else {
+                        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                        progressFill.style.width = '0%';
+                    }
+                });
+            }
+
+            window.addEventListener('resize', computeGeometries3DTransforms);
+        });
+    </script>
 </body>
 </html>
