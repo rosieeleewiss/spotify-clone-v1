@@ -98,7 +98,7 @@
             gap: 16px;
             overflow-y: auto;
             position: relative;
-            padding-bottom: 120px; /* Space for the players */
+            padding-bottom: 140px;
         }
 
         /* Import Action Trigger Panel */
@@ -148,9 +148,7 @@
             font-size: 14px;
         }
 
-        /* -------------------------------------------------------------
-           PREMIUM 3D GEOMETRIC CASING CAROUSEL VIEWPORT
-        ------------------------------------------------------------- */
+        /* 3D Geometric Casing Carousel Viewport */
         .library-3d-viewport {
             width: 100%;
             height: 320px;
@@ -179,7 +177,7 @@
             cursor: grabbing;
         }
 
-        /* THE 3D ALBUM CASE */
+        /* The 3D Album Case */
         .album-3d-case {
             position: absolute;
             width: 160px;
@@ -211,15 +209,15 @@
             z-index: 2;
         }
 
+        .case-face.face-front i {
+            font-size: 50px;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
         .case-face.face-front img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        .case-face.face-front i {
-            font-size: 50px;
-            color: rgba(255, 255, 255, 0.15);
         }
 
         .case-face.face-left {
@@ -310,7 +308,7 @@
             color: #222222;
         }
 
-        /* Guide Helper Onboarding Box */
+        /* Guide Onboarding Card Box */
         .tips-card {
             background-color: #121212;
             border-radius: 8px;
@@ -368,9 +366,7 @@
             cursor: pointer;
         }
 
-        /* -------------------------------------------------------------
-           DYNAMIC GENERATED PLAYLIST ITEM ELEMENT STYLING
-        ------------------------------------------------------------- */
+        /* Playlist Item Element Styling */
         .playlist-row-item {
             display: flex;
             align-items: center;
@@ -397,6 +393,13 @@
             color: #ffffff;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .playlist-art-square img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .playlist-metadata {
@@ -474,6 +477,12 @@
         .album-art i {
             color: #b3b3b3;
             font-size: 16px;
+        }
+
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .song-info {
@@ -583,9 +592,11 @@
             display: none;
         }
 
-        /* -------------------------------------------------------------
-           SPOTIFY-STYLE BOTTOM SHEET COMPONENT
-        ------------------------------------------------------------- */
+        #playlistCoverFileInput {
+            display: none;
+        }
+
+        /* Spotify-Style Bottom Sheet Modal Layer */
         .bottom-sheet-overlay {
             position: absolute;
             top: 0;
@@ -697,9 +708,7 @@
             font-weight: 400;
         }
 
-        /* -------------------------------------------------------------
-           PLAYLIST CREATION CREATOR SCREEN MODAL
-        ------------------------------------------------------------- */
+        /* Playlist Generation Screen Modal Overlay */
         .playlist-modal-overlay {
             position: absolute;
             top: 0;
@@ -781,9 +790,7 @@
             opacity: 0.8;
         }
 
-        /* -------------------------------------------------------------
-           PLAYLIST DYNAMIC TRACK DETAIL SCREEN PANEL (UPDATED TO MATCH IMAGE 2)
-        ------------------------------------------------------------- */
+        /* Playlist Details Track Panel Viewport Layout */
         .detail-panel-view {
             position: absolute;
             top: 0;
@@ -824,7 +831,6 @@
             flex-direction: column;
         }
 
-        /* Image 2 Top Section Layout block */
         .playlist-info-block {
             display: flex;
             gap: 16px;
@@ -842,11 +848,18 @@
             border-radius: 4px;
             flex-shrink: 0;
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
 
         .playlist-editable-cover i {
             color: #9f9f9f;
             font-size: 36px;
+        }
+
+        .playlist-editable-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .playlist-text-details {
@@ -904,6 +917,7 @@
             justify-content: center;
             font-size: 9px;
             color: #ffffff;
+            cursor: pointer;
         }
 
         .mini-creator-avatar {
@@ -931,7 +945,6 @@
             font-size: 11px;
         }
 
-        /* Image 2 Actions Bar */
         .detail-action-bar-new {
             display: flex;
             align-items: center;
@@ -952,7 +965,6 @@
             justify-content: center;
         }
 
-        /* Centered Add Button */
         .center-add-button-container {
             display: flex;
             justify-content: center;
@@ -994,6 +1006,223 @@
             margin-top: 40px;
             line-height: 1.6;
         }
+
+        /* --- NEW: Full Editor Layout Window (Image 1 & 2 Reflected) --- */
+        .editor-panel-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            z-index: 3500;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .editor-panel-view.active {
+            transform: translateY(0);
+        }
+
+        .editor-header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 45px 16px 16px 16px;
+            background-color: #1c1c1c;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .editor-header-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .editor-nav-text-btn {
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .editor-nav-text-btn.save-action {
+            color: #1db954;
+        }
+
+        .editor-scroll-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .editor-artwork-showcase {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            background-color: #242424;
+            border-radius: 8px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .editor-artwork-showcase img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .editor-artwork-showcase i {
+            color: #ffffff;
+            font-size: 42px;
+            opacity: 0.8;
+        }
+
+        .editor-artwork-overlay-hint {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.6);
+            padding: 6px 0;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .editor-input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .editor-input-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #a7a7a7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .editor-text-field {
+            width: 100%;
+            background-color: #242424;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 6px;
+            padding: 14px;
+            font-size: 15px;
+            color: #ffffff;
+            outline: none;
+            font-weight: 500;
+        }
+
+        .editor-text-field:focus {
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .editor-list-row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+        }
+
+        .editor-list-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .editor-list-circle-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #242424;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        .editor-list-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .editor-list-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .editor-list-sub {
+            font-size: 12px;
+            color: #a7a7a7;
+        }
+
+        .editor-list-chevron {
+            color: #a7a7a7;
+            font-size: 14px;
+        }
+
+        .danger-zone-container {
+            width: 100%;
+            margin-top: 36px;
+        }
+
+        .delete-playlist-trigger-btn {
+            width: 100%;
+            background-color: rgba(233, 64, 87, 0.1);
+            border: 1px solid rgba(233, 64, 87, 0.3);
+            border-radius: 6px;
+            padding: 14px;
+            color: #e94057;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .delete-playlist-trigger-btn:active {
+            background-color: rgba(233, 64, 87, 0.2);
+        }
+
+        /* Dynamic contributor badge row inside list */
+        .contributors-preview-strip {
+            display: flex;
+            align-items: center;
+            gap: -6px; /* overlapping effect */
+        }
+        .contributor-mini-node {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #121212;
+            object-fit: cover;
+            margin-left: -6px;
+        }
+        .contributor-mini-node:first-child {
+            margin-left: 0;
+        }
     </style>
 </head>
 <body>
@@ -1001,6 +1230,7 @@
     <div class="app-container">
         <audio id="audioEngine"></audio>
         <input type="file" id="hiddenFileInput" accept="audio/mp3, audio/*" multiple>
+        <input type="file" id="playlistCoverFileInput" accept="image/*">
 
         <header class="header">
             <div class="header-left">
@@ -1055,10 +1285,10 @@
                         <i class="fa-solid fa-music"></i>
                     </div>
                     <div class="song-info">
-                        <div class="song-title" id="playerTitle">Carita de Angel</div>
+                        <div class="song-title" id="playerTitle">Henüz bir parça seçilmedi</div>
                         <div class="song-artist">
                             <span class="local-badge"><i class="fa-solid fa-square-check"></i></span>
-                            <span id="playerArtist">Maria Daniela Y Su Sonido Lasser</span>
+                            <span id="playerArtist">Yerel kitaplık havuzu</span>
                         </div>
                     </div>
                 </div>
@@ -1143,24 +1373,26 @@
             <div class="detail-scroll-body">
                 
                 <div class="playlist-info-block">
-                    <div class="playlist-editable-cover">
-                        <i class="fa-solid fa-pencil"></i>
+                    <div class="playlist-editable-cover" id="detailPlaylistCoverContainer">
+                        <i class="fa-solid fa-music"></i>
                     </div>
                     <div class="playlist-text-details">
                         <div class="title-row">
                             <h2 class="detail-hero-title" id="detailHeroTitle">1. çalma listem</h2>
-                            <button class="degistir-btn">Değiştir</button>
+                            <button class="degistir-btn" id="detailPanelDegistirBtn">Değiştir</button>
                         </div>
                         
                         <div class="creator-row-new">
-                            <span class="add-user-icon"><i class="fa-solid fa-plus"></i></span>
-                            <img class="mini-creator-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" alt="User">
-                            <span class="creator-name-bold">nnetofy</span>
+                            <span class="add-user-icon" id="detailAddUserNodeTrigger"><i class="fa-solid fa-plus"></i></span>
+                            <div class="contributors-preview-strip" id="detailContributorsStrip">
+                                <img class="mini-creator-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" alt="User">
+                            </div>
+                            <span class="creator-name-bold" id="detailCreatorLabel">nnetofy</span>
                         </div>
 
                         <div class="duration-row">
                             <i class="fa-solid fa-lock"></i>
-                            <span>0 dk.</span>
+                            <span id="detailDurationLabel">0 şarkı</span>
                         </div>
                     </div>
                 </div>
@@ -1171,7 +1403,7 @@
                 </div>
 
                 <div class="center-add-button-container">
-                    <button class="add-to-playlist-btn"><i class="fa-solid fa-plus"></i> Bu çalma listesine ekle</button>
+                    <button class="add-to-playlist-btn" id="detailPanelAddTracksBtn"><i class="fa-solid fa-plus"></i> Bu çalma listesine ekle</button>
                 </div>
 
                 <h3 class="recommended-heading">Önerilen şarkılar</h3>
@@ -1182,23 +1414,79 @@
             </div>
         </div>
 
+        <div class="editor-panel-view" id="editorPanelView">
+            <header class="editor-header-nav">
+                <button class="editor-nav-text-btn" id="editorCancelBtn">İptal</button>
+                <div class="editor-header-title">Çalma Listesini Düzenle</div>
+                <button class="editor-nav-text-btn save-action" id="editorSaveBtn">Kaydet</button>
+            </header>
+            <div class="editor-scroll-body">
+                
+                <div class="editor-artwork-showcase" id="editorArtworkShowcase">
+                    <i class="fa-solid fa-music" id="editorFallbackIcon"></i>
+                    <img src="" alt="Cover Preview" id="editorImagePreview" style="display: none;">
+                    <div class="editor-artwork-overlay-hint">Görseli Değiştir</div>
+                </div>
+
+                <div class="editor-input-group">
+                    <label class="editor-input-label">Çalma Listesi Adı</label>
+                    <input type="text" class="editor-text-field" id="editorTitleInput" placeholder="Çalma listesi adı girin">
+                </div>
+
+                <div class="editor-list-row" id="editorAddContributorsBtn">
+                    <div class="editor-list-left">
+                        <div class="editor-list-circle-icon">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div class="editor-list-meta">
+                            <div class="editor-list-title">Ortak Çalışanlar Ekle</div>
+                            <div class="editor-list-sub" id="editorContributorsCountSubtext">Şu an: Sadece siz</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right editor-list-chevron"></i>
+                </div>
+
+                <div class="editor-list-row">
+                    <div class="editor-list-left">
+                        <div class="editor-list-circle-icon">
+                            <i class="fa-solid fa-earth-americas"></i>
+                        </div>
+                        <div class="editor-list-meta">
+                            <div class="editor-list-title">Gizlilik Ayarı</div>
+                            <div class="editor-list-sub">Gizli • Sadece siz görebilirsiniz</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right editor-list-chevron"></i>
+                </div>
+
+                <div class="danger-zone-container">
+                    <button class="delete-playlist-trigger-btn" id="editorDeletePlaylistBtn">Çalma Listesini Sil</button>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let libraryTracksList = [];
+            let playlistRegistryCollection = [];
+            let currentlySelectedPlaylistId = null;
             let focusedIndex = 0;
             
             let trackingMotionActive = false;
             let initialTouchX = 0;
             let slidingReferenceDeltaX = 0;
 
+            // DOM Query References
             const closeTips = document.getElementById('closeTips');
             const tipsCard = document.getElementById('tipsCard');
             const playBtn = document.getElementById('playBtn');
             const importBtn = document.getElementById('importBtn');
             const addBtnPlus = document.getElementById('addBtnPlus');
             const fileInput = document.getElementById('hiddenFileInput');
+            const coverFileInput = document.getElementById('playlistCoverFileInput');
             const audioEngine = document.getElementById('audioEngine');
             const dropZoneViewport = document.getElementById('dropZoneViewport');
             const coverflowContainer = document.getElementById('coverflowContainer');
@@ -1213,12 +1501,10 @@
             const progressFill = document.getElementById('progressFill');
             const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
-            // Bottom sheet overlays DOM bindings
             const menuSheetOverlay = document.getElementById('menuSheetOverlay');
             const bottomSheet = document.getElementById('bottomSheet');
             const dragHandleContainer = document.getElementById('dragHandleContainer');
 
-            // Playlist Lifecycle DOM Bindings
             const createPlaylistTriggerBtn = document.getElementById('createPlaylistTriggerBtn');
             const sheetMenuCreatePlaylistBtn = document.getElementById('sheetMenuCreatePlaylistBtn');
             const playlistModalOverlay = document.getElementById('playlistModalOverlay');
@@ -1231,12 +1517,34 @@
             const detailBackBtn = document.getElementById('detailBackBtn');
             const detailHeroTitle = document.getElementById('detailHeroTitle');
             const detailTracksListContainer = document.getElementById('detailTracksListContainer');
+            const detailPanelAddTracksBtn = document.getElementById('detailPanelAddTracksBtn');
+            const detailPlaylistCoverContainer = document.getElementById('detailPlaylistCoverContainer');
+            const detailDurationLabel = document.getElementById('detailDurationLabel');
+            const detailPanelDegistirBtn = document.getElementById('detailPanelDegistirBtn');
+            const detailContributorsStrip = document.getElementById('detailContributorsStrip');
+            const detailCreatorLabel = document.getElementById('detailCreatorLabel');
+            const detailAddUserNodeTrigger = document.getElementById('detailAddUserNodeTrigger');
+
+            // Editor Dom Bindings
+            const editorPanelView = document.getElementById('editorPanelView');
+            const editorCancelBtn = document.getElementById('editorCancelBtn');
+            const editorSaveBtn = document.getElementById('editorSaveBtn');
+            const editorArtworkShowcase = document.getElementById('editorArtworkShowcase');
+            const editorFallbackIcon = document.getElementById('editorFallbackIcon');
+            const editorImagePreview = document.getElementById('editorImagePreview');
+            const editorTitleInput = document.getElementById('editorTitleInput');
+            const editorAddContributorsBtn = document.getElementById('editorAddContributorsBtn');
+            const editorContributorsCountSubtext = document.getElementById('editorContributorsCountSubtext');
+            const editorDeletePlaylistBtn = document.getElementById('editorDeletePlaylistBtn');
+
+            let customUploadedCoverBase64 = null;
+            let temporaryEditorContributorsList = [];
 
             if (closeTips && tipsCard) {
                 closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
             }
 
-            // --- BOTTOM SHEET GESTURE CONFIGURATION ENGINE ---
+            // --- Bottom Sheet Gesture Management Logic ---
             let isDraggingSheet = false;
             let startY = 0;
             let currentY = 0;
@@ -1297,7 +1605,7 @@
                 });
             }
 
-            // --- DYNAMIC PLAYLIST CONSTRUCTOR ---
+            // --- Playlist Lifecycle Management Engines ---
             function openPlaylistNamingModal() {
                 closeSheetWithAnimation();
                 playlistNameInput.value = '';
@@ -1315,7 +1623,6 @@
                 });
             }
 
-            // Let users save by pressing Enter key on keyboard
             playlistNameInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     modalCreateBtn.click();
@@ -1327,10 +1634,8 @@
                     let chosenName = playlistNameInput.value.trim();
                     if (!chosenName) chosenName = "Çalma Listem";
 
-                    // Hide tips onboarding framework permanently once playlist setup completes
                     if (tipsCard) tipsCard.style.display = 'none';
 
-                    // Pick an elegant background gradient color for the playlist cover item row
                     const playlistGradients = [
                         'linear-gradient(135deg, #4568dc 0%, #b06ab3 100%)',
                         'linear-gradient(135deg, #3a1c1c 0%, #5d4037 100%)',
@@ -1339,55 +1644,87 @@
                     ];
                     const randomBg = playlistGradients[Math.floor(Math.random() * playlistGradients.length)];
 
-                    // Build and Append New Row to Library
+                    const generatedId = 'pl_' + Date.now();
+                    const newPlaylistObj = {
+                        id: generatedId,
+                        name: chosenName,
+                        background: randomBg,
+                        coverImage: null,
+                        contributors: [] // list of avatar urls added
+                    };
+
+                    playlistRegistryCollection.push(newPlaylistObj);
+                    renderPlaylistsToDashboard();
+
+                    playlistModalOverlay.classList.remove('active');
+                    playlistNameInput.blur();
+                    
+                    // Open the newly created playlist view right away
+                    launchPlaylistDetailsView(generatedId);
+                });
+            }
+
+            function renderPlaylistsToDashboard() {
+                playlistsTargetBox.innerHTML = '';
+                playlistRegistryCollection.forEach(pl => {
                     const playlistRowElement = document.createElement('div');
                     playlistRowElement.className = 'playlist-row-item';
+                    playlistRowElement.setAttribute('data-id', pl.id);
+                    
+                    let artDisplayHtml = `<div class="playlist-art-square" style="background: ${pl.background}"><i class="fa-solid fa-music"></i></div>`;
+                    if (pl.coverImage) {
+                        artDisplayHtml = `<div class="playlist-art-square"><img src="${pl.coverImage}" alt="Cover"></div>`;
+                    }
+
                     playlistRowElement.innerHTML = `
-                        <div class="playlist-art-square" style="background: ${randomBg}">
-                            <i class="fa-solid fa-music"></i>
-                        </div>
+                        ${artDisplayHtml}
                         <div class="playlist-metadata">
-                            <div class="playlist-name-label">${chosenName}</div>
-                            <div class="playlist-desc-subtext">Çalma listesi • Kitaplığın</div>
+                            <div class="playlist-name-label">${pl.name}</div>
+                            <div class="playlist-desc-subtext">Çalma listesi • ${pl.contributors.length > 0 ? (pl.contributors.length + 1) + ' ortak çalışan' : 'Kitaplığın'}</div>
                         </div>
                     `;
 
-                    // Trigger playlist view detail panel on click
                     playlistRowElement.addEventListener('click', () => {
-                        detailHeroTitle.textContent = chosenName;
-                        detailTracksListContainer.innerHTML = '';
-
-                        if (libraryTracksList.length === 0) {
-                            detailTracksListContainer.innerHTML = `<div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok. Şarkı yüklemek için yukarıdaki "içe aktar" düğmesini kullanabilirsiniz.</div>`;
-                        } else {
-                            libraryTracksList.forEach((track, index) => {
-                                const trElement = document.createElement('div');
-                                trElement.className = 'playlist-row-item';
-                                trElement.innerHTML = `
-                                    <div class="playlist-art-square" style="width:44px; height:44px; font-size:14px; background:${track.caseBackdropTone}">
-                                        <i class="fa-solid fa-play"></i>
-                                    </div>
-                                    <div class="playlist-metadata">
-                                        <div class="playlist-name-label" style="font-size:14px;">${track.title}</div>
-                                        <div class="playlist-desc-subtext" style="font-size:12px;">${track.artist}</div>
-                                    </div>
-                                `;
-                                trElement.addEventListener('click', (e) => {
-                                    e.stopPropagation();
-                                    triggerFocusedTrackReorientation(index);
-                                });
-                                detailTracksListContainer.appendChild(trElement);
-                            });
-                        }
-                        detailPanelView.classList.add('active');
+                        launchPlaylistDetailsView(pl.id);
                     });
 
                     playlistsTargetBox.appendChild(playlistRowElement);
-
-                    // Clear Modal Overlay View Stack
-                    playlistModalOverlay.classList.remove('active');
-                    playlistNameInput.blur();
                 });
+            }
+
+            function launchPlaylistDetailsView(playlistId) {
+                currentlySelectedPlaylistId = playlistId;
+                const pl = playlistRegistryCollection.find(p => p.id === playlistId);
+                if (!pl) return;
+
+                detailHeroTitle.textContent = pl.name;
+                detailDurationLabel.textContent = `${libraryTracksList.length} şarkı`;
+
+                // Render dynamic cover art
+                if (pl.coverImage) {
+                    detailPlaylistCoverContainer.innerHTML = `<img src="${pl.coverImage}" alt="Cover">`;
+                } else {
+                    detailPlaylistCoverContainer.innerHTML = `<i class="fa-solid fa-music"></i>`;
+                    detailPlaylistCoverContainer.style.background = pl.background;
+                }
+
+                // Render dynamic contributors images strip
+                detailContributorsStrip.innerHTML = `<img class="mini-creator-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" alt="User">`;
+                pl.contributors.forEach(avatarUrl => {
+                    const node = document.createElement('img');
+                    node.className = 'mini-creator-avatar';
+                    node.src = avatarUrl;
+                    detailContributorsStrip.appendChild(node);
+                });
+
+                if (pl.contributors.length > 0) {
+                    detailCreatorLabel.textContent = `nnetofy + ${pl.contributors.length} kişi`;
+                } else {
+                    detailCreatorLabel.textContent = "nnetofy";
+                }
+
+                renderDetailTracks();
+                detailPanelView.classList.add('active');
             }
 
             if (detailBackBtn) {
@@ -1396,7 +1733,184 @@
                 });
             }
 
-            // --- CoverFLOW 3D ENGINE CONTROLLER ---
+            if (detailPanelAddTracksBtn) {
+                detailPanelAddTracksBtn.addEventListener('click', () => {
+                    fileInput.click();
+                });
+            }
+
+            function renderDetailTracks() {
+                detailTracksListContainer.innerHTML = '';
+                if (libraryTracksList.length === 0) {
+                    detailTracksListContainer.innerHTML = `<div class="empty-track-placeholder-state">Bu çalma listesinde henüz şarkı yok. Şarkı yüklemek için yukarıdaki "içe aktar" veya "+ Bu çalma listesine ekle" düğmesini kullanabilirsiniz.</div>`;
+                } else {
+                    libraryTracksList.forEach((track, index) => {
+                        const trElement = document.createElement('div');
+                        trElement.className = 'playlist-row-item';
+                        
+                        let trackArtHtml = `<div class="playlist-art-square" style="width:44px; height:44px; font-size:14px; background:${track.caseBackdropTone}"><i class="fa-solid fa-play"></i></div>`;
+                        if (track.customCover) {
+                            trackArtHtml = `<div class="playlist-art-square" style="width:44px; height:44px;"><img src="${track.customCover}" alt="Track Cover"></div>`;
+                        }
+
+                        trElement.innerHTML = `
+                            ${trackArtHtml}
+                            <div class="playlist-metadata">
+                                <div class="playlist-name-label" style="font-size:14px;">${track.title}</div>
+                                <div class="playlist-desc-subtext" style="font-size:12px;">${track.artist}</div>
+                            </div>
+                        `;
+                        trElement.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            triggerFocusedTrackReorientation(index);
+                        });
+                        detailTracksListContainer.appendChild(trElement);
+                    });
+                }
+            }
+
+            // --- TAB EDITOR MANAGEMENT (Image 1 & 2 Requirements) ---
+            if (detailPanelDegistirBtn) {
+                detailPanelDegistirBtn.addEventListener('click', () => {
+                    const pl = playlistRegistryCollection.find(p => p.id === currentlySelectedPlaylistId);
+                    if (!pl) return;
+
+                    // Initialize the values in the editor fields
+                    editorTitleInput.value = pl.name;
+                    customUploadedCoverBase64 = pl.coverImage;
+                    temporaryEditorContributorsList = [...pl.contributors];
+
+                    updateEditorArtPreviewState(pl);
+                    updateEditorContributorsSubtext();
+
+                    editorPanelView.classList.add('active');
+                });
+            }
+
+            function updateEditorArtPreviewState(playlistObj) {
+                if (customUploadedCoverBase64) {
+                    editorFallbackIcon.style.display = 'none';
+                    editorImagePreview.src = customUploadedCoverBase64;
+                    editorImagePreview.style.display = 'block';
+                } else {
+                    editorImagePreview.style.display = 'none';
+                    editorFallbackIcon.style.display = 'block';
+                    editorArtworkShowcase.style.background = playlistObj.background;
+                }
+            }
+
+            function updateEditorContributorsSubtext() {
+                if (temporaryEditorContributorsList.length > 0) {
+                    editorContributorsCountSubtext.textContent = `Şu an: Siz + ${temporaryEditorContributorsList.length} ortak çalışan`;
+                } else {
+                    editorContributorsCountSubtext.textContent = "Şu an: Sadece siz";
+                }
+            }
+
+            // Trigger choosing image file when clicking the display artwork box inside the editor view
+            if (editorArtworkShowcase) {
+                editorArtworkShowcase.addEventListener('click', () => {
+                    coverFileInput.click();
+                });
+            }
+
+            if (coverFileInput) {
+                coverFileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        const fileReader = new FileReader();
+                        fileReader.onload = function(event) {
+                            customUploadedCoverBase64 = event.target.result;
+                            editorFallbackIcon.style.display = 'none';
+                            editorImagePreview.src = customUploadedCoverBase64;
+                            editorImagePreview.style.display = 'block';
+                        };
+                        fileReader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // Add dynamic random contributors simulation workflow
+            if (editorAddContributorsBtn) {
+                editorAddContributorsBtn.addEventListener('click', () => {
+                    const sampleAvatarUrlsList = [
+                        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop"
+                    ];
+                    
+                    if (temporaryEditorContributorsList.length < sampleAvatarUrlsList.length) {
+                        const currentNextAvatar = sampleAvatarUrlsList[temporaryEditorContributorsList.length];
+                        temporaryEditorContributorsList.push(currentNextAvatar);
+                        updateEditorContributorsSubtext();
+                    }
+                });
+            }
+
+            // Also wire up the plus node button on the detail view to add a contributor directly
+            if (detailAddUserNodeTrigger) {
+                detailAddUserNodeTrigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const pl = playlistRegistryCollection.find(p => p.id === currentlySelectedPlaylistId);
+                    if (!pl) return;
+                    
+                    const sampleAvatarUrlsList = [
+                        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop"
+                    ];
+                    
+                    if (pl.contributors.length < sampleAvatarUrlsList.length) {
+                        pl.contributors.push(sampleAvatarUrlsList[pl.contributors.length]);
+                        launchPlaylistDetailsView(pl.id);
+                        renderPlaylistsToDashboard();
+                    }
+                });
+            }
+
+            // Save Modified playlist configuration parameters
+            if (editorSaveBtn) {
+                editorSaveBtn.addEventListener('click', () => {
+                    const pl = playlistRegistryCollection.find(p => p.id === currentlySelectedPlaylistId);
+                    if (pl) {
+                        const finalTitle = editorTitleInput.value.trim();
+                        if (finalTitle) pl.name = finalTitle;
+                        pl.coverImage = customUploadedCoverBase64;
+                        pl.contributors = [...temporaryEditorContributorsList];
+                        
+                        // Sync UI Displays safely
+                        launchPlaylistDetailsView(pl.id);
+                        renderPlaylistsToDashboard();
+                    }
+                    editorPanelView.classList.remove('active');
+                });
+            }
+
+            if (editorCancelBtn) {
+                editorCancelBtn.addEventListener('click', () => {
+                    editorPanelView.classList.remove('active');
+                });
+            }
+
+            // Delete entire playlist module completely
+            if (editorDeletePlaylistBtn) {
+                editorDeletePlaylistBtn.addEventListener('click', () => {
+                    playlistRegistryCollection = playlistRegistryCollection.filter(p => p.id !== currentlySelectedPlaylistId);
+                    renderPlaylistsToDashboard();
+                    
+                    // Exit out of all detail panels cleanly back to landing deck screen container workspace
+                    editorPanelView.classList.remove('active');
+                    detailPanelView.classList.remove('active');
+                    currentlySelectedPlaylistId = null;
+
+                    if (playlistRegistryCollection.length === 0 && tipsCard) {
+                        tipsCard.style.display = 'flex';
+                    }
+                });
+            }
+
+            // --- Coverflow 3D Engine System Logic ---
             const dynamicCaseGradients = [
                 'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
                 'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
@@ -1467,8 +1981,13 @@
 
                 playerTitle.textContent = isolatedTrackNode.title;
                 playerArtist.textContent = isolatedTrackNode.artist;
-                playerAlbumArtContainer.style.background = isolatedTrackNode.caseBackdropTone;
-                playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
+                
+                if (isolatedTrackNode.customCover) {
+                    playerAlbumArtContainer.innerHTML = `<img src="${isolatedTrackNode.customCover}" alt="Cover">`;
+                } else {
+                    playerAlbumArtContainer.style.background = isolatedTrackNode.caseBackdropTone;
+                    playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
+                }
 
                 audioEngine.src = isolatedTrackNode.blobObjectLinkUrl;
                 audioEngine.play().catch(() => {});
@@ -1498,7 +2017,8 @@
                         title: derivedTitleString,
                         artist: derivedArtistString,
                         blobObjectLinkUrl: URL.createObjectURL(musicFile),
-                        caseBackdropTone: choiceBackdropTone
+                        caseBackdropTone: choiceBackdropTone,
+                        customCover: null
                     };
 
                     libraryTracksList.push(systemTrackPayload);
@@ -1528,6 +2048,14 @@
                     coverflowContainer.appendChild(physicalCaseNode);
                 }
 
+                // Refresh whichever view state is open currently
+                if (currentlySelectedPlaylistId) {
+                    detailDurationLabel.textContent = `${libraryTracksList.length} şarkı`;
+                }
+                if (detailPanelView.classList.contains('active')) {
+                    renderDetailTracks();
+                }
+
                 if (checkInitialLibraryBootState && libraryTracksList.length > 0) {
                     triggerFocusedTrackReorientation(0);
                 } else {
@@ -1535,6 +2063,7 @@
                 }
             }
 
+            // Coverflow drag navigation mechanics
             dropZoneViewport.addEventListener('touchstart', (e) => {
                 trackingMotionActive = true;
                 initialTouchX = e.touches[0].clientX;
@@ -1570,6 +2099,7 @@
                 });
             }
 
+            // --- Media Actions Audio Engine Controller Events ---
             if (playBtn && audioEngine) {
                 playBtn.addEventListener('click', () => {
                     if (libraryTracksList.length === 0) {
