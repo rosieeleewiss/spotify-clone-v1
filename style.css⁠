@@ -1,4 +1,4 @@
-/* Base Reset Layout */
+/* Reset & Base styling */
 * {
     margin: 0;
     padding: 0;
@@ -27,7 +27,7 @@ body {
     padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Top App Navigation Bar */
+/* Header */
 .header {
     display: flex;
     justify-content: space-between;
@@ -75,7 +75,7 @@ h1 {
     align-items: center;
 }
 
-/* Screen Scrolling Layer Workspace */
+/* Scroll Area */
 .content {
     padding: 8px 16px;
     flex: 1;
@@ -86,7 +86,6 @@ h1 {
     position: relative;
 }
 
-/* Action Link Deck Component */
 .import-card {
     width: 100%;
     background-color: #121212;
@@ -124,7 +123,6 @@ h1 {
     font-weight: 700;
     line-height: 1.4;
     text-align: left;
-    color: #ffffff;
 }
 
 .arrow-icon {
@@ -133,12 +131,10 @@ h1 {
     font-size: 14px;
 }
 
-/* -------------------------------------------------------------
-   PREMIUM GEOMETRIC 3D BOX MODEL CAROUSEL PLATFORM
-------------------------------------------------------------- */
+/* 3D COVERFLOW PLATFORM CONTAINER */
 .library-3d-viewport {
     width: 100%;
-    height: 350px; 
+    height: 330px;
     background: #000000;
     display: flex;
     align-items: center;
@@ -151,133 +147,125 @@ h1 {
 .coverflow-container {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 220px;
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 900px;
-    perspective-origin: 50% 38%;
+    perspective: 1000px; /* Deepens the 3D depth field */
+    perspective-origin: 50% 30%; /* Higher camera lens angle to view down at the side spines */
     transform-style: preserve-3d;
     cursor: grab;
 }
 
-.coverflow-container:active {
-    cursor: grabbing;
-}
-
-/* PHYSICAL 3D BOX MATRIX EXTRUSION HULL */
+/* THE 3D RECTANGULAR VINYL CASE HULL */
 .album-3d-case {
     position: absolute;
-    width: 145px;
-    height: 145px;
+    width: 150px;
+    height: 150px;
     transform-style: preserve-3d;
-    transition: transform 0.5s cubic-bezier(0.18, 0.9, 0.32, 1.12), opacity 0.4s ease;
+    transition: transform 0.5s cubic-bezier(0.2, 0.85, 0.3, 1.05), opacity 0.4s ease;
     user-select: none;
-    -webkit-box-reflect: below 16px linear-gradient(transparent, transparent 25%, rgba(255, 255, 255, 0.22));
+    -webkit-box-reflect: below 18px linear-gradient(transparent, transparent 35%, rgba(255, 255, 255, 0.25));
 }
 
 .case-face {
     position: absolute;
-    background-color: #161616;
+    background-color: #181818;
     backface-visibility: visible;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.85);
 }
 
+/* Front Artwork Face Plate */
 .case-face.face-front {
-    width: 145px;
-    height: 145px;
+    width: 150px;
+    height: 150px;
     top: 0;
     left: 0;
-    transform: rotateY(0deg) translateZ(12px);
+    transform: rotateY(0deg) translateZ(12px); /* Offsets forward out of the box grid */
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 4px;
-    z-index: 5;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 .case-face.face-front img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 3px;
 }
 
-.case-face.face-front i {
-    font-size: 45px;
-    color: rgba(255, 255, 255, 0.15);
-}
-
+/* Left Thickness Edge Spine Profile */
 .case-face.face-left {
-    width: 24px;
-    height: 145px;
+    width: 24px; /* Physical object thickness volume */
+    height: 150px;
     top: 0;
     left: -12px;
     transform: rotateY(-90deg) translateZ(0);
-    background: linear-gradient(to right, #0a0a0a, #282828);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(to right, #0d0d0d, #2a2a2a);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3;
 }
 
+/* Right Thickness Edge Spine Profile */
 .case-face.face-right {
     width: 24px;
-    height: 145px;
+    height: 150px;
     top: 0;
     left: auto;
     right: -12px;
     transform: rotateY(90deg) translateZ(0);
-    background: linear-gradient(to left, #0a0a0a, #282828);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(to left, #0d0d0d, #2a2a2a);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3;
 }
 
+/* Top Depth Face Lid */
 .case-face.face-top {
-    width: 145px;
+    width: 150px;
     height: 24px;
     top: -12px;
     left: 0;
     transform: rotateX(90deg) translateZ(0);
-    background: linear-gradient(to bottom, #2c2c2c, #0f0f0f);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 4;
+    background: linear-gradient(to bottom, #333333, #121212);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* Vertical text alignment on spine edge track */
 .spine-text-vertical {
     font-size: 8px;
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.75);
     text-transform: uppercase;
     white-space: nowrap;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     transform: rotate(90deg);
-    width: 125px;
+    width: 130px;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+/* Active central track metadata layout values panel */
 .center-track-title-display {
     position: absolute;
-    bottom: 12px;
+    bottom: 0px;
     width: 100%;
     text-align: center;
     pointer-events: none;
-    z-index: 1000;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 0 24px;
+    gap: 3px;
+    padding: 0 16px;
 }
 
 .center-main-title {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     color: #ffffff;
     white-space: nowrap;
@@ -294,26 +282,7 @@ h1 {
     text-overflow: ellipsis;
 }
 
-.viewport-empty-notice {
-    position: absolute;
-    font-size: 13px;
-    font-weight: 600;
-    color: #555555;
-    text-align: center;
-    pointer-events: none;
-    padding: 0 40px;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-
-.viewport-empty-notice i {
-    font-size: 32px;
-    color: #222222;
-}
-
+/* Tips Module Section UI */
 .tips-card {
     background-color: #121212;
     border-radius: 8px;
@@ -371,6 +340,7 @@ h1 {
     cursor: pointer;
 }
 
+/* Bottom Player Deck Row styling */
 .bottom-section {
     position: absolute;
     bottom: 0;
@@ -413,9 +383,10 @@ h1 {
     justify-content: center;
 }
 
-.album-art i {
-    color: #b3b3b3;
-    font-size: 16px;
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .song-info {
@@ -518,8 +489,4 @@ h1 {
     font-size: 10px;
     font-weight: 500;
     color: #ffffff;
-}
-
-#hiddenFileInput {
-    display: none;
 }
