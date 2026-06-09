@@ -169,7 +169,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Creates a precise cinematic camera lens field of view */
             perspective: 800px;
             transform-style: preserve-3d;
             cursor: grab;
@@ -179,21 +178,17 @@
             cursor: grabbing;
         }
 
-        /* THE 3D ALBUM CASE (Structural Assembly Core Element) */
+        /* THE 3D ALBUM CASE */
         .album-3d-case {
             position: absolute;
             width: 160px;
             height: 160px;
             transform-style: preserve-3d;
-            /* Fluid spring interpolations for rotation, depth tracking, and inertia adjustments */
             transition: transform 0.5s cubic-bezier(0.18, 0.9, 0.32, 1.05), opacity 0.4s ease;
             user-select: none;
-            
-            /* Ground floor reflection matching reference images */
             -webkit-box-reflect: below 12px linear-gradient(transparent, transparent 40%, rgba(255, 255, 255, 0.15));
         }
 
-        /* Universal Side Face Assembly Standards */
         .case-face {
             position: absolute;
             top: 0;
@@ -206,9 +201,8 @@
             backface-visibility: visible;
         }
 
-        /* Front Album Surface Face */
         .case-face.face-front {
-            transform: rotateY(0deg) translateZ(8px); /* Projected forward by half the depth value */
+            transform: rotateY(0deg) translateZ(8px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -227,9 +221,8 @@
             color: rgba(255, 255, 255, 0.15);
         }
 
-        /* Left Edge / Physical Casing Spine Side */
         .case-face.face-left {
-            width: 16px; /* Explicit structural thickness match */
+            width: 16px;
             left: -8px;
             transform: rotateY(-90deg) translateZ(0);
             background: linear-gradient(to right, #111111, #222222);
@@ -239,9 +232,8 @@
             justify-content: center;
         }
 
-        /* Right Edge / Physical Casing Spine Side */
         .case-face.face-right {
-            width: 16px; /* Explicit structural thickness match */
+            width: 16px;
             left: auto;
             right: -8px;
             transform: rotateY(90deg) translateZ(0);
@@ -252,9 +244,6 @@
             justify-content: center;
         }
 
-        /* One-To-One Feature Representation:
-           Physical Vertical Typography writing configuration running along the spine edges
-        */
         .spine-text-vertical {
             font-size: 8px;
             font-weight: 700;
@@ -262,7 +251,6 @@
             text-transform: uppercase;
             white-space: nowrap;
             letter-spacing: 1px;
-            /* Rotates the horizontal text layout perfectly onto the thin edge orientation line */
             transform: rotate(90deg);
             width: 140px;
             text-align: center;
@@ -270,7 +258,6 @@
             text-overflow: ellipsis;
         }
 
-        /* Static Readouts Display Panel below the center elements */
         .center-track-title-display {
             position: absolute;
             bottom: 16px;
@@ -486,7 +473,6 @@
             width: 20px;
         }
 
-        /* Mini Progress Bar Line Styles */
         .progress-bar {
             position: absolute;
             bottom: 0;
@@ -503,7 +489,6 @@
             transition: width 0.1s linear;
         }
 
-        /* Bottom Tab Selector Grid */
         .bottom-nav {
             display: flex;
             justify-content: center;
@@ -535,6 +520,104 @@
 
         #hiddenFileInput {
             display: none;
+        }
+
+        /* -------------------------------------------------------------
+           NEW ADDITION: SPOTIFY-STYLE BOTTOM SHEET COMPONENT
+        ------------------------------------------------------------- */
+        .bottom-sheet-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .bottom-sheet-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .bottom-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #242424;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 12px 16px 40px 16px;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .bottom-sheet-overlay.active .bottom-sheet {
+            transform: translateY(0);
+        }
+
+        .bottom-sheet-drag-handle {
+            width: 36px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            align-self: center;
+            margin-bottom: 16px;
+        }
+
+        .sheet-menu-item {
+            width: 100%;
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 0;
+            color: #ffffff;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .sheet-menu-item:active {
+            opacity: 0.7;
+        }
+
+        .sheet-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #b3b3b3;
+            flex-shrink: 0;
+        }
+
+        .sheet-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sheet-item-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .sheet-item-desc {
+            font-size: 12px;
+            color: #a7a7a7;
+            font-weight: 400;
         }
     </style>
 </head>
@@ -618,6 +701,53 @@
                 </button>
             </nav>
         </div>
+
+        <div class="bottom-sheet-overlay" id="menuSheetOverlay">
+            <div class="bottom-sheet">
+                <div class="bottom-sheet-drag-handle"></div>
+                
+                <button class="sheet-menu-item">
+                    <div class="sheet-icon-wrapper">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <div class="sheet-text-wrapper">
+                        <div class="sheet-item-title">Çalma Listesi</div>
+                        <div class="sheet-item-desc">Şarkı veya bölüm içeren bir çalma listesi oluştur</div>
+                    </div>
+                </button>
+
+                <button class="sheet-menu-item">
+                    <div class="sheet-icon-wrapper">
+                        <i class="fa-solid fa-user-group"></i>
+                    </div>
+                    <div class="sheet-text-wrapper">
+                        <div class="sheet-item-title">Ortak çalma listesi</div>
+                        <div class="sheet-item-desc">Arkadaşlarınla birlikte çalma listesi oluştur</div>
+                    </div>
+                </button>
+
+                <button class="sheet-menu-item">
+                    <div class="sheet-icon-wrapper">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                    </div>
+                    <div class="sheet-text-wrapper">
+                        <div class="sheet-item-title">Blend</div>
+                        <div class="sheet-item-desc">Arkadaşlarının zevklerini bir çalma listesinde buluştur</div>
+                    </div>
+                </button>
+
+                <button class="sheet-menu-item">
+                    <div class="sheet-icon-wrapper">
+                        <i class="fa-solid fa-folder"></i>
+                    </div>
+                    <div class="sheet-text-wrapper">
+                        <div class="sheet-item-title">Klasör</div>
+                        <div class="sheet-item-desc">Çalma listelerini düzenle</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -625,12 +755,10 @@
             let libraryTracksList = [];
             let focusedIndex = 0;
             
-            // Motion tracking calculation references hooks
             let trackingMotionActive = false;
             let initialTouchX = 0;
             let slidingReferenceDeltaX = 0;
 
-            // DOM UI component definitions links maps
             const closeTips = document.getElementById('closeTips');
             const tipsCard = document.getElementById('tipsCard');
             const playBtn = document.getElementById('playBtn');
@@ -651,11 +779,28 @@
             const progressFill = document.getElementById('progressFill');
             const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
+            // Bottom sheet DOM bindings
+            const menuSheetOverlay = document.getElementById('menuSheetOverlay');
+
             if (closeTips && tipsCard) {
                 closeTips.addEventListener('click', () => tipsCard.style.display = 'none');
             }
 
-            // Cinematic block matrix tones for cases backgrounds
+            // Toggle Bottom Sheet Logic
+            if (addBtnPlus && menuSheetOverlay) {
+                addBtnPlus.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Stop propagation to avoid instant triggers
+                    menuSheetOverlay.classList.add('active');
+                });
+
+                // Dismiss menu clicking onto dark background field area
+                menuSheetOverlay.addEventListener('click', (e) => {
+                    if (e.target === menuSheetOverlay) {
+                        menuSheetOverlay.classList.remove('active');
+                    }
+                });
+            }
+
             const dynamicCaseGradients = [
                 'linear-gradient(135deg, #ff0055 0%, #7a0026 100%)',
                 'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
@@ -665,7 +810,6 @@
                 'linear-gradient(135deg, #8a2387 0%, #e94057 100%)'
             ];
 
-            // ADVANCED STRUCTURAL MULTI-FACE 3D GEOMETRIC POSITIONING ENGINE
             function compute3DCaseSpaceTransforms() {
                 if (libraryTracksList.length === 0) {
                     emptyNotice.style.display = 'flex';
@@ -687,32 +831,27 @@
                     let layeredZIndex = 100 - Math.abs(trackingOffset);
 
                     if (trackingOffset === 0) {
-                        // Focused Active Node Facing Forward Completely
                         translateX = 0;
                         rotateY = 0;
-                        translateZ = 130; // Shifts center block forward on Z axis
+                        translateZ = 130;
                         layeredZIndex = 600;
                         opacityValue = 1;
                     } else if (trackingOffset < 0) {
-                        // Side Stack Left Profile Casing Setup
-                        rotateY = 65; // High turning scale distortion factor 
-                        translateX = (trackingOffset * 45) - 80; // Overlapping layout increments
-                        translateZ = -40; // Steps elements smoothly into the background fields array layout
+                        rotateY = 65; 
+                        translateX = (trackingOffset * 45) - 80; 
+                        translateZ = -40; 
                         opacityValue = Math.max(0.15, 1 + (trackingOffset * 0.25));
                     } else if (trackingOffset > 0) {
-                        // Side Stack Right Profile Casing Setup
                         rotateY = -65;
                         translateX = (trackingOffset * 45) + 80;
                         translateZ = -40;
                         opacityValue = Math.max(0.15, 1 - (trackingOffset * 0.25));
                     }
 
-                    // Strict outer viewport boundary optimization mask tracking
                     if (Math.abs(trackingOffset) > 3) {
                         opacityValue = 0;
                     }
 
-                    // Apply coordinate vectors matrix array calculations directly onto element chassis styles
                     albumCase.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
                     albumCase.style.zIndex = layeredZIndex;
                     albumCase.style.opacity = opacityValue;
@@ -727,19 +866,16 @@
 
                 const isolatedTrackNode = libraryTracksList[focusedIndex];
                 
-                // Update 3D center layout string readouts
                 centerMainTitle.textContent = isolatedTrackNode.title;
                 centerSubArtist.textContent = isolatedTrackNode.artist;
 
-                // Synchronize attributes fields seamlessly over into fixed lower playback modules
                 playerTitle.textContent = isolatedTrackNode.title;
                 playerArtist.textContent = isolatedTrackNode.artist;
                 playerAlbumArtContainer.style.background = isolatedTrackNode.caseBackdropTone;
                 playerAlbumArtContainer.innerHTML = `<i class="fa-solid fa-compact-disc fa-spin" style="color: rgba(255,255,255,0.8); font-size:15px;"></i>`;
 
-                // Load background audio sources securely
                 audioEngine.src = isolatedTrackNode.blobObjectLinkUrl;
-                audioEngine.play().catch(() => { /* Standard browser user interface security flags bypass */ });
+                audioEngine.play().catch(() => {});
             }
 
             function processSelectedFilesInputPackets(filesList) {
@@ -759,7 +895,7 @@
                         derivedTitleString = wordSplitFragments[1].trim();
                     }
 
-                    const dynamicGradIndex = albumBackdropPalettesStyleIndex = libraryTracksList.length % dynamicCaseGradients.length;
+                    const dynamicGradIndex = libraryTracksList.length % dynamicCaseGradients.length;
                     const choiceBackdropTone = dynamicCaseGradients[dynamicGradIndex];
                     
                     const systemTrackPayload = {
@@ -771,11 +907,9 @@
 
                     libraryTracksList.push(systemTrackPayload);
 
-                    // MULTI-FACE STRUCTURAL 3D CUBE CASE GENERATION HOOK
                     const physicalCaseNode = document.createElement('div');
                     physicalCaseNode.className = 'album-3d-case';
                     
-                    // Creates true spatial thickness edges containing vertical song text layouts
                     physicalCaseNode.innerHTML = `
                         <div class="case-face face-left">
                             <div class="spine-text-vertical">${derivedTitleString}</div>
@@ -805,7 +939,6 @@
                 }
             }
 
-            // High Precision Mobile Touch Inertia Gestures Configurations
             dropZoneViewport.addEventListener('touchstart', (e) => {
                 trackingMotionActive = true;
                 initialTouchX = e.touches[0].clientX;
@@ -817,7 +950,6 @@
                 const activeLiveTouchX = e.touches[0].clientX;
                 const motionVectorDisplacement = activeLiveTouchX - slidingReferenceDeltaX;
                 
-                // Track finger motion offsets for seamless swiping steps
                 if (Math.abs(motionVectorDisplacement) > 35) {
                     if (motionVectorDisplacement > 0 && focusedIndex > 0) {
                         triggerFocusedTrackReorientation(focusedIndex - 1);
@@ -832,7 +964,6 @@
 
             window.addEventListener('touchend', () => trackingMotionActive = false);
 
-            // Drag and Drop desktop execution processing layers
             ['dragenter', 'dragover'].forEach(name => {
                 dropZoneViewport.addEventListener(name, (e) => {
                     e.preventDefault(); e.stopPropagation();
@@ -853,7 +984,6 @@
             }, false);
 
             if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
-            if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
             
             if (fileInput) {
                 fileInput.addEventListener('change', (e) => {
@@ -863,7 +993,6 @@
                 });
             }
 
-            // Interactive Audio Engine Modules Playback Link Mapping Connections
             if (playBtn && audioEngine) {
                 playBtn.addEventListener('click', () => {
                     if (libraryTracksList.length === 0) {
