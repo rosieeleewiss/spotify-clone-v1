@@ -8,11 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* UI Canvas Standardization Reset */
         * {
             margin: 0;
             padding: 0;
@@ -41,7 +39,6 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* Top Header Area Layout */
         .header {
             display: flex;
             justify-content: space-between;
@@ -74,7 +71,7 @@
         }
 
         .pill-badge {
-            background-color: #51071E; /* Updated green to #51071E */
+            background-color: #51071E; /* Updated to your color */
             color: #ffffff;
             font-weight: 700;
             font-size: 12px;
@@ -100,7 +97,6 @@
             color: #ffffff;
         }
 
-        /* Sub-navigation Filter Bar */
         .filter-row {
             display: flex;
             gap: 8px;
@@ -120,12 +116,11 @@
         }
 
         .filter-pill.active {
-            background-color: #51071E; /* Updated green to #51071E */
+            background-color: #51071E; /* Updated to your color */
             color: #ffffff;
             font-weight: 600;
         }
 
-        /* Onboarding Interactive Helper Card */
         .tips-card {
             background: linear-gradient(135deg, #121212 0%, #080808 100%);
             border: 1px solid #1a1a1a;
@@ -157,7 +152,7 @@
         }
 
         .tips-title i {
-            color: #51071E; /* Updated green to #51071E */
+            color: #51071E; /* Updated to your color */
         }
 
         .tips-desc {
@@ -166,7 +161,6 @@
             line-height: 1.4;
         }
 
-        /* Interactive Showcase Hub Canvas */
         .stage-viewport {
             flex: 1;
             position: relative;
@@ -207,7 +201,6 @@
             line-height: 1.4;
         }
 
-        /* 3D Coverflow Mechanical Core Layout */
         .coverflow-carousel-space {
             position: relative;
             width: 100%;
@@ -224,7 +217,6 @@
             cursor: grabbing;
         }
 
-        /* Architectural 3D Mechanical Physical Entity Model */
         .jewel-case-entity {
             position: absolute;
             width: 200px;
@@ -237,7 +229,6 @@
             will-change: transform, opacity, filter;
         }
 
-        /* Precision Disc Envelope Layout Architecture */
         .spine-hinge-lip {
             position: absolute;
             top: 0;
@@ -256,7 +247,6 @@
             object-fit: cover;
         }
 
-        /* Geometric Core Disc Matrix Media Element */
         .compact-vinyl-platter {
             position: absolute;
             top: 5px;
@@ -299,7 +289,6 @@
             object-fit: cover;
         }
 
-        /* 3D Physical Dynamics Alignment States */
         .jewel-case-entity.active-focus {
             z-index: 100;
             opacity: 1;
@@ -310,7 +299,6 @@
             transform: translateX(55px) rotate(0deg);
         }
 
-        /* Rotational Playback Spin Mechanical Action */
         @keyframes vinylSpinCyclical {
             from { transform: translateX(55px) rotate(0deg); }
             to { transform: translateX(55px) rotate(360deg); }
@@ -320,7 +308,6 @@
             animation: vinylSpinCyclical 12s linear infinite;
         }
 
-        /* Typography Center Deck Coordinates Display */
         .stage-center-coordinates {
             text-align: center;
             margin-top: 16px;
@@ -352,7 +339,6 @@
             text-overflow: ellipsis;
         }
 
-        /* Anchored Consolidated Control Console Platform */
         .bottom-dock-console {
             background-color: #000000;
             border-top: 1px solid #121212;
@@ -361,7 +347,6 @@
             z-index: 20;
         }
 
-        /* Miniature Floating State Track Previewer */
         .mini-track-node-panel {
             display: flex;
             align-items: center;
@@ -370,7 +355,7 @@
             padding: 8px 12px;
             border-radius: 8px;
             margin-bottom: 16px;
-            cursor: pointer; /* Added cursor to show it's clickable */
+            cursor: pointer;
         }
 
         .node-left-profile {
@@ -434,10 +419,9 @@
         }
 
         .node-right-controls i.active-node-icon {
-            color: #51071E; /* Updated green to #51071E */
+            color: #51071E; /* Updated to your color */
         }
 
-        /* Timeline Metric Linear Gauge */
         .progress-timeline-bar {
             width: 100%;
             height: 4px;
@@ -454,11 +438,10 @@
             left: 0;
             height: 100%;
             width: 0%;
-            background-color: #51071E; /* Updated green to #51071E */
+            background-color: #51071E; /* Updated to your color */
             border-radius: 2px;
         }
 
-        /* Master Utility Deck Actions Row Layout */
         .console-trigger-row {
             display: flex;
             align-items: center;
@@ -482,7 +465,7 @@
         }
 
         .utility-peripheral-btn.active-state {
-            color: #51071E; /* Updated green to #51071E */
+            color: #51071E; /* Updated to your color */
         }
 
         .playback-core-cluster {
@@ -516,7 +499,6 @@
             transform: scale(0.95);
         }
 
-        /* Overlay Framework Sheet Mechanics */
         .sheet-backdrop-shroud {
             position: absolute;
             top: 0;
@@ -643,14 +625,14 @@
         }
 
         .capsule-shuffle-toggle.active {
-            color: #51071E; /* Updated green to #51071E */
+            color: #51071E; /* Updated to your color */
         }
 
         .capsule-master-play-circle {
             width: 52px;
             height: 52px;
             border-radius: 50%;
-            background-color: #51071E; /* Updated green to #51071E */
+            background-color: #51071E; /* Updated to your color */
             color: #ffffff;
             display: flex;
             align-items: center;
@@ -659,7 +641,6 @@
             cursor: pointer;
         }
 
-        /* Playlist Vector Listing Structure */
         .media-vector-table {
             display: flex;
             flex-direction: column;
@@ -696,7 +677,7 @@
         }
 
         .vector-row-item.focused-track .vector-index-marker {
-            color: #51071E; /* Updated green to #51071E */
+            color: #51071E; /* Updated to your color */
         }
 
         .vector-cover-art {
@@ -730,7 +711,7 @@
         }
 
         .vector-row-item.focused-track .vector-title-string {
-            color: #51071E; /* Updated green to #51071E */
+            color: #51071E; /* Updated to your color */
         }
 
         .vector-artist-string {
@@ -754,7 +735,6 @@
             cursor: pointer;
         }
 
-        /* Invisible File Bridge */
         #hiddenFileInput {
             display: none;
         }
@@ -798,8 +778,7 @@
                 <div class="empty-subtitle">Müzik yüklemek için buraya tıklayabilir veya dosyalarını sürükleyip bırakabilirsin.</div>
             </div>
 
-            <div class="coverflow-carousel-space" id="coverflowContainer">
-                </div>
+            <div class="coverflow-carousel-space" id="coverflowContainer"></div>
 
             <div class="stage-center-coordinates" id="centerTrackTitleDisplay">
                 <div class="meta-primary-title" id="centerMainTitle">-</div>
@@ -876,13 +855,11 @@
                     </div>
                 </div>
 
-                <div class="media-vector-table" id="sheetTracksContainer">
-                    </div>
+                <div class="media-vector-table" id="sheetTracksContainer"></div>
             </div>
         </div>
 
         <input type="file" id="hiddenFileInput" multiple accept="audio/mp3,audio/*">
-        
         <audio id="audioEngine"></audio>
     </div>
 
@@ -890,7 +867,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             let libraryTracksList = [];
             let focusedIndex = 0;
-            
             let trackingMotionActive = false;
             let initialTouchX = 0;
             let slidingReferenceDeltaX = 0;
@@ -906,28 +882,22 @@
             const dropZoneViewport = document.getElementById('dropZoneViewport');
             const coverflowContainer = document.getElementById('coverflowContainer');
             const emptyNotice = document.getElementById('emptyNotice');
-            
-            const centerTrackTitleDisplay = document.getElementById('centerTrackTitleDisplay');
             const centerMainTitle = document.getElementById('centerMainTitle');
             const centerSubArtist = document.getElementById('centerSubArtist');
-
             const playerTitle = document.getElementById('playerTitle');
             const playerArtist = document.getElementById('playerArtist');
             const progressFill = document.getElementById('progressFill');
             const playerAlbumArtContainer = document.getElementById('playerAlbumArtContainer');
 
-            // Bottom sheet overlays DOM bindings
             const menuSheetOverlay = document.getElementById('menuSheetOverlay');
             const detailListSheet = document.getElementById('detailListSheet');
             const listMenuTriggerBtn = document.getElementById('listMenuTriggerBtn');
             const closeSheetBtn = document.getElementById('closeSheetBtn');
             const miniPlayerTrigger = document.getElementById('miniPlayerTrigger');
             const sheetTracksContainer = document.getElementById('sheetTracksContainer');
-
             const prevTrackBtn = document.getElementById('prevTrackBtn');
             const nextTrackBtn = document.getElementById('nextTrackBtn');
 
-            // Sample covers gradient stack array
             const structuralCoverGradients = [
                 'linear-gradient(135deg, #f5222d 0%, #722ed1 100%)',
                 'linear-gradient(135deg, #fa8c16 0%, #fadb14 100%)',
@@ -943,26 +913,26 @@
                 });
             }
 
-            // Sheet Interaction Logic Actions
-            function invokeOpenOverlayDrawer() {
+            // Sheet Overlay Toggle Handlers
+            function openLibraryDrawer() {
                 menuSheetOverlay.classList.add('visible-state');
                 detailListSheet.classList.add('expanded-state');
                 populateSheetTrackListView();
             }
 
-            function invokeCloseOverlayDrawer() {
+            function closeLibraryDrawer() {
                 menuSheetOverlay.classList.remove('visible-state');
                 detailListSheet.classList.remove('expanded-state');
             }
 
-            if (listMenuTriggerBtn) listMenuTriggerBtn.addEventListener('click', invokeOpenOverlayDrawer);
-            if (miniPlayerTrigger) miniPlayerTrigger.addEventListener('click', invokeOpenOverlayDrawer); // Opens sheet when clicking the mini-player area!
-            if (closeSheetBtn) closeSheetBtn.addEventListener('click', invokeCloseOverlayDrawer);
-            if (menuSheetOverlay) menuSheetOverlay.addEventListener('click', invokeCloseOverlayDrawer);
+            if (listMenuTriggerBtn) listMenuTriggerBtn.addEventListener('click', openLibraryDrawer);
+            if (miniPlayerTrigger) miniPlayerTrigger.addEventListener('click', openLibraryDrawer); 
+            if (closeSheetBtn) closeSheetBtn.addEventListener('click', closeLibraryDrawer);
+            if (menuSheetOverlay) menuSheetOverlay.addEventListener('click', closeLibraryDrawer);
 
-            // Connect system audio deck triggers
             if (importBtn) importBtn.addEventListener('click', () => fileInput.click());
             if (addBtnPlus) addBtnPlus.addEventListener('click', () => fileInput.click());
+            
             if (dropZoneViewport) {
                 dropZoneViewport.addEventListener('click', (e) => {
                     if (libraryTracksList.length === 0 && e.target === dropZoneViewport) {
@@ -971,20 +941,17 @@
                 });
             }
 
-            // Drag and Drop implementation
             window.addEventListener('dragover', (e) => e.preventDefault());
             window.addEventListener('drop', (e) => e.preventDefault());
 
             if (dropZoneViewport) {
                 dropZoneViewport.addEventListener('dragover', (e) => {
                     e.preventDefault();
-                    dropZoneViewport.style.backgroundColor = 'rgba(81, 7, 30, 0.1)'; /* Adjusted matching tone drag overlay */
+                    dropZoneViewport.style.backgroundColor = 'rgba(81, 7, 30, 0.1)';
                 });
-
                 dropZoneViewport.addEventListener('dragleave', () => {
                     dropZoneViewport.style.backgroundColor = 'transparent';
                 });
-
                 dropZoneViewport.addEventListener('drop', (e) => {
                     e.preventDefault();
                     dropZoneViewport.style.backgroundColor = 'transparent';
@@ -1010,13 +977,12 @@
                             cleanTitle = fragments[1].trim();
                         }
 
-                        const randomGradientColorPattern = structuralCoverGradients[Math.floor(Math.random() * structuralCoverGradients.length)];
-
+                        const randomGradient = structuralCoverGradients[Math.floor(Math.random() * structuralCoverGradients.length)];
                         libraryTracksList.push({
                             title: cleanTitle,
                             artist: derivedArtist,
                             audioUrl: trackObjectUrl,
-                            gradient: randomGradientColorPattern,
+                            gradient: randomGradient,
                             fileName: file.name
                         });
                     }
@@ -1024,19 +990,13 @@
 
                 if (libraryTracksList.length > 0) {
                     if (emptyNotice) emptyNotice.style.opacity = '0';
-                    setTimeout(() => {
-                        if (emptyNotice) emptyNotice.style.display = 'none';
-                    }, 300);
+                    setTimeout(() => { if (emptyNotice) emptyNotice.style.display = 'none'; }, 300);
                     
                     renderCoverflowSpatialDOM();
                     if (initialLength === 0) {
                         triggerFocusedTrackReorientation(0);
                     } else {
                         compute3DCaseSpaceTransforms();
-                    }
-                    
-                    if (detailListSheet.classList.contains('expanded-state')) {
-                        populateSheetTrackListView();
                     }
                 }
             }
@@ -1051,18 +1011,14 @@
                     const frontLip = document.createElement('div');
                     frontLip.className = 'spine-hinge-lip';
                     frontLip.style.background = track.gradient;
-                    
-                    // Decorative layout pattern inside front sleeve cover space
                     frontLip.innerHTML = `
                         <div style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);">
                             <div style="font-weight:800; font-size:14px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${track.title}</div>
                             <div style="font-size:10px; color:#ccc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">${track.artist}</div>
-                        </div>
-                    `;
+                        </div>`;
 
                     const vinylPlatter = document.createElement('div');
                     vinylPlatter.className = 'compact-vinyl-platter';
-
                     const labelCenter = document.createElement('div');
                     labelCenter.className = 'vinyl-center-label';
                     labelCenter.style.background = track.gradient;
@@ -1073,23 +1029,17 @@
 
                     caseEntity.addEventListener('click', () => {
                         if (index === focusedIndex) {
-                            if (audioEngine.paused) audioEngine.play();
-                            else audioEngine.pause();
+                            togglePlaybackGlobalState();
                         } else {
                             triggerFocusedTrackReorientation(index);
                         }
                     });
-
                     coverflowContainer.appendChild(caseEntity);
                 });
             }
 
             function compute3DCaseSpaceTransforms() {
                 const physicalElements = coverflowContainer.querySelectorAll('.jewel-case-entity');
-                if (physicalElements.length === 0) return;
-
-                const spatialCenterOffsetX = coverflowContainer.offsetWidth / 2;
-                
                 physicalElements.forEach((entity, index) => {
                     const offsetDelta = index - focusedIndex;
                     let transformPropertyValue = '';
@@ -1098,26 +1048,16 @@
                     if (offsetDelta === 0) {
                         transformPropertyValue = `translateX(0px) translateZ(50px) rotateY(0deg)`;
                         entity.classList.add('active-focus');
-                        if (!audioEngine.paused) {
-                            entity.classList.add('spinning-media');
-                        } else {
-                            entity.classList.remove('spinning-media');
-                        }
+                        if (!audioEngine.paused) entity.classList.add('spinning-media');
+                        else entity.classList.remove('spinning-media');
                     } else {
                         entity.classList.remove('active-focus');
                         entity.classList.remove('spinning-media');
-                        
-                        const spatialPushDistance = (offsetDelta > 0 ? 1 : -1) * 110 + (offsetDelta * 15);
+                        const pushDistance = (offsetDelta > 0 ? 1 : -1) * 110 + (offsetDelta * 15);
                         const rotationYAngle = (offsetDelta > 0 ? -1 : 1) * 45;
-                        transformPropertyValue = `translateX(${spatialPushDistance}px) translateZ(-60px) rotateY(${rotationYAngle}deg)`;
-                        
-                        if (Math.abs(offsetDelta) > 2) {
-                            opacityPropertyValue = 0.2;
-                        } else if (Math.abs(offsetDelta) > 1) {
-                            opacityPropertyValue = 0.5;
-                        }
+                        transformPropertyValue = `translateX(${pushDistance}px) translateZ(-60px) rotateY(${rotationYAngle}deg)`;
+                        opacityPropertyValue = Math.abs(offsetDelta) > 2 ? 0.2 : (Math.abs(offsetDelta) > 1 ? 0.5 : 1);
                     }
-
                     entity.style.transform = transformPropertyValue;
                     entity.style.opacity = opacityPropertyValue;
                     entity.style.zIndex = 50 - Math.abs(offsetDelta);
@@ -1126,7 +1066,6 @@
 
             function triggerFocusedTrackReorientation(targetIndex) {
                 if (targetIndex < 0 || targetIndex >= libraryTracksList.length) return;
-                
                 focusedIndex = targetIndex;
                 const activeTrack = libraryTracksList[focusedIndex];
 
@@ -1135,28 +1074,21 @@
                 playerTitle.textContent = activeTrack.title;
                 playerArtist.textContent = activeTrack.artist;
 
-                const targetFrameThumbContainer = playerAlbumArtContainer.querySelector('img');
-                if (targetFrameThumbContainer) {
-                    playerAlbumArtContainer.innerHTML = '';
-                    const innerGradientBoxMiniNode = document.createElement('div');
-                    innerGradientBoxMiniNode.style.width = '100%';
-                    innerGradientBoxMiniNode.style.height = '100%';
-                    innerGradientBoxMiniNode.style.background = activeTrack.gradient;
-                    playerAlbumArtContainer.appendChild(innerGradientBoxMiniNode);
-                } else {
-                    const checkMiniDiv = playerAlbumArtContainer.querySelector('div');
-                    if (checkMiniDiv) checkMiniDiv.style.background = activeTrack.gradient;
-                }
+                playerAlbumArtContainer.innerHTML = '';
+                const innerGradientBox = document.createElement('div');
+                innerGradientBox.style.width = '100%';
+                innerGradientBox.style.height = '100%';
+                innerGradientBox.style.background = activeTrack.gradient;
+                playerAlbumArtContainer.appendChild(innerGradientBox);
 
                 audioEngine.src = activeTrack.audioUrl;
                 audioEngine.load();
-
-                audioEngine.play().catch(err => console.log("Otomatik oynatma engellendi, etkileşim bekleniyor."));
+                audioEngine.play().catch(() => {});
 
                 compute3DCaseSpaceTransforms();
                 
-                const activeFocusedRowsList = sheetTracksContainer.querySelectorAll('.vector-row-item');
-                activeFocusedRowsList.forEach((row, i) => {
+                const rows = sheetTracksContainer.querySelectorAll('.vector-row-item');
+                rows.forEach((row, i) => {
                     if (i === focusedIndex) row.classList.add('focused-track');
                     else row.classList.remove('focused-track');
                 });
@@ -1165,17 +1097,13 @@
             function populateSheetTrackListView() {
                 sheetTracksContainer.innerHTML = '';
                 if (libraryTracksList.length === 0) {
-                    sheetTracksContainer.innerHTML = `
-                        <div style="text-align:center; padding:32px; color:#777; font-size:14px;">
-                            Yüklenmiş dosya bulunamadı.
-                        </div>`;
+                    sheetTracksContainer.innerHTML = `<div style="text-align:center; padding:32px; color:#777; font-size:14px;">Yüklenmiş dosya bulunamadı.</div>`;
                     return;
                 }
 
                 libraryTracksList.forEach((track, index) => {
                     const vectorRow = document.createElement('div');
                     vectorRow.className = `vector-row-item ${index === focusedIndex ? 'focused-track' : ''}`;
-                    
                     vectorRow.innerHTML = `
                         <div class="vector-left-meta">
                             <div class="vector-index-marker">${index + 1}</div>
@@ -1185,98 +1113,56 @@
                                 <div class="vector-artist-string">${track.artist}</div>
                             </div>
                         </div>
-                        <div class="vector-right-data">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </div>
-                    `;
+                        <div class="vector-right-data"><i class="fa-solid fa-ellipsis"></i></div>`;
 
                     vectorRow.addEventListener('click', () => {
                         triggerFocusedTrackReorientation(index);
-                        invokeCloseOverlayDrawer(); // Automatically slides down the list window upon selection
+                        closeLibraryDrawer();
                     });
-
                     sheetTracksContainer.appendChild(vectorRow);
                 });
             }
 
-            // Carousel Touch Gestures Core
+            // Coverflow Swipe Logic
             if (coverflowContainer) {
                 coverflowContainer.addEventListener('touchstart', (e) => {
                     trackingMotionActive = true;
                     initialTouchX = e.touches[0].clientX;
-                    slidingReferenceDeltaX = 0;
                 });
-
                 coverflowContainer.addEventListener('touchmove', (e) => {
                     if (!trackingMotionActive) return;
-                    const dynamicCurrentX = e.touches[0].clientX;
-                    slidingReferenceDeltaX = dynamicCurrentX - initialTouchX;
+                    slidingReferenceDeltaX = e.touches[0].clientX - initialTouchX;
                 });
-
                 coverflowContainer.addEventListener('touchend', () => {
                     if (!trackingMotionActive) return;
                     trackingMotionActive = false;
-                    
-                    if (slidingReferenceDeltaX > 50) {
-                        if (focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1);
-                    } else if (slidingReferenceDeltaX < -50) {
-                        if (focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
-                    }
+                    if (slidingReferenceDeltaX > 50 && focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1);
+                    else if (slidingReferenceDeltaX < -50 && focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
                 });
 
-                // Mouse Drag interactions
                 coverflowContainer.addEventListener('mousedown', (e) => {
                     trackingMotionActive = true;
                     initialTouchX = e.clientX;
-                    slidingReferenceDeltaX = 0;
                 });
-
                 window.addEventListener('mousemove', (e) => {
-                    if (!trackingMotionActive) return;
-                    slidingReferenceDeltaX = e.clientX - initialTouchX;
+                    if (trackingMotionActive) slidingReferenceDeltaX = e.clientX - initialTouchX;
                 });
-
                 window.addEventListener('mouseup', () => {
                     if (!trackingMotionActive) return;
                     trackingMotionActive = false;
-                    if (slidingReferenceDeltaX > 60) {
-                        if (focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1);
-                    } else if (slidingReferenceDeltaX < -60) {
-                        if (focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
-                    }
+                    if (slidingReferenceDeltaX > 60 && focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1);
+                    else if (slidingReferenceDeltaX < -60 && focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
                 });
             }
 
-            if (prevTrackBtn) {
-                prevTrackBtn.addEventListener('click', () => {
-                    if (focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1);
-                });
-            }
-
-            if (nextTrackBtn) {
-                nextTrackBtn.addEventListener('click', () => {
-                    if (focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
-                });
-            }
-
-            if (fileInput) {
-                fileInput.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) {
-                        processSelectedFilesInputPackets(e.target.files);
-                    }
-                });
-            }
+            if (prevTrackBtn) prevTrackBtn.addEventListener('click', () => { if (focusedIndex > 0) triggerFocusedTrackReorientation(focusedIndex - 1); });
+            if (nextTrackBtn) nextTrackBtn.addEventListener('click', () => { if (focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1); });
+            if (fileInput) fileInput.addEventListener('change', (e) => { if (e.target.files.length > 0) processSelectedFilesInputPackets(e.target.files); });
 
             function togglePlaybackGlobalState() {
-                if (libraryTracksList.length === 0) {
-                    fileInput.click();
-                    return;
-                }
-                if (audioEngine.paused) {
-                    audioEngine.play();
-                } else {
-                    audioEngine.pause();
-                }
+                if (libraryTracksList.length === 0) { fileInput.click(); return; }
+                if (audioEngine.paused) audioEngine.play();
+                else audioEngine.pause();
             }
 
             if (playBtn) playBtn.addEventListener('click', togglePlaybackGlobalState);
@@ -1286,34 +1172,20 @@
                 audioEngine.addEventListener('play', () => {
                     playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
                     capsulePlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    const activeFocusNode = coverflowContainer.querySelector('.jewel-case-entity.active-focus');
-                    if (activeFocusNode) activeFocusNode.classList.add('spinning-media');
+                    const current = coverflowContainer.querySelector('.jewel-case-entity.active-focus');
+                    if (current) current.classList.add('spinning-media');
                 });
-
                 audioEngine.addEventListener('pause', () => {
                     playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
                     capsulePlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                    const activeFocusNode = coverflowContainer.querySelector('.jewel-case-entity.active-focus');
-                    if (activeFocusNode) activeFocusNode.classList.remove('spinning-media');
+                    const current = coverflowContainer.querySelector('.jewel-case-entity.active-focus');
+                    if (current) current.classList.remove('spinning-media');
                 });
-
                 audioEngine.addEventListener('timeupdate', () => {
-                    if (audioEngine.duration) {
-                        const runtimeProgressPercentageValue = (audioEngine.currentTime / audioEngine.duration) * 100;
-                        progressFill.style.width = `${runtimeProgressPercentageValue}%`;
-                    }
+                    if (audioEngine.duration) progressFill.style.width = `${(audioEngine.currentTime / audioEngine.duration) * 100}%`;
                 });
-
                 audioEngine.addEventListener('ended', () => {
-                    if (focusedIndex < libraryTracksList.length - 1) {
-                        triggerFocusedTrackReorientation(focusedIndex + 1);
-                    } else {
-                        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                        capsulePlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                        progressFill.style.width = '0%';
-                        const activeFocusNode = coverflowContainer.querySelector('.jewel-case-entity.active-focus');
-                        if (activeFocusNode) activeFocusNode.classList.remove('spinning-media');
-                    }
+                    if (focusedIndex < libraryTracksList.length - 1) triggerFocusedTrackReorientation(focusedIndex + 1);
                 });
             }
 
